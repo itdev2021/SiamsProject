@@ -1,0 +1,76 @@
+<h3>REFERENCE DATA</h3>
+<div fxLayout="row wrap" fxLayout.lt-md="column" fxLayoutAlign="space-between">
+    <div fxFlex="10" fxLayout="column">
+        <button mat-raised-button (click)="onAdd()">
+            <mat-icon>add</mat-icon>Add New
+        </button>
+    </div>
+    <div fxFlex="1"></div>
+    <div fxFlex="88" fxLayout="column">
+        <mat-form-field floatLabel="never">
+            <input matInput [(ngModel)]="searchKey" placeholder="Search" autocomplete="off" (keyup)="applyFilter()">
+            <button mat-button matSuffix mat-icon-button aria-label="Clear" *ngIf="searchKey" (click)="onSearchClear()">
+                <mat-icon>close</mat-icon>
+            </button>
+        </mat-form-field>
+    </div>
+</div>
+
+<div class="mat-elevation-z8">
+    <table mat-table [dataSource]="dataSource" matSort>
+        <ng-container matColumnDef="id">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>ID</th>
+            <td mat-cell *matCellDef="let element" width = "18%">{{element.id}}</td>
+        </ng-container>
+        <ng-container matColumnDef="refData">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Reference Data</th>
+            <td mat-cell *matCellDef="let element" width = "18%">{{element.refData}}</td>
+        </ng-container>
+        <ng-container matColumnDef="refCode">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Reference Code</th>
+            <td mat-cell *matCellDef="let element" width = "18%">{{element.refCode}}</td>
+        </ng-container>
+        <ng-container matColumnDef="refText">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Reference Text</th>
+            <td mat-cell *matCellDef="let element" width = "18%">{{element.refText}}</td>
+        </ng-container>
+        <ng-container matColumnDef="Status">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Status</th>
+            <td mat-cell *matCellDef="let element" width = "18%">
+                <mat-icon color="primary" *ngIf="element.Status"> check </mat-icon>
+                <mat-icon color="warn" *ngIf="!element.Status"> clear </mat-icon>
+            </td>
+        </ng-container>
+        
+        <ng-container matColumnDef="actions">
+            <th mat-header-cell *matHeaderCellDef></th>
+            <td mat-cell *matCellDef="let row">
+                <button mat-icon-button (click)="onEdit(row.id)">
+                    <mat-icon>launch</mat-icon>
+                </button>
+                <button mat-icon-button color="warn" (click)="onDelete(row.id)">
+                    <mat-icon>delete_outline</mat-icon>
+                </button>
+            </td>
+        </ng-container>
+        <ng-container matColumnDef="loading">
+            <th mat-footer-cell *matFooterCellDef colspan="6">
+                Loading data...
+            </th>
+        </ng-container>
+        <ng-container matColumnDef="noData">
+            <th mat-footer-cell *matFooterCellDef colspan="6">
+                No data.
+            </th>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+        <tr mat-footer-row *matFooterRowDef="['loading']" [ngClass]="{'hide':dataSource!=null}"></tr>
+        <tr mat-footer-row *matFooterRowDef="['noData']"
+            [ngClass]="{'hide':!(dataSource!=null && dataSource.data.length==0)}"></tr>
+
+    </table>
+    <mat-paginator [pageSizeOptions]="[10, 25, 50, 100]" [pageSize]="10" showFirstLastButtons></mat-paginator>
+</div>

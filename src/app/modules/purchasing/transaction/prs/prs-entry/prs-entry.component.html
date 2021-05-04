@@ -1,0 +1,137 @@
+<form [formGroup]="service.formPRS" autocomplete="off" (submit)="onSubmit(service.formPRS)">
+    <mat-card class="example-card content">
+        <mat-card-header>
+            <mat-card-title>SUPPLIER PRICE QUOTATION ENTRY</mat-card-title>
+            <div fxFlex fxLayout="row" fxLayoutAlign="flex-end" fxLayoutGap="10px">
+                <a color="primary" mat-stroked-button (click)="onPrintDoc(service.formPRS)">
+                    <!--*ngIf="service.formPV.get('Status').valuoe && !service.formPV.get('IsPrinted').value" -->
+                    <mat-icon>print</mat-icon>
+                </a>
+                <a mat-stroked-button (click)="onClose()">
+                    <mat-icon>close</mat-icon>
+                </a>
+            </div>
+        </mat-card-header>
+        <mat-card-content>
+            <div class="content" mat-dialog-content>
+                <div fxLayout="row wrap" fxLayout.lt-md="column" fxLayoutAlign="space-between">
+                    <div fxFlex="33.33" fxLayout="column" fxLayoutAlign="space-between">
+                        <mat-form-field>
+                            <input formControlName="PRSID" matInput placeholder="ID" readonly>
+                        </mat-form-field>
+                    </div>
+                    <div fxFlex="33.33" fxLayout="column" fxLayoutAlign="space-between">
+                        <mat-form-field>
+                            <mat-label>PRS Number</mat-label>
+                            <input formControlName="PRSNo" matInput placeholder="PRS Number"
+                                (blur)="onBlurAutoComplete($event.target.value)">
+                            <mat-error>This field must have 10 digits only.</mat-error>
+                        </mat-form-field>
+                    </div>
+                    <div fxFlex="33.33" fxLayout="column" fxLayoutAlign="center">
+                        <mat-form-field>
+                            <mat-select formControlName="DeptID" placeholder="Department"
+                                (change)="changeClient($event.value)">
+                                <mat-option *ngFor="let option of departmentList" [value]="option.DeptID">
+                                    {{option.Department}}
+                                </mat-option>
+                            </mat-select>
+                            <mat-error>This field is mandatory.</mat-error>
+                        </mat-form-field>
+                    </div>
+                </div>
+
+                <div fxLayout="row wrap" fxLayout.lt-md="column" fxLayoutAlign="space-between">
+                    <div fxFlex="20" fxLayout="column" fxLayoutAlign="space-between">
+                        <mat-form-field>
+                            <mat-label>Date Prepared</mat-label>
+                            <input matInput formControlName="DatePrepared" placeholder="MM/DD/YYYY"
+                                [matDatepicker]="pickerPrepared">
+                            <mat-datepicker-toggle matSuffix [for]="pickerPrepared"></mat-datepicker-toggle>
+                            <mat-datepicker #pickerPrepared></mat-datepicker>
+                        </mat-form-field>
+                    </div>
+                    <div fxFlex="20" fxLayout="column" fxLayoutAlign="space-between">
+                        <mat-form-field>
+                            <mat-label>Date Required</mat-label>
+                            <input matInput formControlName="DateRequired" placeholder="MM/DD/YYYY"
+                                [matDatepicker]="pickerRequired">
+                            <mat-datepicker-toggle matSuffix [for]="pickerRequired"></mat-datepicker-toggle>
+                            <mat-datepicker #pickerRequired></mat-datepicker>
+                        </mat-form-field>
+                    </div>
+
+                    <div fxFlex="60" fxLayout="column" fxLayoutAlign="center">
+                        <mat-form-field>
+                            <mat-label>Remarks</mat-label>
+                            <input formControlName="Remarks" matInput rows="0"
+                                placeholder="Ex. Enter your remarks here....">
+                        </mat-form-field>
+                    </div>
+                </div>
+
+                <div class="pt-20"></div>
+                <!-- order items table -->
+
+                <div fxLayout="column" fxLayoutAlign="space-between">
+                    <div fxLayout="row" fxLayoutAlign="space-between">
+                        <div fxFlex="50" fxLayout="column" fxLayoutAlign="space-between center">Product</div>
+                        <div fxFlex="20" fxLayout="column" fxLayoutAlign="space-between center">UOM</div>
+                        <div fxFlex="20" fxLayout="column" fxLayoutAlign="space-between center">Quantity</div>
+                        <div fxFlex="10" fxLayout="column" fxLayoutAlign="space-between center">
+                            <a mat-raised-button (click)="AddorEditOrderItem()">
+                                <mat-icon>add</mat-icon>Add
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div fxLayoutAlign="center" *ngIf="service.formPRS.get('items')['length'] == 0"
+                    [class.text-danger]="service.formPRS.get('items')['length']==0">
+                    <div fxLayout="column">
+                        <i>No item selected for this transaction.</i>
+                    </div>
+                </div>
+                <div formArrayName="items" *ngFor="let item of service.formPRS.get('items')['controls']; let i=index;">
+                    <div [formGroupName]="i">
+                        <div fxLayout="row" fxLayoutAlign="space-between">
+                            <div fxFlex="50" fxLayout="column" fxLayoutAlign="space-between">
+                                <input type="hidden" formControlName="ProductID">
+                                <mat-form-field>
+                                    <input matInput formControlName="Product" readonly>
+                                </mat-form-field>
+                            </div>
+                            <div fxFlex="20" fxLayout="column" fxLayoutAlign="space-between">
+                                <input type="hidden" formControlName="UOMID">
+                                <mat-form-field>
+                                    <input matInput formControlName="UOMDescription" readonly>
+                                </mat-form-field>
+                            </div>
+                            <div fxFlex="20" fxLayout="column" fxLayoutAlign="space-between">
+                                <mat-form-field>
+                                    <input matInput formControlName="Quantity" type="number">
+                                    <mat-error>This field is mandatory.</mat-error>
+                                </mat-form-field>
+                            </div>
+
+                            <div fxFlex="10" fxLayout="row" fxLayoutAlign="center center">
+                                <a mat-icon-button color="warn" (click)="ondeleteOrderItem(item.get('pkid').value,i)">
+                                    <mat-icon>delete_outline</mat-icon>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </mat-card-content>
+        <mat-divider></mat-divider>
+        <mat-card-actions>
+            <div fxLayout="row wrap" fxLayout.lt-md="column" fxflex fxLayoutAlign="end">
+                <button type="submit" color="primary"
+                    *ngIf="globalService.Save && service.formPRS.get('IsApproved').value =='-1'" mat-raised-button
+                    [disabled]="service.formPRS.invalid || service.formPRS.get('items')['length'] == 0">
+                    <mat-icon>storage</mat-icon> Submit
+                </button>
+            </div>
+        </mat-card-actions>
+    </mat-card>
+</form>

@@ -1,0 +1,364 @@
+<div class="container">
+    <mat-toolbar>
+        <span>{{service.formCustomer.controls['CustomerID'].value?"Modify Customer":"New Customer"}}</span>
+        <div fxFlex fxLayout="row" fxLayoutAlign="flex-end">
+            <a class="btn-dialog-close" mat-stroked-button (click)="onClose()" tabIndex="-1">
+                <mat-icon>clear</mat-icon>
+            </a>
+        </div>
+    </mat-toolbar>
+    <div class="content" mat-dialog-content>
+        <form [formGroup]="service.formCustomer" (submit)="onSubmit()" mat-dialog-content>
+            <input type="hidden" formControlName="CustomerID">
+            <div fxLayout="row wrap" fxLayout.lt-sm="column" fxLayoutAlign="space-between">
+                <div fxFlex="20" fxLayout="column" fxLayoutAlign="space-between">
+                    <mat-form-field>
+                        <mat-label>User Reference Code</mat-label>
+                        <input formControlName="UserRefenceCode" matInput placeholder="User Reference Code">
+                        <mat-error>This field is mandatory.</mat-error>
+                    </mat-form-field>
+                </div>
+                <div fxFlex="80" fxLayout="column" fxLayoutAlign="space-between">
+                    <mat-form-field>
+                        <mat-label>Customer</mat-label>
+                        <input formControlName="Customer" matInput placeholder="Customer " required>
+                    </mat-form-field>
+                </div>
+
+            </div>
+            <div fxLayout="column" fxLayoutAlign>
+                <mat-form-field>
+                    <mat-label>Drugstore Name</mat-label>
+                    <input formControlName="Drugstore" matInput placeholder="Drugstore Name" required>
+                    <mat-error>This field is mandatory.</mat-error>
+                </mat-form-field>
+            </div>
+
+            <div fxLayout="row wrap" fxLayout.lt-sm="column" fxLayoutAlign="space-between">
+                <div fxFlex="25" fxLayout="column" fxLayoutAlign="space-between">
+                    <mat-form-field>
+                        <mat-label>Contact</mat-label>
+                        <input formControlName="Contact" matInput placeholder="Contact" required>
+                        <mat-error>This field is mandatory.</mat-error>
+                    </mat-form-field>
+                </div>
+                <div fxFlex="25" fxLayout="column" fxLayoutAlign="space-between">
+                    <mat-form-field>
+                        <mat-label>TIN</mat-label>
+                        <input formControlName="TIN" matInput placeholder="TIN " required>
+                    </mat-form-field>
+                </div>
+                <div fxFlex="50" fxLayout="column" fxLayoutAlign="space-between">
+                    <mat-form-field>
+                        <mat-label>Customer Relationship Officer</mat-label>
+                        <mat-select formControlName="CROID" placeholder="Customer Relationship Officer"
+                            (change)="changeClient($event.value)">
+                            <mat-option>-Select-</mat-option>
+                            <mat-option *ngFor="let option of croList" [value]="option.CROID">
+                                {{option.CRO}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+            </div>
+
+            <mat-tab-group dynamicHeight color="primary">
+                <mat-tab label="Owners Location">
+                    <div fxLayout="column" fxLayoutAlign>
+                        <mat-form-field>
+                            <mat-label>Address</mat-label>
+                            <input formControlName="Street" matInput placeholder="Address">
+                            <mat-error>This field is mandatory.</mat-error>
+                        </mat-form-field>
+                    </div>
+
+                    <div fxLayout="row wrap" fxLayout.lt-sm="column" fxLayoutAlign="space-between">
+                        <div fxFlex="25" fxLayout="column" fxLayoutAlign="space-between">
+                            <mat-form-field>
+                                <mat-label>Province</mat-label>
+                                <mat-select formControlName="Provinces" placeholder="Province"
+                                    (change)="changeClient($event.value)" (ngModelChange)="getMunicipality($event)">
+                                    <mat-option>-Select-</mat-option>
+                                    <mat-option *ngFor="let option of provinceList" [value]="option">
+                                        {{option}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                        <div fxFlex="25" fxLayout="column" fxLayoutAlign="space-between">
+                            <mat-form-field>
+                                <mat-label>Municipality</mat-label>
+                                <mat-select formControlName="Municipalities" placeholder="Municipality"
+                                    (change)="changeClient($event.value)" (ngModelChange)="getBarangay($event)">
+                                    <mat-option>-Select-</mat-option>
+                                    <mat-option *ngFor="let option of municipalityList" [value]="option">
+                                        {{option}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                        <div fxFlex="25" fxLayout="column" fxLayoutAlign="space-between">
+                            <mat-form-field>
+                                <mat-label>City</mat-label>
+                                <input formControlName="City" matInput placeholder="Region">
+                            </mat-form-field>
+                        </div>
+                        <div fxFlex="25" fxLayout="column" fxLayoutAlign="space-between">
+                            <mat-form-field>
+                                <mat-label>Capital</mat-label>
+                                <input formControlName="Capital" matInput placeholder="Region">
+                            </mat-form-field>
+                        </div>
+                    </div>
+
+                    <div fxLayout="row wrap" fxLayout.lt-sm="column" fxLayoutAlign="space-between">
+                        <div fxFlex="30" fxLayout="column" fxLayoutAlign="space-between">
+                            <mat-form-field>
+                                <mat-label>Barangay</mat-label>
+                                <mat-select formControlName="Barangay" placeholder="Barangay"
+                                    (change)="changeClient($event.value)" (ngModelChange)="getZipCode($event)">
+                                    <mat-option>-Select-</mat-option>
+                                    <mat-option *ngFor="let option of barangayList" [value]="option">
+                                        {{option}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                        <div fxFlex="30" fxLayout="column" fxLayoutAlign="space-between">
+                            <mat-form-field>
+                                <mat-label>Area</mat-label>
+                                <mat-select formControlName="Area" placeholder="Area"
+                                    (change)="changeClient($event.value)">
+                                    <mat-option>-Select-</mat-option>
+                                    <mat-option *ngFor="let option of areaList" [value]="option">
+                                        {{option}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                        <div fxFlex="20" fxLayout="column" fxLayoutAlign="space-between">
+                            <mat-form-field>
+                                <mat-label>Zone</mat-label>
+                                <mat-select formControlName="Zone" placeholder="Zone"
+                                    (change)="changeClient($event.value)">
+                                    <mat-option>-Select-</mat-option>
+                                    <mat-option *ngFor="let option of zoneList" [value]="option">
+                                        {{option}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                        <div fxFlex="20" fxLayout="column" fxLayoutAlign="space-between">
+                            <mat-form-field>
+                                <mat-label>District</mat-label>
+                                <input formControlName="District" matInput placeholder="Designation" readonly>
+                            </mat-form-field>
+                        </div>
+                    </div>
+
+                    <div fxLayout="row wrap" fxLayout.lt-sm="column" fxLayoutAlign="space-between">
+                        <div fxFlex="33.33" fxLayout="column" fxLayoutAlign="space-between">
+                            <mat-form-field>
+                                <mat-label>Region</mat-label>
+                                <input formControlName="Region" matInput placeholder="Region">
+                            </mat-form-field>
+                        </div>
+                        <div fxFlex="33.33" fxLayout="column" fxLayoutAlign="space-between">
+                            <mat-form-field>
+                                <mat-label>Zip Code</mat-label>
+                                <input formControlName="Zipcode" matInput placeholder="Zip Code" readonly>
+                            </mat-form-field>
+                        </div>
+                        <div fxFlex="33.33" fxLayout="column" fxLayoutAlign="space-between">
+                            <mat-form-field>
+                                <mat-label>Designation</mat-label>
+                                <input formControlName="Designation" matInput placeholder="Designation" readonly>
+                            </mat-form-field>
+                        </div>
+                    </div>
+
+
+                </mat-tab>
+
+
+                <mat-tab label="Invoice Setup">
+                    <div fxLayout="row wrap" fxLayout.lt-sm="column" fxLayoutAlign="space-between">
+                        <div fxFlex="35" fxLayout="column" fxLayoutAlign="space-between">
+                            <mat-form-field>
+                                <mat-label>Default Tems</mat-label>
+                                <mat-select formControlName="CreditTermsID" placeholder="Default Tems"
+                                    (change)="changeClient($event.value)">
+                                    <mat-option>-Select-</mat-option>
+                                    <mat-option *ngFor="let option of termList" [value]="option.CreditTermsID">
+                                        {{option.CreditTerms}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                        <div fxFlex="55" fxLayout="column" fxLayoutAlign="space-between">
+                            <mat-form-field>
+                                <mat-label>Default Price List</mat-label>
+                                <mat-select formControlName="PriceListID" placeholder="Default Price List"
+                                    (change)="changeClient($event.value)">
+                                    <mat-option>-Select-</mat-option>
+                                    <mat-option *ngFor="let option of defaultPriceList" [value]="option.PriceListID">
+                                        {{option.Descriptions}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                        <div fxFlex="10" fxLayout="column" fxLayoutAlign="space-between">
+                            <div fxFlex fxLayout="column" fxLayoutAlign="center end">
+                                <mat-checkbox formControlName="NonVat">NonVat</mat-checkbox>
+                            </div>
+                        </div>
+                    </div>
+                    <div fxLayout="row wrap" fxLayout.lt-sm="column" fxLayoutAlign="space-between">
+                        <div fxFlex="33.33" fxLayout="column" fxLayoutAlign="space-between">
+                            <mat-form-field>
+                                <mat-label>Discount Scheme</mat-label>
+                                <mat-select formControlName="DiscountSchemeID" placeholder="Default Tems"
+                                    (change)="changeClient($event.value)">
+                                    <mat-option>-Select-</mat-option>
+                                    <mat-option *ngFor="let option of defaultSchemeList"
+                                        [value]="option.DiscountSchemeID">
+                                        {{option.DiscountScheme}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                        <div fxFlex="33.33" fxLayout="column" fxLayoutAlign="space-between">
+                            <mat-form-field>
+                                <mat-label>Invoice Type</mat-label>
+                                <mat-select formControlName="InvoicePrint" placeholder="Invoice Type"
+                                    (change)="changeClient($event.value)">
+                                    <mat-option>-Select-</mat-option>
+                                    <mat-option *ngFor="let option of invoiceTypeList" [value]="option.InvoiceFormatID">
+                                        {{option.descriptions}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                        <div fxFlex="33.33" fxLayout="column" fxLayoutAlign="space-between">
+                            <mat-form-field>
+                                <mat-label>Credit Limit</mat-label>
+                                <input formControlName="CreditLimit" matInput placeholder="Credit Limit " required>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div fxLayout="row wrap" fxLayout.lt-sm="column" fxLayoutAlign="space-between">
+                        <div fxFlex="50" fxLayout="column" fxLayoutAlign="space-between">
+                            <mat-form-field>
+                                <mat-label>Entry Type</mat-label>
+                                <mat-select formControlName="EntryTypeID" placeholder="Entry Type"
+                                    (change)="changeClient($event.value)">
+                                    <mat-option>-Select-</mat-option>
+                                    <mat-option *ngFor="let option of entryTypeList" [value]="option.EntryTypeID">
+                                        {{option.Description}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                        <div fxFlex="50" fxLayout="column" fxLayoutAlign="space-between">
+                            <mat-form-field>
+                                <mat-label>Product Deal</mat-label>
+                                <mat-select formControlName="ProductDealID" placeholder="Invoice Type"
+                                    (change)="changeClient($event.value)">
+                                    <mat-option>-Select-</mat-option>
+                                    <mat-option *ngFor="let option of productDealList" [value]="option.ProductDealID">
+                                        {{option.ProductDeal}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div fxLayout="row wrap" fxLayout.lt-sm="column" fxLayoutAlign="space-between">
+                        <div fxFlex="50" fxLayout="column" fxLayoutAlign="space-between">
+                            <mat-form-field>
+                                <mat-label>Classification</mat-label>
+                                <mat-select formControlName="CustomerGroupID" placeholder="Classification"
+                                    (change)="changeClient($event.value)">
+                                    <mat-option>-Select-</mat-option>
+                                    <mat-option *ngFor="let option of customerGroupList"
+                                        [value]="option.CustomerGroupID">
+                                        {{option.CustomerGroupName}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                        <div fxFlex="50" fxLayout="column" fxLayoutAlign="space-between">
+                            <mat-form-field>
+                                <mat-label>Principals</mat-label>
+                                <mat-select formControlName="SPMSPrincipalsID" placeholder="Principals"
+                                    (change)="changeClient($event.value)">
+                                    <mat-option>-Select-</mat-option>
+                                    <mat-option *ngFor="let option of principalList" [value]="option.SPMSPrincipalsID">
+                                        {{option.CompanyName}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </mat-tab>
+
+
+                <mat-tab label="Shipping Address">
+                    <div>
+
+                        <div fxLayout="column" fxLayoutAlign="space-between">
+                            <div fxLayout="row" fxLayoutAlign="space-between">
+                                <div fxFlex="15" fxLayout="column" fxLayoutAlign="space-between">Shipping Code</div>
+                                <div fxFlex="70" fxLayout="column" fxLayoutAlign="space-between">Address</div>
+                                <div fxFlex="10" fxLayout="column" fxLayoutAlign="center center">
+                                    <a mat-raised-button color="primary" (click)="onAddShipToAdd()"
+                                        [disabled]="!service.formCustomer.value.Customer">
+                                        <mat-icon>add</mat-icon>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <div fxLayoutAlign="center" *ngIf="service.formCustomer.get('CustomerShipTo')['length'] == 0"
+                            [class.text-danger]="service.formCustomer.get('CustomerShipTo')['length']==0">
+                            <div fxLayout="column">
+                                <i>No details for shipping address.</i>
+                            </div>
+                        </div>
+                        <div class="item-list">
+                            <div fxLayout="column" fxLayoutAlign="space-between" formArrayName="CustomerShipTo"
+                                *ngFor="let item of service.formCustomer.get('CustomerShipTo')['controls']; let i=index;">
+                                <div [formGroupName]="i">
+                                    <div fxLayout="row" fxLayoutAlign="space-between">
+                                        <div fxFlex="15" fxLayout="column" fxLayoutAlign="space-between">
+                                            <input type="hidden" formControlName="ShipToID">
+                                            <input type="hidden" formControlName="CustomerID">
+                                            <mat-form-field>
+                                                <input matInput formControlName="ShipToCode">
+                                            </mat-form-field>
+                                        </div>
+                                        <div fxFlex="70" fxLayout="column" fxLayoutAlign="space-betwee">
+                                            <mat-form-field>
+                                                <input matInput formControlName="ShipAddress">
+                                            </mat-form-field>
+                                        </div>
+                                        <div fxFlex="10" fxLayout="row" fxLayoutAlign="center center">
+                                            <a mat-icon-button color="warn" (click)="ondeleteRow(item,i)">
+                                                <mat-icon>delete_outline</mat-icon>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </mat-tab>
+            </mat-tab-group>
+
+            <div class="pt-10" fxLayoutGap="10px">
+                <button mat-raised-button color="primary" type="submit"
+                    [disabled]="service.formCustomer.invalid">Submit</button>
+                <button mat-raised-button color="warn" (click)="onClear()">Clear</button>
+            </div>
+        </form>
+    </div>
+</div>

@@ -1,0 +1,52 @@
+<div class="container">
+    <mat-toolbar>
+        <span>{{service.formCostUnit.controls['CostUnitID'].value?"Modify Cost Unit":"New Cost Unit"}}</span>
+        <div fxFlex fxLayout="row" fxLayoutAlign="flex-end">
+            <button class="btn-dialog-close" mat-stroked-button (click)="onClose()" tabIndex="-1">
+                <mat-icon>clear</mat-icon>
+            </button>
+        </div>
+    </mat-toolbar>
+    <form [formGroup]="service.formCostUnit" autocomplete="off" (submit)="onSubmit(service.formCostUnit)"
+        mat-dialog-content>
+        <input type="hidden" formControlName="CostUnitID">
+        <div fxLayout="row wrap" fxLayout.lt-sm="column" fxLayoutAlign="space-between">
+            <div fxFlex="50" fxLayout="column" fxLayoutAlign="center">
+                <mat-form-field>
+                    <input formControlName="CostUnit" matInput placeholder="Cost Unit">
+                    <mat-error>This field is mandatory.</mat-error>
+                </mat-form-field>
+            </div>
+            <div fxFlex="50" fxLayout="column" fxLayoutAlign="center">
+                <mat-form-field>
+                    <input formControlName="CostCenterID" matInput placeholder="Cost Center ID">
+                    <mat-error>This field is mandatory.</mat-error>
+                </mat-form-field>
+            </div>
+        </div>
+        <div fxLayout="row wrap" fxLayout.lt-sm="column" fxLayoutAlign="space-between">
+            <div fxFlex="50" fxLayout="column" fxLayoutAlign="space-between">
+                <div fxLayout="column">
+                    <mat-form-field>
+                        <input formControlName="EmployeeID" matInput placeholder="Employee ID">
+                        <mat-error>This field is mandatory.</mat-error>
+                    </mat-form-field>
+                </div>
+            </div>
+            <div fxFlex="50" fxLayout="column" fxLayoutAlign="space-between">
+                <div fxLayout="column">
+                    <mat-form-field>
+                        <input formControlName="DivisionID" matInput placeholder="Division ID">
+                        <mat-error>This field is mandatory.</mat-error>
+                    </mat-form-field>
+                </div>
+            </div>
+        </div>
+
+        <div class="pt-10" fxLayoutGap="50px">
+            <button mat-raised-button color="primary" type="submit"
+                [disabled]="service.formCostUnit.invalid">Submit</button>
+        </div>
+
+    </form>
+</div>

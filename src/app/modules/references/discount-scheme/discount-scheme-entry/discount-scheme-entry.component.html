@@ -1,0 +1,58 @@
+<div class="container">
+    <mat-toolbar>
+        <span>{{service.formDiscountScheme.controls['DiscountSchemeID'].value?"Modify Discount Scheme":"New Discount
+            Scheme"}}</span>
+        <div fxFlex fxLayout="row" fxLayoutAlign="flex-end">
+            <button class="btn-dialog-close" mat-stroked-button (click)="onClose()" tabIndex="-1">
+                <mat-icon>clear</mat-icon>
+            </button>
+        </div>
+    </mat-toolbar>
+    <form [formGroup]="service.formDiscountScheme" autocomplete="off" (submit)="onSubmit(service.formDiscountScheme)"
+        mat-dialog-content>
+        <input type="hidden" formControlName="DiscountSchemeID">
+        <div fxLayout="row wrap" fxLayout.lt-sm="column" fxLayoutAlign="space-between">
+            <div fxFlex="85" fxLayout="column" fxLayoutAlign="center">
+                <mat-form-field>
+                    <input formControlName="DiscountScheme" matInput placeholder="Discount Scheme">
+                    <mat-error>This field is mandatory.</mat-error>
+                </mat-form-field>
+            </div>
+            <div fxFlex="15" fxLayout="column" fxLayoutAlign="center">
+                <mat-checkbox formControlName="Status">Status</mat-checkbox>
+            </div>
+        </div>
+
+
+        <div fxLayout="row wrap" fxLayout.lt-sm="column" fxLayoutAlign="space-between">
+            <div fxFlex="50" fxLayout="column" fxLayoutAlign="space-between">
+                <div fxLayout="column">
+                    <mat-form-field>
+                        <mat-label>Date From</mat-label>
+                        <input matInput formControlName="DateFrom" placeholder="MM/DD/YYYY"
+                            [matDatepicker]="pickerFrom">
+                        <mat-datepicker-toggle matSuffix [for]="pickerFrom"></mat-datepicker-toggle>
+                        <mat-datepicker #pickerFrom></mat-datepicker>
+                    </mat-form-field>
+                </div>
+            </div>
+            <div fxFlex="50" fxLayout="column" fxLayoutAlign="space-between">
+                <div fxLayout="column">
+                    <mat-form-field>
+                        <mat-label>Date To</mat-label>
+                        <input matInput formControlName="DateTo" placeholder="MM/DD/YYYY" [matDatepicker]="pickerTo">
+                        <mat-datepicker-toggle matSuffix [for]="pickerTo"></mat-datepicker-toggle>
+                        <mat-datepicker #pickerTo></mat-datepicker>
+                    </mat-form-field>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="pt-10" fxLayoutGap="50px">
+            <button mat-raised-button color="primary" type="submit"
+                [disabled]="service.formDiscountScheme.invalid">Submit</button>
+        </div>
+
+    </form>
+</div>

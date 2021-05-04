@@ -1,0 +1,54 @@
+<div fxLayoutAlign="center center" fxFlexFill>
+    <form [formGroup]="service.formLogin" (submit)="onSubmit(service.formLogin)">
+        <div fxLayout="row" fxLayout="column" fxLayoutAlign="space-between">
+            <mat-card style="width: 300px;">
+                <mat-card-content>
+                    <div fxLayoutAlign="center center" fxFlexFill>
+                        <img mat-card-image class="resize pt15" src="assets/img/dmli_logo.png" alt="SIAMS">
+                    </div>
+
+                    <div fxLayout="row wrap" fxLayout.lt-sm="column" fxLayoutAlign="space-between">
+                        <div fxFlex="100" fxLayout="column" fxLayoutAlign="space-between">
+                            <mat-form-field>
+                                <mat-label>Username</mat-label>
+                                <input formControlName="UserName" matInput>
+                                <mat-icon matSuffix>person</mat-icon>
+                                <mat-error
+                                    *ngIf="service.formLogin.get('UserName').touched && service.formLogin.get('UserName').errors?.required">
+                                    This field is mandatory.</mat-error>
+                            </mat-form-field>
+                        </div>
+                    </div>
+
+                    <div fxLayout="row wrap" fxLayout.lt-sm="column" fxLayoutAlign="space-between">
+                        <div fxFlex="100" fxLayout="column" fxLayoutAlign="space-between">
+                            <mat-form-field>
+                                <mat-label>Passwords</mat-label>
+                                <input formControlName="Password" matInput [type]="hide ? 'password' : 'text'">
+                                <a mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'"
+                                    [attr.aria-pressed]="hide">
+                                    <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+                                </a>
+                                <mat-error
+                                    *ngIf="service.formLogin.get('Password').touched && service.formLogin.get('Password').errors?.required">
+                                    This field is
+                                    mandatory.</mat-error>
+                                <mat-error
+                                    *ngIf="service.formLogin.get('Password').touched && service.formLogin.get('Password').errors?.minlength">
+                                    Minimum 4 characters required.</mat-error>
+                            </mat-form-field>
+                        </div>
+                    </div>
+
+                </mat-card-content>
+                <mat-card-actions>
+                    <div fxFlex="100" fxLayout="column" fxLayoutAlign="space-between">
+                        <button type="submit" color="primary" mat-raised-button>
+                            Login
+                        </button>
+                    </div>
+                </mat-card-actions>
+            </mat-card>
+        </div>
+    </form>
+</div>

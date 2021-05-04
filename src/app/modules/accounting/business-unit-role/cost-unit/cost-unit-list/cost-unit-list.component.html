@@ -1,0 +1,84 @@
+<div fxLayout="row wrap" fxLayout.lt-md="column" fxLayoutAlign="space-between">
+    <div fxFlex="10" fxLayout="column">
+        <button  mat-raised-button (click)="onAdd()">
+            <mat-icon>add</mat-icon>Add New
+        </button>
+    </div>
+    <div fxFlex="1"></div>
+    <div fxFlex="88" fxLayout="column">
+        <mat-form-field floatLabel="never">
+            <input matInput [(ngModel)]="searchKey" placeholder="Search" autocomplete="off" (keyup)="applyFilter()">
+            <button mat-button matSuffix mat-icon-button aria-label="Clear" *ngIf="searchKey" (click)="onSearchClear()">
+                <mat-icon>close</mat-icon>
+            </button>
+        </mat-form-field>
+    </div>
+</div>
+
+<div class="mat-elevation-z8">
+    <table mat-table [dataSource]="dataSource" matSort>
+        <ng-container matColumnDef="CostUnitID">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Cost Unit ID</th>
+            <td mat-cell *matCellDef="let element" width = "10%">{{element.CostUnitID}}</td>
+        </ng-container>
+        <ng-container matColumnDef="CostUnit">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Cost Unit</th>
+            <td mat-cell *matCellDef="let element" width = "9.25%">{{element.CostUnit}}</td>
+        </ng-container>
+        <ng-container matColumnDef="CostCenterID">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Cost Center ID</th>
+            <td mat-cell *matCellDef="let element" width = "10%">{{element.CostCenterID}}</td>
+        </ng-container>
+        <ng-container matColumnDef="CostCenter">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Cost Center</th>
+            <td mat-cell *matCellDef="let element" width = "13%">{{element.CostCenter}}</td>
+        </ng-container>
+        <ng-container matColumnDef="EmployeeID">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Employee ID</th>
+            <td mat-cell *matCellDef="let element" width = "9%">{{element.EmployeeID}}</td>
+        </ng-container>
+        <ng-container matColumnDef="EmployeeName">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Employee Name</th>
+            <td mat-cell *matCellDef="let element" width = "16%">{{element.EmployeeName}}</td>
+        </ng-container>
+        <ng-container matColumnDef="DivisionID">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Division ID</th>
+            <td mat-cell *matCellDef="let element" width = "10%">{{element.DivisionID}}</td>
+        </ng-container>
+        <ng-container matColumnDef="Division">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Division</th>
+            <td mat-cell *matCellDef="let element" width = "13%">{{element.Division}}</td>
+        </ng-container>
+        
+        <ng-container matColumnDef="actions">
+            <th mat-header-cell *matHeaderCellDef></th>
+            <td mat-cell *matCellDef="let row">
+                <button  mat-icon-button (click)="onEdit(row.CostUnitID)">
+                    <mat-icon>launch</mat-icon>
+                </button>
+                <button  mat-icon-button color="warn" (click)="onDelete(row.CostUnitID)">
+                    <mat-icon>delete_outline</mat-icon>
+                </button>
+            </td>
+        </ng-container>
+        <ng-container matColumnDef="loading">
+            <th mat-footer-cell *matFooterCellDef colspan="8">
+                Loading data...
+            </th>
+        </ng-container>
+        <ng-container matColumnDef="noData">
+            <th mat-footer-cell *matFooterCellDef colspan="8">
+                No data.
+            </th>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+        <tr mat-footer-row *matFooterRowDef="['loading']" [ngClass]="{'hide':dataSource!=null}"></tr>
+        <tr mat-footer-row *matFooterRowDef="['noData']"
+            [ngClass]="{'hide':!(dataSource!=null && dataSource.data.length==0)}"></tr>
+
+    </table>
+    <mat-paginator [pageSizeOptions]="[10, 25, 50, 100]" [pageSize]="10" showFirstLastButtons></mat-paginator>
+</div>

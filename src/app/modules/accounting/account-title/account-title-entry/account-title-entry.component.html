@@ -1,0 +1,32 @@
+<div class="container">
+    <mat-toolbar>
+        <span>{{service.formAccountTitle.controls['AccountTitleID'].value?"Modify Account":"New Account"}}</span>
+        <div fxFlex fxLayout="row" fxLayoutAlign="flex-end">
+            <button class="btn-dialog-close" mat-stroked-button (click)="onClose()" tabIndex="-1">
+                <mat-icon>clear</mat-icon>
+            </button>
+        </div>
+    </mat-toolbar>
+    <form [formGroup]="service.formAccountTitle" autocomplete="on" (submit)="onSubmit(service.formAccountTitle)" mat-dialog-content>
+        <input type="hidden" formControlName="AccountTitleID">
+        <div fxLayout="row wrap" fxLayout.lt-sm="column" fxLayoutAlign="space-between">
+            <div fxFlex="30" fxLayout="column" fxLayoutAlign="space-between">
+                <mat-form-field>
+                    <input formControlName="Code" matInput placeholder="Account Code">
+                    <mat-error>This field is mandatory.</mat-error>
+                </mat-form-field>
+            </div>
+            <div fxFlex="70" fxLayout="column" fxLayoutAlign="center">
+                <mat-form-field>
+                    <input formControlName="AccountTitle" matInput placeholder="Account Title">
+                    <mat-error>This field is mandatory.</mat-error>
+                </mat-form-field>
+            </div>
+        </div>
+        <hr>        
+        <div class="pt-10" fxLayoutGap="10px">
+            <button mat-raised-button color="primary" type="submit"
+                [disabled]="service.formAccountTitle.invalid">Submit</button>
+        </div>
+    </form>
+</div>

@@ -1,0 +1,116 @@
+<h3>RECEIVING RECEIPT LIST</h3>
+<div fxLayout="row wrap" fxLayout.lt-md="column" fxLayoutAlign="space-between">
+    <div fxFlex="10" fxLayout="column">
+        <button *ngIf="globalService.Create" mat-raised-button (click)="onAdd()">
+            <mat-icon>add</mat-icon>Create
+        </button>
+    </div>
+    <div fxFlex="1"></div>
+    <div fxFlex="88" fxLayout="column">
+        <mat-form-field class="" floatLabel="never">
+            <input matInput [(ngModel)]="searchKey" placeholder="Search" autocomplete="off" (keyup)="applyFilter()">
+            <button mat-button matSuffix mat-icon-button aria-label="Clear" *ngIf="searchKey" (click)="onSearchClear()">
+                <mat-icon>close</mat-icon>
+            </button>
+        </mat-form-field>
+    </div>
+</div>
+
+<div class="mat-elevation-z8">
+    <table mat-table [dataSource]="dataSource" matSort>
+        <ng-container matColumnDef="ReceivingReceiptID">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>R.R #</th>
+            <td mat-cell *matCellDef="let element">{{element.ReceivingReceiptID}}</td>
+        </ng-container>
+        <ng-container matColumnDef="PONumber">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>P.O Number</th>
+            <td mat-cell *matCellDef="let element">{{element.PONumber}}</td>
+        </ng-container>
+        <ng-container matColumnDef="PurchaseOrderID">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>P.O ID</th>
+            <td mat-cell *matCellDef="let element">{{element.PurchaseOrderID}}</td>
+        </ng-container>
+        <ng-container matColumnDef="Supplier">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Supplier</th>
+            <td mat-cell *matCellDef="let element">{{element.Supplier}}</td>
+        </ng-container>
+        <ng-container matColumnDef="ReferenceNo">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Reference #</th>
+            <td mat-cell *matCellDef="let element">{{element.ReferenceNo}}</td>
+        </ng-container>
+        <ng-container matColumnDef="DRNo">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>D.R #</th>
+            <td mat-cell *matCellDef="let element">{{element.DRNo}}</td>
+        </ng-container>
+        <ng-container matColumnDef="SINo">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>S.I #</th>
+            <td mat-cell *matCellDef="let element">{{element.SINo}}</td>
+        </ng-container>
+        <ng-container matColumnDef="ReceivingDate">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Date Received</th>
+            <td mat-cell *matCellDef="let element">{{element.ReceivingDate | date:'MM/dd/yyyy'}}</td>
+        </ng-container>
+        <ng-container  matColumnDef="TotalCost">
+            <th mat-header-cell [hidden]="globalService.Amount == false" *matHeaderCellDef mat-sort-header>Total Cost {{globalService.Amount}}</th>
+            <td mat-cell [hidden]="globalService.Amount == false" *matCellDef="let element">{{element.TotalCost}}</td>
+        </ng-container>
+        <ng-container matColumnDef="StatusCode">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Status</th>
+            <td mat-cell *matCellDef="let element">
+                <strong *ngIf="element.Status == -1" [ngClass]="element.Status == 1 || element.Status == 2 ? 'posted' : element.Status == 0 ? 'cancelled' : ''">{{element.StatusCode}} Whse</strong>
+                <strong *ngIf="element.Status == 1" [ngClass]="element.Status == 1 || element.Status == 2 ? 'posted' : element.Status == 0 ? 'cancelled' : ''">{{element.StatusCode}} QC</strong>
+                <strong *ngIf="element.Status == 2" [ngClass]="element.Status == 1 || element.Status == 2 ? 'posted' : element.Status == 0 ? 'cancelled' : ''">{{element.StatusCode}} Acctg</strong>
+                <strong *ngIf="element.Status == 0 || element.Status == 3" [ngClass]="element.Status == 1 || element.Status == 2 ? 'posted' : element.Status == 0 ? 'cancelled' : ''">{{element.StatusCode}}</strong>
+            </td>
+        </ng-container>
+        <ng-container matColumnDef="actions">
+            <th mat-header-cell *matHeaderCellDef></th>
+            <td mat-cell *matCellDef="let row; let i=index;">
+                <button mat-icon-button color="primary" *ngIf="globalService.Edit && globalService.userDetails.DepartmentID==18 && row.Status=='-1'" (click)="onEdit(row.ReceivingReceiptID)" #tooltip="matTooltip" matTooltip="Edit" matPosition="Top" matTooltipHideDelay="100" [matTooltipPosition]="position.value">
+                    <mat-icon>edit</mat-icon>
+                </button>
+                <button mat-icon-button color="primary" *ngIf="globalService.Post && globalService.userDetails.DepartmentID==18 && row.Status==-1" (click)="onRRPosting(row.ReceivingReceiptID)" #tooltip="matTooltip" matTooltip="R.R Posting" matPosition="Top" matTooltipHideDelay="100" [matTooltipPosition]="position.value">
+                    <mat-icon>local_shipping</mat-icon>
+                </button>
+                <button mat-icon-button color="primary" *ngIf="globalService.Post && globalService.Edit && globalService.userDetails.DepartmentID==13 && row.Status==1" (click)="onEdit(row.ReceivingReceiptID)" #tooltip="matTooltip" matTooltip="Assay Tagging" matPosition="Top" matTooltipHideDelay="100" [matTooltipPosition]="position.value">
+                    <mat-icon>science</mat-icon>
+                </button>
+                <button mat-icon-button color="primary" *ngIf="globalService.Post && globalService.userDetails.DepartmentID==2 && row.Status== 2" (click)="onApprove(row.ReceivingReceiptID)" #tooltip="matTooltip" matTooltip="Approve" matPosition="Top" matTooltipHideDelay="100" [matTooltipPosition]="position.value">
+                    <mat-icon>done</mat-icon>
+                </button>
+                 <button mat-icon-button color="warn" *ngIf="globalService.Cancel && row.Status==3 || row.Status==-1" (click)="onCancel(row.ReceivingReceiptID)" #tooltip="matTooltip" matTooltip="Cancel" matPosition="Top" matTooltipHideDelay="100" [matTooltipPosition]="position.value">
+                    <mat-icon>close</mat-icon>
+                </button>
+                <!-- <button mat-icon-button color="accent" *ngIf="globalService.Unpost && globalService.userDetails.DepartmentID==18 && row.Status==-1 || row.Status==1" (click)="onCancel(row.ReceivingReceiptID)" #tooltip="matTooltip" matTooltip="Cancel" matPosition="Top" matTooltipHideDelay="100" [matTooltipPosition]="position.value">
+                    <mat-icon>close</mat-icon> {{globalService.userDetails.DepartmentID}} {{row.Status}}
+                </button>
+                <button mat-icon-button color="accent" *ngIf="globalService.Unpost && globalService.userDetails.DepartmentID==13 && row.Status==1 || row.Status==2" (click)="onCancel(row.ReceivingReceiptID)" #tooltip="matTooltip" matTooltip="Cancel" matPosition="Top" matTooltipHideDelay="100" [matTooltipPosition]="position.value">
+                    <mat-icon>close</mat-icon>
+                </button>
+                <button mat-icon-button color="accent" *ngIf="globalService.Unpost && globalService.userDetails.DepartmentID==2 && row.Status==2 || row.Status==3" (click)="onCancel(row.ReceivingReceiptID)" #tooltip="matTooltip" matTooltip="Cancel" matPosition="Top" matTooltipHideDelay="100" [matTooltipPosition]="position.value">
+                    <mat-icon>close</mat-icon>
+                </button> -->
+                <!-- <button mat-icon-button color="warn" *ngIf="!row.Status" (click)="onDelete(row.WRID,i)" #tooltip="matTooltip" matTooltip="Delete" matPosition="Top" matTooltipHideDelay="100" [matTooltipPosition]="position.value">
+                    <mat-icon>delete_outline</mat-icon>
+                </button> -->
+            </td>
+        </ng-container>
+        <ng-container matColumnDef="loading">
+            <th mat-footer-cell *matFooterCellDef colspan="11">
+                Loading data...
+            </th>
+        </ng-container>
+        <ng-container matColumnDef="noData">
+            <th mat-footer-cell *matFooterCellDef colspan="11">
+                No data.
+            </th>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; let i=index; columns: displayedColumns;"></tr>
+        <tr mat-footer-row *matFooterRowDef="['loading']" [ngClass]="{'hide':dataSource!=null}"></tr>
+        <tr mat-footer-row *matFooterRowDef="['noData']" [ngClass]="{'hide':!(dataSource!=null && dataSource.data.length==0)}"></tr>
+
+    </table>
+    <mat-paginator [pageSizeOptions]="[10, 25, 50, 100]" [pageSize]="10" showFirstLastButtons></mat-paginator>
+</div>

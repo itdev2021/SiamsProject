@@ -1,0 +1,33 @@
+<div class="container">
+    <mat-toolbar>
+        <span>{{service.formDepartment.controls['DeptID'].value?"Modify Department":"New Department"}}</span>
+        <div fxFlex fxLayout="row" fxLayoutAlign="flex-end">
+            <button class="btn-dialog-close" mat-stroked-button (click)="onClose()" tabIndex="-1">
+                <mat-icon>clear</mat-icon>
+            </button>
+        </div>
+    </mat-toolbar>
+    <form [formGroup]="service.formDepartment" autocomplete="off" (submit)="onSubmit(service.formDepartment)"
+        mat-dialog-content>
+        <input type="hidden" formControlName="DeptID">
+        <div fxLayout="row wrap" fxLayout.lt-sm="column" fxLayoutAlign="space-between">
+            <div fxFlex="60" fxLayout="column" fxLayoutAlign="space-between">
+                <mat-form-field>
+                    <input formControlName="Department" matInput placeholder="Department">
+                    <mat-error>This field is mandatory.</mat-error>
+                </mat-form-field>
+            </div><div fxFlex="40" fxLayout="column" fxLayoutAlign="space-between">
+                <mat-form-field>
+                    <input formControlName="DeptAbbr" matInput placeholder="Abbreviation ">
+                    <mat-error>This field is mandatory.</mat-error>
+                </mat-form-field>
+            </div>
+        </div>
+
+        <div class="pt-10" fxLayoutGap="50px">
+            <button mat-raised-button color="primary" type="submit"
+                [disabled]="service.formDepartment.invalid">Submit</button>
+        </div>
+
+    </form>
+</div>

@@ -1,0 +1,148 @@
+<div class="container">
+    <mat-toolbar>
+        <span>{{serviceSupplier.formSupplier.controls['SupplierID'].value?"Modify Supplier":"New Supplier"}}</span>
+        <div fxFlex fxLayout="row" fxLayoutAlign="flex-end">
+            <button class="btn-dialog-close" mat-stroked-button (click)="onClose()" tabIndex="-1">
+                <mat-icon>clear</mat-icon>
+            </button>
+        </div>
+    </mat-toolbar>
+    <div class="content" mat-dialog-content>
+        <form [formGroup]="serviceSupplier.formSupplier" autocomplete="on"
+            (submit)="onSubmit(serviceSupplier.formSupplier)" mat-dialog-content>
+            <input type="hidden" formControlName="SupplierID">
+            <div fxLayout="row wrap" fxLayout.lt-sm="column" fxLayoutAlign="space-between">
+                <div fxFlex="90" fxLayout="column" fxLayoutAlign="space-between">
+                    <mat-form-field>
+                        <input formControlName="Code" matInput placeholder="Supplier Code">
+                        <mat-error>This field is mandatory.</mat-error>
+                    </mat-form-field>
+                </div>
+                <div fxFlex="10" fxLayout="column" fxLayoutAlign="center">
+                    <mat-checkbox formControlName="Active">Active</mat-checkbox>
+                </div>
+            </div>
+            <div fxLayout="column" fxLayoutAlign>
+                <mat-form-field>
+                    <input formControlName="Supplier" matInput placeholder="Supplier Name *">
+                    <mat-error>This field is mandatory.</mat-error>
+                </mat-form-field>
+            </div>
+
+            <div fxLayout="row wrap" fxLayoutAlign="space-between center">
+                <div fxFlex="40" fxLayout="column" fxLayoutAlign="space-between">
+                    <mat-divider></mat-divider>
+                </div>
+                <div fxFlex="20" fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="10px" mat-typography>
+                    <i class="accent-color">Address Information</i>
+                </div>
+                <div fxFlex="40" fxLayout="column" fxLayoutAlign="space-between">
+                    <mat-divider></mat-divider>
+                </div>
+            </div>
+
+            <div fxLayout="column" fxLayoutAlign>
+                <mat-form-field>
+                    <input formControlName="StAddress" matInput placeholder="Address *">
+                    <mat-error>This field is mandatory.</mat-error>
+                </mat-form-field>
+            </div>
+            <div fxLayout="row wrap" fxLayout.lt-lg="column" fxLayoutAlign="space-between">
+                <div fxFlex="50" fxLayout="column" fxLayoutAlign="space-between">
+                    <mat-form-field>
+                        <input matInput formControlName="CityTown" placeholder="City/Town">
+                        <mat-error>This field is mandatory.</mat-error>
+                    </mat-form-field>
+                </div>
+                <div fxFlex="50" fxLayout="column" fxLayoutAlign="space-between">
+                    <mat-form-field>
+                        <input matInput formControlName="Province" placeholder="Province">
+                        <mat-error>This field is mandatory.</mat-error>
+                    </mat-form-field>
+                </div>
+            </div>
+
+            <div fxLayout="row wrap" fxLayoutAlign="space-between center">
+                <div fxFlex="40" fxLayout="column" fxLayoutAlign="space-between">
+                    <mat-divider></mat-divider>
+                </div>
+                <div fxFlex="20" fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="10px" mat-typography>
+                    <i class="accent-color">Contacts Information</i>
+                </div>
+                <div fxFlex="40" fxLayout="column" fxLayoutAlign="space-between">
+                    <mat-divider></mat-divider>
+                </div>
+            </div>
+
+            <div fxLayout="row wrap" fxLayout.lt-lg="column" fxLayoutAlign="space-between">
+                <div fxFlex="33.33" fxLayout="column" fxLayoutAlign="space-between">
+                    <mat-form-field>
+                        <input matInput formControlName="ContactNo" placeholder="Contact #">
+                    </mat-form-field>
+                </div>
+                <div fxFlex="33.33" fxLayout="column" fxLayoutAlign="space-between">
+                    <mat-form-field>
+                        <input matInput formControlName="ContactPerson" placeholder="Contact Person">
+                    </mat-form-field>
+                </div>
+                <div fxFlex="33.33" fxLayout="column" fxLayoutAlign="space-between">
+                    <mat-form-field>
+                        <input matInput formControlName="EmailAdd" placeholder="Email Add">
+                    </mat-form-field>
+                </div>
+            </div>
+
+            <div fxLayout="row wrap" fxLayoutAlign="space-between center">
+                <div fxFlex="40" fxLayout="column" fxLayoutAlign="space-between">
+                    <mat-divider></mat-divider>
+                </div>
+                <div fxFlex="20" fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="10px" mat-typography>
+                    <i class="accent-color">Tax Information</i>
+                </div>
+                <div fxFlex="40" fxLayout="column" fxLayoutAlign="space-between">
+                    <mat-divider></mat-divider>
+                </div>
+            </div>
+
+            <div fxLayout="row wrap" fxLayout.sm="column" fxLayoutAlign="space-between">
+                <div fxFlex="33.33" fxLayout="column" fxLayoutAlign="space-between">
+                    <mat-form-field>
+                        <mat-select formControlName="EWT" placeholder="EWT" (change)="changeClient($event.value)">
+                            <mat-option value="EWT1">EWT 1</mat-option>
+                            <mat-option value="EWT2">EWT 2</mat-option>
+                            <mat-option value="EWT3">EWT 3</mat-option>
+                            <!-- <mat-option *ngFor="let option of prodClassList" [value]="option.ClassID">
+                                {{option.Classification}}
+                            </mat-option> -->
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+                <div fxFlex="33.33" fxLayout="column" fxLayoutAlign="space-between">
+                    <mat-form-field>
+                        <mat-select formControlName="InputVat" placeholder="VAT" (change)="changeClient($event.value)">
+                            <mat-option value="RVAT">RVAT</mat-option>
+                            <mat-option value="RVAT">NVAT</mat-option>
+                            <!-- <mat-option *ngFor="let option of prodCategoryList" [value]="option.CategoryID">
+                                {{option.Category}}
+                            </mat-option> -->
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+                <div fxFlex="33.33" fxLayout="column" fxLayoutAlign="space-between">
+                    <mat-form-field>
+                        <input matInput formControlName="TIN" placeholder="TIN">
+                    </mat-form-field>
+                </div>
+            </div>
+
+
+
+
+            <div class="pt-10" fxLayoutGap="10px">
+                <button mat-raised-button color="primary" type="submit" *ngIf="globalService.Save"
+                    [disabled]="serviceSupplier.formSupplier.invalid">Submit</button>
+                <a mat-raised-button color="warn" (click)="onClear()">Clear</a>
+            </div>
+        </form>
+    </div>
+</div>

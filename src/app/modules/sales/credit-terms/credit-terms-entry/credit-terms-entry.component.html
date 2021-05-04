@@ -1,0 +1,37 @@
+<div class="container">
+    <mat-toolbar>
+        <span>{{service.formCreditTerms.controls['CreditTermsID'].value?"Modify Credit Terms":"New Credit Terms"}}</span>
+        <div fxFlex fxLayout="row" fxLayoutAlign="flex-end">
+            <button class="btn-dialog-close" mat-stroked-button (click)="onClose()" tabIndex="-1">
+                <mat-icon>clear</mat-icon>
+            </button>
+        </div>
+    </mat-toolbar>
+    <form [formGroup]="service.formCreditTerms" autocomplete="off" (submit)="onSubmit(service.formCreditTerms)" mat-dialog-content>
+        <input type="hidden" formControlName="CreditTermsID">
+        <div fxLayout="row wrap" fxLayout.lt-sm="column" fxLayoutAlign="space-between">
+            <div fxFlex="30" fxLayout="column" fxLayoutAlign="space-between">
+                <mat-form-field>
+                    <input formControlName="CreditTermsID" matInput placeholder="ID" readonly>
+                    <mat-error>This field is mandatory.</mat-error>
+                </mat-form-field>
+            </div>
+            <div fxFlex="50" fxLayout="column" fxLayoutAlign="center">
+                <mat-form-field>
+                    <input formControlName="CreditTerms" matInput placeholder="Credit Terms">
+                    <mat-error>This field is mandatory.</mat-error>
+                </mat-form-field>
+            </div>
+            <div fxFlex="20" fxLayout="column" fxLayoutAlign="center">
+                <mat-form-field>
+                    <input formControlName="Days" matInput placeholder="Days" type="number">
+                    <mat-error>This field is mandatory.</mat-error>
+                </mat-form-field>
+            </div>
+        </div>       
+        <div class="pt-10" fxLayoutGap="10px">
+            <button mat-raised-button color="primary" type="submit"
+                [disabled]="service.formCreditTerms.invalid">Submit</button>
+        </div>
+    </form>
+</div>

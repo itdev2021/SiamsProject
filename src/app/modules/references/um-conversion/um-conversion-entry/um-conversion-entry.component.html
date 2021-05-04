@@ -1,0 +1,109 @@
+<div class="container">
+    <mat-toolbar>
+        <span>{{service.formUMConversion.controls['ProductCode'].value?"Modify Unit of Measurement Conversion":"New Unit of
+            Measurement Conversion"}}</span>
+        <div fxFlex fxLayout="row" fxLayoutAlign="flex-end">
+            <button class="btn-dialog-close" mat-stroked-button (click)="onClose()" tabIndex="-1">
+                <mat-icon>clear</mat-icon>
+            </button>
+        </div>
+    </mat-toolbar>
+
+    <div fxLayout="column" fxLayoutAlign="space-between">
+        <div fxLayout="row" fxLayoutAlign="space-between">
+            <div fxFlex="16.67" fxLayout="column" fxLayoutAlign="space-between center">Product Code</div>
+            <div fxFlex="60" fxLayout="column" fxLayoutAlign="space-between center">Product Description</div>
+            <div fxFlex="16.67" fxLayout="column" fxLayoutAlign="left">
+
+            </div>
+        </div>
+    </div>
+    <form [formGroup]="service.formUMConversion" autocomplete="off" (submit)="onSubmit(service.formUMConversion)"
+        mat-dialog-content>
+        <div fxLayout="row wrap" fxLayout.lt-sm="column" fxLayoutAlign="space-between">
+            <div fxFlex="25" fxLayout="column" fxLayoutAlign="space-between">
+                <mat-form-field>
+                    <input formControlName="ProductCode" matInput readonly>
+                    <mat-error>This field is mandatory.</mat-error>
+                </mat-form-field>
+            </div>
+            <div fxFlex="65" fxLayout="column" fxLayoutAlign="space-between">
+                <mat-form-field>
+                    <input formControlName="ProductDesc" matInput readonly>
+                    <mat-error>This field is mandatory.</mat-error>
+                </mat-form-field>
+            </div>
+            <div fxFlex="10" fxLayout="column" fxLayoutAlign="space-between">
+                <a matSuffix color="accent" mat-stroked-button (click)="AddorEditOrderItem()">
+                    <mat-icon>groups</mat-icon>
+                </a>
+            </div>
+        </div>
+        <div class="pt-20"></div>
+        <div fxLayout="column" fxLayoutAlign="space-between">
+            <div fxLayout="row" fxLayoutAlign="space-between">
+                <div fxFlex="22" fxLayout="column" fxLayoutAlign="space-between center">UOM</div>
+                <div fxFlex="22" fxLayout="column" fxLayoutAlign="space-between center">UOMQty</div>
+                <div fxFlex="22" fxLayout="column" fxLayoutAlign="space-between center">UMC</div>
+                <div fxFlex="22" fxLayout="column" fxLayoutAlign="space-between center">UMCQty</div>
+                <div fxFlex="10" fxLayout="column" fxLayoutAlign="space-between center">
+                    <a color="primary" mat-stroked-button (click)="onAdd()">
+                        <mat-icon>add</mat-icon>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div fxLayout="column" fxLayoutAlign="space-between" formArrayName="items"
+            *ngFor="let item of service.formUMConversion.get('items')['controls']; let i=index;">
+            <div [formGroupName]="i">
+                <div fxLayout="row wrap" fxLayout.lt-sm="column" fxLayoutAlign="space-between">
+                    <div fxFlex="22" fxLayout="column" fxLayoutAlign="space-between">
+                        <mat-form-field>
+                            <mat-select formControlName="DefUOM" placeholder="Default UOM"
+                                (change)="changeClient($event.value)">
+                                <mat-option *ngFor="let option of uomlist" [value]="option.UOMDescription">
+                                    {{option.UOMDescription}}
+                                </mat-option>
+                            </mat-select>
+                            <mat-error>This field is mandatory.</mat-error>
+                        </mat-form-field>
+                    </div>
+                    <div fxFlex="22" fxLayout="column" fxLayoutAlign="space-between">
+                        <mat-form-field>
+                            <input formControlName="UOMQty" matInput readonly>
+                            <mat-error>This field is mandatory.</mat-error>
+                        </mat-form-field>
+                    </div>
+                    <div fxFlex="22" fxLayout="column" fxLayoutAlign="space-between">
+                        <mat-form-field>
+                            <mat-select formControlName="UMC" placeholder="UMC" (change)="changeClient($event.value)">
+                                <mat-option *ngFor="let option of uomlist" [value]="option.UOMDescription">
+                                    {{option.UOMDescription}}
+                                </mat-option>
+                            </mat-select>
+                            <mat-error>This field is mandatory.</mat-error>
+                        </mat-form-field>
+                    </div>
+                    <div fxFlex="22" fxLayout="column" fxLayoutAlign="space-between">
+                        <mat-form-field>
+                            <input formControlName="UMCQty" matInput placeholder="UMC Qty" type="number">
+                            <mat-error>This field is mandatory.</mat-error>
+                        </mat-form-field>
+                    </div>
+                    <div fxFlex="10" fxLayout="column" fxLayoutAlign="space-between">
+                        <a mat-icon-button color="warn" (click)="ondeleteOrderItem(item,i)">
+                            <mat-icon>delete_outline</mat-icon>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="pt-10" fxLayoutGap="50px">
+            <button mat-raised-button color="primary" type="submit">
+                <mat-icon>storage</mat-icon>Submit
+            </button>
+        </div>
+
+    </form>
+</div>

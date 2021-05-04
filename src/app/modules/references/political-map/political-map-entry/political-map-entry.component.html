@@ -1,0 +1,80 @@
+<div class="container">
+    <mat-toolbar>
+        <span>{{service.formPoliticalMap.controls['PoliticalMapID'].value?"Modify Political Map":"New Political Map"}}</span>
+        <div fxFlex fxLayout="row" fxLayoutAlign="flex-end">
+            <button class="btn-dialog-close" mat-stroked-button (click)="onClose()" tabIndex="-1">
+                <mat-icon>clear</mat-icon>
+            </button>
+        </div>
+    </mat-toolbar>
+    <form [formGroup]="service.formPoliticalMap" autocomplete="off" (submit)="onSubmit(service.formPoliticalMap)"
+        mat-dialog-content>
+        <input type="hidden" formControlName="PoliticalMapID">
+        <div fxLayout="row wrap" fxLayout.lt-sm="column" fxLayoutAlign="space-between">
+            <div fxFlex="33.33" fxLayout="column" fxLayoutAlign="space-between">
+                <mat-form-field>
+                    <input formControlName="Region" matInput placeholder="Region">
+                    <mat-error>This field is mandatory.</mat-error>
+                </mat-form-field>
+            </div>
+            <div fxFlex="33.33" fxLayout="column" fxLayoutAlign="space-between">
+                <mat-form-field>
+                    <input formControlName="Designation" matInput placeholder="Designation">
+                    <mat-error>This field is mandatory.</mat-error>
+                </mat-form-field>
+            </div>
+            <div fxFlex="33.33" fxLayout="column" fxLayoutAlign="space-between">
+                <mat-form-field>
+                    <input formControlName="CenterCapital" matInput placeholder="CenterCapital">
+                    <mat-error>This field is mandatory.</mat-error>
+                </mat-form-field>
+            </div>
+        </div>
+        <div fxLayout="row wrap" fxLayout.lt-sm="column" fxLayoutAlign="space-between">
+            <div fxFlex="33.33" fxLayout="column" fxLayoutAlign="space-between">
+                <mat-form-field>
+                    <input formControlName="Provinces" matInput placeholder="Provinces">
+                    <mat-error>This field is mandatory.</mat-error>
+                </mat-form-field>
+            </div>
+            <div fxFlex="33.33" fxLayout="column" fxLayoutAlign="space-between">
+                <mat-form-field>
+                    <input formControlName="Capital" matInput placeholder="Capital">
+                    <mat-error>This field is mandatory.</mat-error>
+                </mat-form-field>
+            </div>
+            <div fxFlex="33.33" fxLayout="column" fxLayoutAlign="space-between">
+                <mat-form-field>
+                    <input formControlName="Municipalities" matInput placeholder="Municipalities">
+                    <mat-error>This field is mandatory.</mat-error>
+                </mat-form-field>
+            </div>
+        </div>
+        <div fxLayout="row wrap" fxLayout.lt-sm="column" fxLayoutAlign="space-between">
+            <div fxFlex="33.33" fxLayout="column" fxLayoutAlign="space-between">
+                <mat-form-field>
+                    <input formControlName="City" matInput placeholder="City">
+                    <mat-error>This field is mandatory.</mat-error>
+                </mat-form-field>
+            </div>
+            <div fxFlex="33.33" fxLayout="column" fxLayoutAlign="space-between">
+                <mat-form-field>
+                    <input formControlName="Barangay" matInput placeholder="Barangay">
+                    <mat-error>This field is mandatory.</mat-error>
+                </mat-form-field>
+            </div>
+            <div fxFlex="33.33" fxLayout="column" fxLayoutAlign="space-between">
+                <mat-form-field>
+                    <input formControlName="ZipCode" matInput placeholder="ZipCode">
+                    <mat-error>This field is mandatory.</mat-error>
+                </mat-form-field>
+            </div>
+        </div>
+
+        <div class="pt-10" fxLayoutGap="50px">
+            <button mat-raised-button color="primary" type="submit"
+                [disabled]="service.formPoliticalMap.invalid">Submit</button>
+        </div>
+
+    </form>
+</div>

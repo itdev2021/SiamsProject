@@ -1,0 +1,37 @@
+<div class="container">
+    <mat-toolbar>
+        <span>{{serviceDesignation.formDesignation.controls['DesignationID'].value?"Modify Designation":"New Designation"}}</span>
+        <div fxFlex fxLayout="row" fxLayoutAlign="flex-end">
+            <button class="btn-dialog-close" mat-stroked-button (click)="onClose()" tabIndex="-1">
+                <mat-icon>clear</mat-icon>
+            </button>
+        </div>
+    </mat-toolbar>
+
+    <form [formGroup]="serviceDesignation.formDesignation" (submit)="onSubmit(serviceDesignation.formDesignation)" mat-dialog-content>
+        <input type="hidden" formControlName="DesignationID">
+        <div fxLayout="row wrap" fxLayout.lt-sm="column" fxLayoutAlign="space-between">
+            <div fxFlex="90" fxLayout="column" fxLayoutAlign="space-between">
+                <mat-form-field>
+                    <input formControlName="Code" matInput placeholder="Designation Code">
+                    <mat-error>This field is mandatory.</mat-error>
+                </mat-form-field>
+            </div>
+            <div fxFlex="10" fxLayout="column" fxLayoutAlign="center">
+                <mat-checkbox formControlName="Active">Active</mat-checkbox>
+            </div>
+        </div>
+        <div fxLayout="column" fxLayoutAlign>
+            <mat-form-field>
+                <input formControlName="Designation" matInput placeholder="Designation Name *">
+                <mat-error>This field is mandatory.</mat-error>
+            </mat-form-field>
+        </div>
+
+        <div class="pt-10" fxLayoutGap="10px">
+            <button mat-raised-button color="primary" type="submit"
+                [disabled]="serviceDesignation.formDesignation.invalid">Submit</button>
+            <a mat-raised-button color="warn" (click)="onClear()">Clear</a>
+        </div>
+    </form>
+</div>

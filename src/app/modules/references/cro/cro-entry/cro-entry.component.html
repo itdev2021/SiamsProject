@@ -1,0 +1,28 @@
+<div class="container">
+    <mat-toolbar>
+        <span>{{service.formCRO.controls['CROID'].value?"Modify CRO":"New CRO"}}</span>
+        <div fxFlex fxLayout="row" fxLayoutAlign="flex-end">
+            <button class="btn-dialog-close" mat-stroked-button (click)="onClose()" tabIndex="-1">
+                <mat-icon>clear</mat-icon>
+            </button>
+        </div>
+    </mat-toolbar>
+    <form [formGroup]="service.formCRO" autocomplete="off" (submit)="onSubmit(service.formCRO)"
+        mat-dialog-content>
+        <input type="hidden" formControlName="CROID">
+        <div fxLayout="row wrap" fxLayout.lt-sm="column" fxLayoutAlign="space-between">
+            <div fxFlex="100" fxLayout="column" fxLayoutAlign="space-between">
+                <mat-form-field>
+                    <input formControlName="CRO" matInput placeholder="CRO">
+                    <mat-error>This field is mandatory.</mat-error>
+                </mat-form-field>
+            </div>
+        </div>
+
+        <div class="pt-10" fxLayoutGap="50px">
+            <button  mat-raised-button color="primary" type="submit"
+                [disabled]="service.formCRO.invalid">Submit</button>
+        </div>
+
+    </form>
+</div>

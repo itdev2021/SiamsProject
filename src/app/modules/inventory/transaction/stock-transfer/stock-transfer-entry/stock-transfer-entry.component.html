@@ -1,0 +1,241 @@
+<form [formGroup]="service.formSTS" autocomplete="off" (submit)="onSubmit(service.formSTS)">
+    <mat-card class="example-card content">
+        <mat-card-header>
+            <mat-card-title>STOCK TRANSFER ENTRY</mat-card-title>
+            <div fxFlex fxLayout="row" fxLayoutAlign="flex-end" fxLayoutGap="10px">
+                <a color="primary" mat-stroked-button (click)="onPrintDoc(service.formSTS)">
+                    <!--*ngIf="service.formPV.get('Status').valuoe && !service.formPV.get('IsPrinted').value" -->
+                    <mat-icon>print</mat-icon> Document
+                </a>
+                <a color="primary" mat-stroked-button (click)="onPrintLedger(service.formSTS)">
+                    <mat-icon>print</mat-icon> Ledger
+                </a>
+                <a mat-stroked-button (click)="onClose()">
+                    <mat-icon>close</mat-icon>
+                </a>
+            </div>
+        </mat-card-header>
+        <mat-card-content>
+            <div class="content" mat-dialog-content>
+                <div fxLayout="row wrap" fxLayout.lt-md="column" fxLayoutAlign="space-between">
+                    <div fxFlex="33.33" fxLayout="column" fxLayoutAlign="space-between">
+                        <mat-form-field>
+                            <input formControlName="STSID" matInput placeholder="ID" readonly>
+                        </mat-form-field>
+                    </div>
+                    <div fxFlex="33.33" fxLayout="column" fxLayoutAlign="space-between">
+                        <mat-form-field>
+                            <mat-label>STS Date</mat-label>
+                            <input matInput formControlName="STSDate" placeholder="MM/DD/YYYY" [matDatepicker]="STSDate"
+                                required>
+                            <mat-datepicker-toggle matSuffix [for]="STSDate"></mat-datepicker-toggle>
+                            <mat-datepicker #STSDate></mat-datepicker>
+                        </mat-form-field>
+                    </div>
+                    <div fxFlex="33.33" fxLayout="column" fxLayoutAlign="space-between">
+                        <mat-form-field>
+                            <mat-label>Reference Number</mat-label>
+                            <input formControlName="ReferenceNo" matInput placeholder="Reference Number" required>
+                        </mat-form-field>
+                    </div>
+                </div>
+
+
+                <div fxLayout="row wrap" fxLayout.lt-md="column" fxLayoutAlign="space-between">
+                    <div fxFlex="40" fxLayout="column" fxLayoutAlign="space-between">
+                        <div fxLayout="column">
+                            <mat-form-field>
+                                <mat-label>From Warehouse</mat-label>
+                                <mat-select formControlName="WarehouseID_From" placeholder="From Warehouse"
+                                    (change)="changeClient($event.value)">
+                                    <mat-option>- Select -</mat-option>
+                                    <mat-option *ngFor="let option of toWarehouseList" [value]="option.WareHouseID">
+                                        {{option.WareHouse}}
+                                    </mat-option>
+                                </mat-select>
+                                <mat-error>This field is mandatory.</mat-error>
+                            </mat-form-field>
+                        </div>
+                        <div fxLayout="column">
+                            <mat-form-field>
+                                <mat-label>To Warehouse</mat-label>
+                                <mat-select formControlName="WarehouseID_To" placeholder="To Warehouse"
+                                    (change)="changeClient($event.value)">
+                                    <mat-option *ngFor="let option of fromWarehouseList" [value]="option.WareHouseID">
+                                        {{option.WareHouse}}
+                                    </mat-option>
+                                </mat-select>
+                                <mat-error>This field is mandatory.</mat-error>
+                            </mat-form-field>
+                        </div>
+                    </div>
+
+                    <div fxFlex="60" fxLayout="column" fxLayoutAlign="center">
+                        <div fxLayout="column">
+                            <mat-form-field>
+                                <mat-label>Remarks</mat-label>
+                                <input formControlName="Remarks" matInput placeholder="Ex. Enter your remarks here....">
+                                <!-- <textarea formControlName="Remarks" matInput placeholder="Ex. Enter your remarks here...."></textarea> -->
+                            </mat-form-field>
+                        </div>
+                        <div fxLayout="column">
+                            <mat-form-field>
+                                <mat-label>Delivery Address</mat-label>
+                                <input formControlName="DeliveryAddress" matInput
+                                    placeholder="Ex. Enter the delivery address here....">
+                                <!-- <textarea formControlName="DeliveryAddress" matInput placeholder="Ex. Enter the delivery address here...."></textarea> -->
+                            </mat-form-field>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="pt-20"></div>
+                <!-- order items table -->
+                <div class="pb10" fxLayoutAlign="end">
+                    <a mat-raised-button color="primary" (click)="AddorEditOrderItem()">
+                        <mat-icon>add</mat-icon>
+                    </a>
+                </div>
+                <div>
+                    <div fxLayoutAlign="center" *ngIf="service.formSTS.get('items')['length'] == 0"
+                        [class.text-danger]="service.formSTS.get('items')['length']==0">
+                        <div fxLayout="column">
+                            <i>No item selected for this transaction.</i>
+                        </div>
+                    </div>
+
+                    <div class="scroll-y">
+                        <div formArrayName="items" fxLayout="column" fxLayoutAlign="space-between"
+                            *ngFor="let item of service.formSTS.get('items')['controls']; let i=index;">
+                            <div [formGroupName]="i">
+                                <div fxLayout="row" fxLayoutAlign="space-between">
+                                    <div fxFlex="12" fxLayout="column" fxLayoutAlign="space-between">
+                                        <mat-form-field>
+                                            <input matInput formControlName="Code" placeholder="Code" readonly
+                                                style="font-size: 10px">
+                                        </mat-form-field>
+                                    </div>
+                                    <div fxFlex="35" fxLayout="column" fxLayoutAlign="space-between">
+                                        <input type="hidden" formControlName="ProductID">
+                                        <mat-form-field>
+                                            <input matInput formControlName="Product" placeholder="Product" readonly
+                                                style="font-size: 10px">
+                                        </mat-form-field>
+                                    </div>
+                                    <div fxFlex="10" fxLayout="column" fxLayoutAlign="space-betwee">
+                                        <input type="hidden" formControlName="UOMID">
+                                        <mat-form-field>
+                                            <input matInput formControlName="UOMDescription" placeholder="UOM" readonly
+                                                style="font-size: 10px">
+                                        </mat-form-field>
+                                    </div>
+                                    <div fxFlex="10" fxLayout="column" fxLayoutAlign="space-between">
+                                        <mat-form-field>
+                                            <input matInput formControlName="Quantity" placeholder="Quantity"
+                                                type="number" (keyup)="updateTotal(item,i)" style="font-size: 10px">
+                                            <mat-error>This field is mandatory.</mat-error>
+                                        </mat-form-field>
+                                    </div>
+                                    <div fxFlex="10" fxLayout="column" fxLayoutAlign="space-between">
+                                        <mat-form-field>
+                                            <input matInput formControlName="UnitCost" placeholder="Unit Cost"
+                                                type="number" style="font-size: 10px" (keyup)="updateTotal(item,i)">
+                                            <mat-error>This field is mandatory.</mat-error>
+                                        </mat-form-field>
+                                    </div>
+                                    <div fxFlex="10" fxLayout="column" fxLayoutAlign="space-between">
+                                        <mat-form-field>
+                                            <input matInput formControlName="Amount" placeholder="Amount"
+                                                id="Amount{{i}}" readonly style="font-size: 10px">
+                                            <mat-error>This field is mandatory.</mat-error>
+                                        </mat-form-field>
+                                    </div>
+                                    <div fxFlex="10" fxLayout="column" fxLayoutAlign="space-between">
+                                        <mat-form-field>
+                                            <input matInput formControlName="LotNo" placeholder="Lot #"
+                                                style="font-size: 10px" required>
+                                            <mat-error>This field is mandatory.</mat-error>
+                                        </mat-form-field>
+                                    </div>
+                                    <div fxFlex="12" fxLayout="column" fxLayoutAlign="space-between">
+                                        <mat-form-field>
+                                            <mat-label>Exp. Date</mat-label>
+                                            <input matInput formControlName="ExpiryDate" placeholder="MM/DD/YYYY"
+                                                [matDatepicker]="ExpiryDate" style="font-size: 10px" required>
+                                            <mat-datepicker-toggle matSuffix [for]="ExpiryDate"></mat-datepicker-toggle>
+                                            <mat-datepicker #ExpiryDate></mat-datepicker>
+                                            <mat-error>This field is mandatory.</mat-error>
+                                        </mat-form-field>
+                                    </div>
+                                    <div fxFlex="12" fxLayout="column" fxLayoutAlign="space-between">
+                                        <mat-form-field>
+                                            <mat-label>Mfg. Date</mat-label>
+                                            <input matInput formControlName="ManufacturingDate" placeholder="MM/DD/YYYY"
+                                                [matDatepicker]="ManufacturingDate" style="font-size: 10px" required>
+                                            <mat-datepicker-toggle matSuffix [for]="ManufacturingDate">
+                                            </mat-datepicker-toggle>
+                                            <mat-datepicker #ManufacturingDate></mat-datepicker>
+                                            <mat-error>This field is mandatory.</mat-error>
+                                        </mat-form-field>
+                                    </div>
+                                    <div fxFlex="30" fxLayout="column" fxLayoutAlign="space-between">
+                                        <mat-form-field>
+                                            <input matInput formControlName="Particulars" placeholder="Particulars"
+                                                style="font-size: 10px">
+                                        </mat-form-field>
+                                    </div>
+
+                                    <div fxFlex="30" fxLayout="column" fxLayoutAlign="space-between">
+                                        <mat-form-field>
+                                            <mat-select formControlName="AccountTitleIDDebit" placeholder="Debit"
+                                                (change)="changeClient($event.value)" style="font-size: 10px">
+                                                <mat-option>- Select -</mat-option>
+                                                <mat-option *ngFor="let option of acctTitleDebitList"
+                                                    [value]="option.AccountTitleID">
+                                                    {{option.AccountTitle}}
+                                                </mat-option>
+                                            </mat-select>
+                                            <mat-error>This field is mandatory.</mat-error>
+                                        </mat-form-field>
+                                    </div>
+                                    <div fxFlex="30" fxLayout="column" fxLayoutAlign="space-between">
+                                        <mat-form-field>
+                                            <mat-select formControlName="AccountTitleIDCredit" placeholder="Credit"
+                                                (change)="changeClient($event.value)" style="font-size: 10px">
+                                                <mat-option>- Select -</mat-option>
+                                                <mat-option *ngFor="let option of acctTitleCreditList"
+                                                    [value]="option.AccountTitleID">
+                                                    {{option.AccountTitle}}
+                                                </mat-option>
+                                            </mat-select>
+                                            <mat-error>This field is mandatory.</mat-error>
+                                        </mat-form-field>
+                                    </div>
+
+                                    <div fxFlex="5" fxLayout="row" fxLayoutAlign="center center">
+                                        <a mat-icon-button color="warn"
+                                            (click)="ondeleteOrderItem(item.get('STSDID').value,i)">
+                                            <mat-icon>delete_outline</mat-icon>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div> Total : {{service.totalAmount}}</div>
+        </mat-card-content>
+        <mat-divider></mat-divider>
+        <mat-card-actions>
+            <div fxLayout="row wrap" fxLayout.lt-md="column" fxLayoutAlign="flex-end">
+                <button type="submit" color="primary"
+                    *ngIf="globalService.Save && service.formSTS.get('Status').value=='-1'" mat-raised-button
+                    [disabled]="service.formSTS.invalid || service.formSTS.get( 'items')[ 'length']==0 ">
+                    <mat-icon>storage</mat-icon> Submit
+                </button>
+            </div>
+        </mat-card-actions>
+    </mat-card>
+</form>

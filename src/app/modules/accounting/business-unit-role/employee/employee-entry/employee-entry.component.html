@@ -1,0 +1,82 @@
+<div class="container">
+    <mat-toolbar>
+        <span>{{service.formEmployee.controls['EmployeeID'].value?"Modify Employee":"New Employee"}}</span>
+        <div fxFlex fxLayout="row" fxLayoutAlign="flex-end">
+            <button class="btn-dialog-close" mat-stroked-button (click)="onClose()" tabIndex="-1">
+                <mat-icon>clear</mat-icon>
+            </button>
+        </div>
+    </mat-toolbar>
+    <form [formGroup]="service.formEmployee" autocomplete="off" (submit)="onSubmit(service.formEmployee)"
+        mat-dialog-content>
+        <input type="hidden" formControlName="EmployeeID">
+        <div fxLayout="row wrap" fxLayout.lt-sm="column" fxLayoutAlign="space-between">
+            <div fxFlex="33.33" fxLayout="column" fxLayoutAlign="center">
+                <mat-form-field>
+                    <input formControlName="LastName" matInput placeholder="Last Name">
+                    <mat-error>This field is mandatory.</mat-error>
+                </mat-form-field>
+            </div>
+            <div fxFlex="33.33" fxLayout="column" fxLayoutAlign="center">
+                <mat-form-field>
+                    <input formControlName="FirstName" matInput placeholder="First Name">
+                    <mat-error>This field is mandatory.</mat-error>
+                </mat-form-field>
+            </div>
+            <div fxFlex="33.33" fxLayout="column" fxLayoutAlign="center">
+                <mat-form-field>
+                    <input formControlName="MiddleName" matInput placeholder="Middle Name">
+                    <mat-error>This field is mandatory.</mat-error>
+                </mat-form-field>
+            </div>
+        </div>
+        <div fxLayout="row wrap" fxLayout.lt-sm="column" fxLayoutAlign="space-between">
+            <div fxFlex="33.33" fxLayout="column" fxLayoutAlign="space-between">
+                <div fxLayout="column">
+                    <mat-form-field>
+                        <input formControlName="EmployeeCode" matInput placeholder="Employee Code">
+                        <mat-error>This field is mandatory.</mat-error>
+                    </mat-form-field>
+                </div>
+            </div>
+            <div fxFlex="66.67" fxLayout="column" fxLayoutAlign="space-between">
+                <div fxLayout="column">
+                    <mat-form-field>
+                        <input formControlName="Address" matInput placeholder="Address">
+                        <mat-error>This field is mandatory.</mat-error>
+                    </mat-form-field>
+                </div>
+            </div>
+        </div>
+        <div fxLayout="row wrap" fxLayout.lt-sm="column" fxLayoutAlign="space-between">
+            <div fxFlex="33.33" fxLayout="column" fxLayoutAlign="space-between">
+                <div fxLayout="column">
+                    <mat-form-field>
+                        <input formControlName="PositionID" matInput placeholder="Position ID">
+                        <mat-error>This field is mandatory.</mat-error>
+                    </mat-form-field>
+                </div>
+            </div>
+            <div fxFlex="46.67" fxLayout="column" fxLayoutAlign="space-between">
+                <div fxLayout="column">
+                    <mat-form-field>
+                        <mat-label>Date Hired</mat-label>
+                        <input matInput formControlName="DateHired" placeholder="MM/DD/YYYY"
+                            [matDatepicker]="pickerHired">
+                        <mat-datepicker-toggle matSuffix [for]="pickerHired"></mat-datepicker-toggle>
+                        <mat-datepicker #pickerHired></mat-datepicker>
+                    </mat-form-field>
+                </div>
+            </div>
+            <div fxFlex="20" fxLayout="column" fxLayoutAlign="center">
+                <mat-checkbox formControlName="Status">Status</mat-checkbox>
+            </div>
+        </div>
+        
+        <div class="pt-10" fxLayoutGap="50px">
+            <button mat-raised-button color="primary" type="submit"
+                [disabled]="service.formEmployee.invalid">Submit</button>
+        </div>
+
+    </form>
+</div>

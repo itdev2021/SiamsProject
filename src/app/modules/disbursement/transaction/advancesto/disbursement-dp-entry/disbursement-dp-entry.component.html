@@ -1,0 +1,124 @@
+<form [formGroup]="service.formDDP" autocomplete="off" (submit)="onSubmit(service.formDDP)">
+    <mat-card class="example-card content">
+        <mat-card-header>
+            <mat-card-title>ADVANCES TO</mat-card-title>
+            <div fxFlex fxLayout="row" fxLayoutAlign="flex-end" fxLayoutGap="10px">
+                <!-- <a color="primary" mat-stroked-button *ngIf="globalService.Print && service.formDDP.get('Status').value == 1" (click)="onPrintDoc(service.formDDP)">
+                    <mat-icon>print</mat-icon> Document
+                </a> -->
+                <a color="primary" mat-stroked-button *ngIf="globalService.Print && service.formDDP.get('Status').value == 1" (click)="onPrintVoucher(service.formDDP)">
+                    <mat-icon>print</mat-icon> Voucher
+                </a>
+                <a color="primary" mat-stroked-button *ngIf="globalService.Print && service.formDDP.get('Status').value == 1" (click)="onPrintLedger(service.formDDP)">
+                    <mat-icon>print</mat-icon> Ledger
+                </a>
+                <!-- <a color="accent" mat-stroked-button routerLink="/cash-disbursement-list">
+                    <mat-icon>view_list</mat-icon> List
+                </a> -->
+                <a class="btn-dialog-close" mat-stroked-button (click)="onClose()" tabIndex="-1">
+                    <mat-icon>close</mat-icon>
+                </a>
+            </div>
+        </mat-card-header>
+        <mat-card-content>
+            <div class="content" mat-dialog-content>
+                <div fxLayout="row wrap" fxLayout.lt-sm="column" fxLayoutAlign="space-between">
+                    <div fxFlex="20" fxLayout="column" fxLayoutAlign="space-between">
+                        <mat-form-field>
+                            <input formControlName="CashDisbursementDPID" matInput placeholder="Transaction ID" readonly>
+                        </mat-form-field>
+                    </div>
+                    <div fxFlex="20" fxLayout="column" fxLayoutAlign="space-between">
+                        <mat-form-field>
+                            <mat-label>Date</mat-label>
+                            <input formControlName="CashDisbursementDPDate" matInput placeholder="MM/DD/YYYY" [matDatepicker]="CashDisbursementDPDate">
+                            <mat-datepicker-toggle matSuffix [for]="CashDisbursementDPDate"></mat-datepicker-toggle>
+                            <mat-datepicker #CashDisbursementDPDate></mat-datepicker>
+                            <mat-error>This field is mandatory.</mat-error>
+                        </mat-form-field>
+                    </div>
+                    <div fxFlex="10" fxLayout="column" fxLayoutAlign="center center">
+                        <mat-checkbox formControlName="IDS">IDS</mat-checkbox>
+                    </div>
+                    <div fxFlex="25" fxLayout="column" fxLayoutAlign="space-between">
+                        <mat-form-field>
+                            <input formControlName="CheckNo" matInput placeholder="CheckNo">
+                        </mat-form-field>
+                    </div>
+                    <div fxFlex="25" fxLayout="column" fxLayoutAlign="space-between">
+                        <mat-form-field>
+                            <input formControlName="Amount" type="number" matInput placeholder="Amount">
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div fxLayout="row wrap" fxLayout.lt-sm="column" fxLayoutAlign="space-between">
+                    <div fxFlex="100" fxLayout="column" fxLayoutAlign="space-between">
+                        <mat-form-field>
+                            <input type="hidden" formControlName="AccountTitleDebitID">
+                            <input formControlName="AccountTitleDebit" matInput placeholder="Debit" readonly>
+                            <a matSuffix mat-stroked-button color="primary" (click)="onSelectDebitAccountID()">
+                                <mat-icon>account_balance</mat-icon>
+                            </a>
+                            <mat-error>This field is mandatory.</mat-error>
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div fxLayout="row wrap" fxLayout.lt-sm="column" fxLayoutAlign="space-between">
+                    <div fxFlex="100" fxLayout="column" fxLayoutAlign="space-between">
+                        <mat-form-field>
+                            <input type="hidden" formControlName="AccountTitleCreditID">
+                            <input formControlName="AccountTitleCredit" matInput placeholder="Credit" readonly>
+                            <a matSuffix mat-stroked-button color="primary" (click)="onSelectCreditAccountID()">
+                                <mat-icon>account_balance</mat-icon>
+                            </a>
+                            <mat-error>This field is mandatory.</mat-error>
+                        </mat-form-field>
+                    </div>
+                </div>
+
+
+                <div fxLayout="row wrap" fxLayout.lt-sm="column" fxLayoutAlign="space-between">
+                    <div fxFlex="50" fxLayout="column" fxLayoutAlign="space-between">
+                        <mat-form-field>
+                            <input type="hidden" formControlName="CostUnitID">
+                            <input formControlName="CostUnit" matInput placeholder="Cost Unit" readonly>
+                            <a matSuffix mat-stroked-button color="primary" (click)="onSelectCostUnitID()">
+                                <mat-icon>apartment</mat-icon>
+                            </a>
+                            <mat-error>This field is mandatory.</mat-error>
+                        </mat-form-field>
+                    </div>
+                    <div fxFlex="50" fxLayout="column" fxLayoutAlign="space-between">
+                        <mat-form-field>
+                            <input type="hidden" formControlName="SupplierID">
+                            <input type="hidden" formControlName="Paytotypeid">
+                            <input formControlName="Supplier" matInput placeholder="Supplier" readonly>
+                            <a matSuffix mat-stroked-button color="primary" (click)="onSelectDeliveredTo()">
+                                <mat-icon>person</mat-icon>
+                            </a>
+                            <mat-error>This field is mandatory.</mat-error>
+                        </mat-form-field>
+                    </div>
+                </div>
+
+                <div fxLayout="row wrap" fxLayout.lt-sm="column" fxLayoutAlign="space-between">
+                    <div fxFlex="100" fxLayout="column" fxLayoutAlign="center">
+                        <mat-form-field>
+                            <mat-label>Remarks</mat-label>
+                            <textarea rows="1" formControlName="Remarks" matInput placeholder="Ex. Enter your remarks here...."></textarea>
+                            <mat-error>This field is mandatory.</mat-error>
+                        </mat-form-field>
+                    </div>
+                </div>
+            </div>
+        </mat-card-content>
+        <mat-divider></mat-divider>
+        <mat-card-actions>
+            <div fxLayout="row" fxLayoutAlign="flex-end">
+                <button type="submit" color="primary" mat-raised-button *ngIf="globalService.Save && service.formDDP.get('Status').value == '-1'" [disabled]="service.formDDP.invalid">
+                    <mat-icon>storage</mat-icon> Submit
+                </button>
+            </div>
+        </mat-card-actions>
+    </mat-card>
+</form>

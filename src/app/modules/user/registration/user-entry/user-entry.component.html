@@ -1,0 +1,106 @@
+<div fxLayoutAlign="center center" fxFlexFill>
+    <form [formGroup]="service.formUser" autocomplete="off" (submit)="onSubmit()">
+        <mat-card style="width: 450px;">
+            <mat-card-header>
+                <mat-card-title>CREATE USER </mat-card-title>
+                <div fxFlex fxLayout="row" fxLayoutAlign="flex-end" fxLayoutGap="10px">
+                    <a color="accent" mat-stroked-button routerLink="/user-list">
+                        <mat-icon>view_list</mat-icon> List
+                    </a>
+                    <a color="accent" mat-stroked-button routerLink="/user-permission">
+                        <mat-icon>enhanced_encryption</mat-icon> Permission
+                    </a>
+                </div>
+            </mat-card-header>
+            <input type="hidden" formControlName="Id">
+            <div fxLayout="row wrap" fxLayout="column" fxLayoutAlign="space-between">
+                <div fxLayout="row wrap" fxLayout.lt-sm="column" fxLayoutAlign="space-between">
+                    <div fxFlex="100" fxLayout="column" fxLayoutAlign="space-between">
+                        <mat-form-field>
+                            <mat-label>User Name</mat-label>
+                            <input formControlName="UserName" matInput required>
+                            <mat-error
+                                *ngIf="service.formUser.get('UserName').touched && service.formUser.get('UserName').errors?.required">
+                                This field is mandatory.</mat-error>
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div fxLayout="row wrap" fxLayout.lt-sm="column" fxLayoutAlign="space-between">
+                    <div fxFlex="100" fxLayout="column" fxLayoutAlign="space-between">
+                        <mat-form-field>
+                            <mat-label>Email</mat-label>
+                            <input [email]="true" formControlName="Email" matInput>
+                            <mat-error>Invalid email format.</mat-error>
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div fxLayout="row wrap" fxLayout.lt-sm="column" fxLayoutAlign="space-between">
+                    <div fxFlex="100" fxLayout="column" fxLayoutAlign="space-between">
+                        <mat-form-field>
+                            <mat-label>Full Name</mat-label>
+                            <input formControlName="FullName" matInput>
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div fxLayout="row wrap" fxLayout.lt-sm="column" fxLayoutAlign="space-between">
+                    <div fxFlex="100" fxLayout="column" fxLayoutAlign="space-between">
+                        <mat-form-field>
+                            <mat-select formControlName="DepartmentID" placeholder="Department"
+                                 (change)="changeClient($event.value)">
+                                <mat-option *ngFor="let option of departmentList" [value]="option.DeptID">
+                                    {{option.Department}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div formGroupName="Passwords">
+                    <div fxLayout="row wrap" fxLayout.lt-sm="column" fxLayoutAlign="space-between">
+                        <div fxFlex="100" fxLayout="column" fxLayoutAlign="space-between">
+                            <mat-form-field>
+                                <mat-label>Password</mat-label>
+                                <input formControlName="Password" matInput type="password" required>
+                                <mat-error
+                                    *ngIf="service.formUser.get('Passwords.Password').touched && service.formUser.get('Passwords.Password').errors?.required">
+                                    This field is
+                                    mandatory.</mat-error>
+                                <mat-error
+                                    *ngIf="service.formUser.get('Passwords.Password').touched && service.formUser.get('Passwords.Password').errors?.minlength">
+                                    Minimum 4 characters required.</mat-error>
+                            </mat-form-field>
+
+                        </div>
+                    </div>
+                    <div fxLayout="row wrap" fxLayout.lt-sm="column" fxLayoutAlign="space-between">
+                        <div fxFlex="100" fxLayout="column" fxLayoutAlign="space-between">
+                            <mat-form-field>
+                                <mat-label>Confirm Password</mat-label>
+                                <input type="password" formControlName="ConfirmPassword" matInput required>
+                                <input formControlName="Password" matInput type="password" required>
+                                <mat-error
+                                    *ngIf="service.formUser.get('Passwords.ConfirmPassword').touched && service.formUser.get('Passwords.ConfirmPassword').errors?.required">
+                                    This field is
+                                    mandatory.</mat-error>
+                                <mat-error
+                                    *ngIf="service.formUser.get('Passwords.ConfirmPassword').touched && service.formUser.get('Passwords.ConfirmPassword').errors?.passwordMismatch">
+                                    Confirm password does not match.</mat-error>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </div>
+                <div fxFlex="70" fxLayout="column" fxLayoutAlign="center">
+
+                </div>
+            </div>
+
+            <mat-divider></mat-divider>
+            <mat-card-actions>
+                <div fxLayout="row" fxLayoutAlign="flex-end">
+                    <button type="submit" color="primary" mat-raised-button [disabled]="service.formUser.invalid">
+                        <mat-icon>storage</mat-icon> Submit
+                    </button>
+                </div>
+            </mat-card-actions>
+        </mat-card>
+    </form>
+</div>

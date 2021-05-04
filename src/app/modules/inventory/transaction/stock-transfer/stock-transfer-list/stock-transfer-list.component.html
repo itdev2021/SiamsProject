@@ -1,0 +1,100 @@
+<h3>STOCK TRANSFER LIST</h3>
+<div fxLayout="row wrap" fxLayout.lt-md="column" fxLayoutAlign="space-between">
+    <div fxFlex="10" fxLayout="column">
+        <button *ngIf="globalService.Create" mat-raised-button (click)="onAdd()">
+            <mat-icon>add</mat-icon>Create
+        </button>
+    </div>
+    <div fxFlex="1"></div>
+    <div fxFlex="88" fxLayout="column">
+        <mat-form-field class="" floatLabel="never">
+            <input matInput [(ngModel)]="searchKey" placeholder="Search" autocomplete="off" (keyup)="applyFilter()">
+            <button mat-button matSuffix mat-icon-button aria-label="Clear" *ngIf="searchKey" (click)="onSearchClear()">
+                <mat-icon>close</mat-icon>
+            </button>
+        </mat-form-field>
+    </div>
+</div>
+
+<div class="mat-elevation-z8">
+    <table mat-table [dataSource]="dataSource" matSort>
+        <ng-container matColumnDef="STSID">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>STS ID</th>
+            <td mat-cell *matCellDef="let element">{{element.STSID}}</td>
+        </ng-container>
+        <ng-container matColumnDef="STSDate">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>STS Date</th>
+            <td mat-cell *matCellDef="let element">{{element.STSDate}}</td>
+        </ng-container>
+        <ng-container matColumnDef="ReferenceNo">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Reference No</th>
+            <td mat-cell *matCellDef="let element">{{element.ReferenceNo}}</td>
+        </ng-container>
+        <ng-container matColumnDef="FromWarehouse">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>From Warehouse</th>
+            <td mat-cell *matCellDef="let element">{{element.FromWarehouse}}</td>
+        </ng-container>
+        <ng-container matColumnDef="ToWarehouse">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>To Warehouse</th>
+            <td mat-cell *matCellDef="let element">{{element.ToWarehouse}}</td>
+        </ng-container>
+        <ng-container matColumnDef="Amount">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Amount</th>
+            <td mat-cell *matCellDef="let element">{{element.Amount}}</td>
+        </ng-container>
+        <ng-container matColumnDef="Status">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Status</th>
+            <td mat-cell *matCellDef="let element">
+                <strong [ngClass]="element.Status == 1 ? 'posted' : element.Status == 0 ? 'cancelled' : ''">{{element.StatusCode}}</strong>
+            </td>
+        </ng-container>
+        <ng-container matColumnDef="actions">
+            <th mat-header-cell *matHeaderCellDef></th>
+            <td mat-cell *matCellDef="let row; let i=index;">
+                <button mat-icon-button color="primary" *ngIf="globalService.Edit" (click)="onEdit(row.STSID)" #tooltip="matTooltip" matTooltip="Edit" matPosition="Top" matTooltipHideDelay="100" [matTooltipPosition]="position.value">
+                    <mat-icon>edit</mat-icon>
+                </button>
+                <button mat-icon-button color="primary" *ngIf="globalService.Post && row.Status=='-1'" (click)="onApprove(row.STSID)" #tooltip="matTooltip" matTooltip="Approve" matPosition="Top" matTooltipHideDelay="100" [matTooltipPosition]="position.value">
+                    <mat-icon>done </mat-icon>
+                </button>
+                <button mat-icon-button color="warn" *ngIf="globalService.Cancel && row.Status==1 || row.Status==-1" (click)="onCancel(row.STSID)" #tooltip="matTooltip" matTooltip="Cancel" matPosition="Top" matTooltipHideDelay="100" [matTooltipPosition]="position.value">
+                    <mat-icon>close</mat-icon>
+                </button>
+                <button mat-icon-button color="accent" *ngIf="globalService.Unpost && row.Status==1" (click)="onUnpost(row.STSID)" #tooltip="matTooltip" matTooltip="Unposting" matPosition="Top" matTooltipHideDelay="100" [matTooltipPosition]="position.value">
+                    <mat-icon>arrow_circle_down</mat-icon>
+                </button>
+
+
+                <!-- <button mat-icon-button color="primary" *ngIf="!row.Status" (click)="onApprove(row)" #tooltip="matTooltip" matTooltip="Approve" matPosition="Top" matTooltipHideDelay="100" [matTooltipPosition]="position.value">
+                    <mat-icon>done</mat-icon>
+                </button>
+                <button mat-icon-button color="primary" *ngIf="!row.IsPrinted && row.Status" (click)="onPrint(row)" #tooltip="matTooltip" matTooltip="Print" matPosition="Top" matTooltipHideDelay="100" [matTooltipPosition]="position.value">
+                    <mat-icon>local_printshop</mat-icon>
+                </button>
+                <button mat-icon-button color="accent" *ngIf="row.IsPrinted && row.Status" #tooltip="matTooltip" matTooltip="Unposting" matPosition="Top" matTooltipHideDelay="100" [matTooltipPosition]="position.value">
+                    <mat-icon>arrow_circle_down</mat-icon>
+                </button> -->
+                <!-- <button mat-icon-button color="warn" *ngIf="!row.Status" (click)="onDelete(row.WRID,i)" #tooltip="matTooltip" matTooltip="Delete" matPosition="Top" matTooltipHideDelay="100" [matTooltipPosition]="position.value">
+                    <mat-icon>delete_outline</mat-icon>
+                </button> -->
+            </td>
+        </ng-container>
+        <ng-container matColumnDef="loading">
+            <th mat-footer-cell *matFooterCellDef colspan="8">
+                Loading data...
+            </th>
+        </ng-container>
+        <ng-container matColumnDef="noData">
+            <th mat-footer-cell *matFooterCellDef colspan="8">
+                No data.
+            </th>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; let i=index; columns: displayedColumns;"></tr>
+        <tr mat-footer-row *matFooterRowDef="['loading']" [ngClass]="{'hide':dataSource!=null}"></tr>
+        <tr mat-footer-row *matFooterRowDef="['noData']" [ngClass]="{'hide':!(dataSource!=null && dataSource.data.length==0)}"></tr>
+
+    </table>
+    <mat-paginator [pageSizeOptions]="[10, 25, 50, 100]" [pageSize]="10" showFirstLastButtons></mat-paginator>
+</div>

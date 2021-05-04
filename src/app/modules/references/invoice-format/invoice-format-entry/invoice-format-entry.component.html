@@ -1,0 +1,54 @@
+<div class="container">
+    <mat-toolbar>
+        <span>{{service.formInvoiceFormat.controls['InvoiceFormatID'].value?"Modify Invoice Format":"New Invoice
+            Format"}}</span>
+        <div fxFlex fxLayout="row" fxLayoutAlign="flex-end">
+            <button class="btn-dialog-close" mat-stroked-button (click)="onClose()" tabIndex="-1">
+                <mat-icon>clear</mat-icon>
+            </button>
+        </div>
+    </mat-toolbar>
+    <form [formGroup]="service.formInvoiceFormat" autocomplete="off" (submit)="onSubmit(service.formInvoiceFormat)"
+        mat-dialog-content>
+        <input type="hidden" formControlName="InvoiceFormatID">
+        <div fxLayout="row wrap" fxLayout.lt-sm="column" fxLayoutAlign="space-between">
+            <div fxFlex="85" fxLayout="column" fxLayoutAlign="center">
+                <mat-form-field>
+                    <input formControlName="descriptions" matInput placeholder="Descriptions">
+                    <mat-error>This field is mandatory.</mat-error>
+                </mat-form-field>
+            </div>
+            <div fxFlex="15" fxLayout="column" fxLayoutAlign="center">
+                <mat-checkbox formControlName="Status">Status</mat-checkbox>
+            </div>
+        </div>
+
+
+        <div fxLayout="row wrap" fxLayout.lt-sm="column" fxLayoutAlign="space-between">
+            <div fxFlex="50" fxLayout="column" fxLayoutAlign="space-between">
+                <div fxLayout="column">
+                    <mat-form-field>
+                        <input formControlName="TransactionType" matInput placeholder="Transaction Type">
+                        <mat-error>This field is mandatory.</mat-error>
+                    </mat-form-field>
+                </div>
+
+            </div>
+            <div fxFlex="50" fxLayout="column" fxLayoutAlign="space-between">
+                <div fxLayout="column">
+                    <mat-form-field>
+                        <input formControlName="Lines" matInput placeholder="Lines">
+                        <mat-error>This field is mandatory.</mat-error>
+                    </mat-form-field>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="pt-10" fxLayoutGap="50px">
+            <button mat-raised-button color="primary" type="submit"
+                [disabled]="service.formInvoiceFormat.invalid">Submit</button>
+        </div>
+
+    </form>
+</div>

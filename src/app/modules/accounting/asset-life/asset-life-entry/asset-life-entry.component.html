@@ -1,0 +1,55 @@
+<div class="container">
+    <mat-toolbar>
+        <span>{{service.formAssetLife.controls['AssetLifeID'].value?"Modify Asset Life":"New Asset Life"}}</span>
+        <div fxFlex fxLayout="row" fxLayoutAlign="flex-end">
+            <button class="btn-dialog-close" mat-stroked-button (click)="onClose()" tabIndex="-1">
+                <mat-icon>clear</mat-icon>
+            </button>
+        </div>
+    </mat-toolbar>
+    <form [formGroup]="service.formAssetLife" autocomplete="off" (submit)="onSubmit(service.formAssetLife)" mat-dialog-content>
+        <input type="hidden" formControlName="AssetLifeID">
+        <div fxLayout="row wrap" fxLayout.lt-sm="column" fxLayoutAlign="space-between">
+            <div fxFlex="50" fxLayout="column" fxLayoutAlign="center">
+                <mat-form-field>
+                    <input formControlName="AssetLife" matInput placeholder="Asset Life">
+                    <mat-error>This field is mandatory.</mat-error>
+                </mat-form-field>
+            </div>
+            <div fxFlex="50" fxLayout="column" fxLayoutAlign="center">
+                <mat-form-field>
+                    <input formControlName="AccountDescription" matInput placeholder="Account Description">
+                    <mat-error>This field is mandatory.</mat-error>
+                </mat-form-field>
+            </div>
+        </div>       
+        
+
+        <div fxLayout="row wrap" fxLayout.lt-sm="column" fxLayoutAlign="space-between">
+            <div fxFlex="50" fxLayout="column" fxLayoutAlign="space-between">
+                    <div fxLayout="column">
+                        <mat-form-field>
+                            <input formControlName="DebitAccount" matInput placeholder="Debit Account">
+                            <mat-error>This field is mandatory.</mat-error>
+                        </mat-form-field>
+                    </div>
+                
+           </div>
+                <div fxFlex="50" fxLayout="column" fxLayoutAlign="space-between">
+                    <div fxLayout="column">
+                        <mat-form-field>
+                            <input formControlName="CreditAccount" matInput placeholder="Credit Account">
+                            <mat-error>This field is mandatory.</mat-error>
+                        </mat-form-field>
+                    </div>
+            </div>
+
+        </div>
+
+        <div class="pt-10" fxLayoutGap="50px">
+            <button  mat-raised-button color="primary" type="submit"
+                [disabled]="service.formAssetLife.invalid">Submit</button>
+        </div>
+        
+    </form>
+</div>

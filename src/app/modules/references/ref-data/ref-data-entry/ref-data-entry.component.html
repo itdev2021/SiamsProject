@@ -1,0 +1,52 @@
+<div class="container">
+    <mat-toolbar>
+        <span>{{service.formRefData.controls['id'].value?"Modify Reference Data":"New Reference Data"}}</span>
+        <div fxFlex fxLayout="row" fxLayoutAlign="flex-end">
+            <button class="btn-dialog-close" mat-stroked-button (click)="onClose()" tabIndex="-1">
+                <mat-icon>clear</mat-icon>
+            </button>
+        </div>
+    </mat-toolbar>
+    <form [formGroup]="service.formRefData" autocomplete="off" (submit)="onSubmit(service.formRefData)" mat-dialog-content>
+        <input type="hidden" formControlName="id">
+        <div fxLayout="row wrap" fxLayout.lt-sm="column" fxLayoutAlign="space-between">
+            <div fxFlex="85" fxLayout="column" fxLayoutAlign="center">
+                <mat-form-field>
+                    <input formControlName="refData" matInput placeholder="Reference Data">
+                    <mat-error>This field is mandatory.</mat-error>
+                </mat-form-field>
+            </div>
+            <div fxFlex="15" fxLayout="column" fxLayoutAlign="center">
+                <mat-checkbox formControlName="Status">Status</mat-checkbox>
+            </div>
+        </div>       
+        
+
+        <div fxLayout="row wrap" fxLayout.lt-sm="column" fxLayoutAlign="space-between">
+            <div fxFlex="50" fxLayout="column" fxLayoutAlign="space-between">
+                    <div fxLayout="column">
+                        <mat-form-field>
+                            <input formControlName="refCode" matInput placeholder="Reference Code">
+                            <mat-error>This field is mandatory.</mat-error>
+                        </mat-form-field>
+                    </div>
+                
+           </div>
+                <div fxFlex="50" fxLayout="column" fxLayoutAlign="space-between">
+                    <div fxLayout="column">
+                        <mat-form-field>
+                            <input formControlName="refText" matInput placeholder="Reference Text">
+                            <mat-error>This field is mandatory.</mat-error>
+                        </mat-form-field>
+                    </div>
+            </div>
+
+        </div>
+
+        <div class="pt-10" fxLayoutGap="50px">
+            <button mat-raised-button color="primary" type="submit"
+                [disabled]="service.formRefData.invalid">Submit</button>
+        </div>
+        
+    </form>
+</div>

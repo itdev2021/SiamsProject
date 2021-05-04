@@ -1,0 +1,21 @@
+  <mat-toolbar color="primary" class="mat-elevation-z1">
+      <button mat-icon-button id="menu" (click)="navService.openNav()">
+        <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
+    </button>
+    <span>SIAMS</span>
+    <span class="spacer"></span>
+  
+    <a mat-icon-button>
+        <mat-icon>help</mat-icon>
+    </a>
+    <a matBadge="8" matBadgeColor="warn">
+        <mat-icon>notifications</mat-icon>
+    </a>
+    <a mat-icon-button [matMenuTriggerFor]="menu">
+        <mat-icon>person</mat-icon>
+        <mat-menu #menu="matMenu" xPosition="before">
+            <a mat-menu-item *ngIf="globalService.userDetails">{{globalService.userDetails.UserName}}</a>
+            <a mat-menu-item (click)="onLogout()">Logout</a>
+        </mat-menu>
+    </a>
+  </mat-toolbar>

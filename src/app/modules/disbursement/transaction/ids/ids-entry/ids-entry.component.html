@@ -1,0 +1,211 @@
+<form [formGroup]="service.formIDS" autocomplete="off" (submit)="onSubmit(service.formIDS)">
+    <mat-card class="example-card content">
+        <mat-card-header>
+            <mat-card-title>INTEGRATED DISBURSEMENT SOLUTIONS</mat-card-title>
+            <div fxFlex fxLayout="row" fxLayoutAlign="flex-end" fxLayoutGap="10px">
+                <a color="primary" mat-stroked-button (click)="onPrintDoc(service.formIDS)"
+                    *ngIf="globalService.Print && service.formIDS.get('Status').value == 1 && service.formIDS.get('IsPrinted').value == 0">
+
+                    <mat-icon>print</mat-icon> Document
+                </a>
+                <!-- <a color="primary" mat-stroked-button (click)="onPrintVoucher(service.formIDS)" *ngIf="service.formIDS.get('Status').value == 1">
+                    <mat-icon>print</mat-icon> Voucher
+                </a> -->
+                <a color="primary" mat-stroked-button (click)="onPrintLedger(service.formIDS)"
+                    *ngIf="service.formIDS.get('Status').value == 1">
+                    <mat-icon>print</mat-icon> Ledger
+                </a>
+                <a mat-stroked-button (click)="onClose()">
+                    <mat-icon>close</mat-icon>
+                </a>
+            </div>
+        </mat-card-header>
+        <mat-card-content>
+            <div class="content" mat-dialog-content>
+                <div fxLayout="row wrap" fxLayout.lt-md="column" fxLayoutAlign="space-between">
+                    <div fxFlex="25" fxLayout="column" fxLayoutAlign="space-between">
+                        <mat-form-field>
+                            <input formControlName="IDSID" matInput placeholder="Transaction ID" readonly>
+                        </mat-form-field>
+
+                    </div>
+                    <div fxFlex="25" fxLayout="column" fxLayoutAlign="space-between">
+                        <mat-form-field>
+                            <mat-label>Date</mat-label>
+                            <input formControlName="IDSDate" matInput placeholder="MM/DD/YYYY"
+                                [matDatepicker]="IDSDate">
+                            <mat-datepicker-toggle matSuffix [for]="IDSDate"></mat-datepicker-toggle>
+                            <mat-datepicker #IDSDate></mat-datepicker>
+                            <mat-error>This field is mandatory.</mat-error>
+                        </mat-form-field>
+                    </div>
+                    <div fxFlex="50" fxLayout="column" fxLayoutAlign="space-between">
+                        <mat-form-field>
+                            <input type="hidden" formControlName="PayToID">
+                            <input type="hidden" formControlName="PayToTypeID">
+                            <input formControlName="PayTo" matInput placeholder="Pay To" readonly>
+                            <a matSuffix mat-stroked-button color="primary" (click)="onSelectDeliveredTo()"
+                                title="Payable To">
+                                <mat-icon>person</mat-icon>
+                            </a>
+                            <mat-error>This field is mandatory.</mat-error>
+                        </mat-form-field>
+                    </div>
+                </div>
+
+                <div fxLayout="row wrap" fxLayout.lt-md="column" fxLayoutAlign="space-between">
+                    <div fxFlex="30" fxLayout="column" fxLayoutAlign="center">
+                        <mat-form-field>
+                            <mat-label>IDS #</mat-label>
+                            <input formControlName="Reference" matInput placeholder="IDS #">
+                            <mat-error>This field is mandatory.</mat-error>
+                        </mat-form-field>
+                    </div>
+                    <div fxFlex="70" fxLayout="column" fxLayoutAlign="center">
+                        <mat-form-field>
+                            <mat-label>Remarks</mat-label>
+                            <textarea rows="1" formControlName="Remarks" matInput
+                                placeholder="Ex. Enter your remarks here...."></textarea>
+                            <mat-error>This field is mandatory.</mat-error>
+                        </mat-form-field>
+                    </div>
+                </div>
+
+                <div class="pt-20"></div>
+                <!-- order items table -->
+                <div class="scroll-y">
+
+                    <!-- <div fxLayout="column" fxLayoutAlign="space-between">
+                        <div fxLayout="row" fxLayoutAlign="space-between">
+                            <div fxFlex="45" fxLayout="column" fxLayoutAlign="space-between">Account Title</div>
+                            <div fxFlex="10" fxLayout="column" fxLayoutAlign="space-between">Reference No</div>
+                            <div fxFlex="20" fxLayout="column" fxLayoutAlign="space-between">Account Name</div>
+                            <div fxFlex="20" fxLayout="column" fxLayoutAlign="space-between">Cost Center</div>
+                            <div fxFlex="10" fxLayout="column" fxLayoutAlign="space-between">Debit</div>
+                            <div fxFlex="10" fxLayout="column" fxLayoutAlign="space-between">Credit</div>
+                            <div fxFlex="20" fxLayout="column" fxLayoutAlign="space-between">Particulars</div>
+                            <div fxFlex="5" fxLayout="column" fxLayoutAlign="space-between end">
+                                <a mat-raised-button color="primary" (click)="AddorEditOrderItem()">
+                                    <mat-icon>add</mat-icon>
+                                </a>
+                            </div>
+                        </div>
+                    </div> -->
+                    <div fxLayoutAlign="center" *ngIf="service.formIDS.get('items')['length'] == 0"
+                        [class.text-danger]="service.formIDS.get('items')['length']==0">
+                        <div fxLayout="column">
+                            <i>No details for this transaction.</i>
+                        </div>
+                    </div>
+                    <div>
+                        <div fxLayout="column" fxLayoutAlign="space-between" formArrayName="items"
+                            *ngFor="let item of service.formIDS.get('items')['controls']; let i=index;">
+                            <div [formGroupName]="i">
+
+                                <div fxLayout="row" fxLayoutAlign="space-between">
+                                    <div fxFlex="45" fxLayout="column" fxLayoutAlign="space-between">
+                                        <mat-form-field>
+                                            <input type="hidden" formControlName="AccountTitleID">
+                                            <input matInput formControlName="AccountTitle" placeholder="Account Title"
+                                                readonly (click)="onSelectAccountTitle(item, i)"
+                                                style="font-size: 10px">
+                                            <mat-error>This field is mandatory.</mat-error>
+                                        </mat-form-field>
+                                    </div>
+                                    <div fxFlex="10" fxLayout="column" fxLayoutAlign="space-between">
+                                        <mat-form-field>
+                                            <input matInput formControlName="ReferenceNo" placeholder="ref. #"
+                                                (click)="onSelectReferenceNo(item)" readonly style="font-size: 10px">
+                                            <mat-error>This field is mandatory.</mat-error>
+                                        </mat-form-field>
+                                    </div>
+                                    <div fxFlex="20" fxLayout="column" fxLayoutAlign="space-between">
+                                        <mat-form-field>
+                                            <input type="hidden" formControlName="PayToTypeID">
+                                            <input type="hidden" formControlName="PayToID">
+                                            <input matInput formControlName="PayTo" placeholder="Pay To" readonly
+                                                (click)="onSelectDeliveredToDetail(item)" style="font-size: 10px">
+                                            <mat-error>This field is mandatory.</mat-error>
+                                        </mat-form-field>
+                                    </div>
+                                    <div fxFlex="20" fxLayout="column" fxLayoutAlign="space-between">
+                                        <mat-form-field>
+                                            <input type="hidden" formControlName="CostUnitID">
+                                            <input type="hidden" formControlName="EmployeeID">
+                                            <input type="hidden" formControlName="AssignCCEID">
+                                            <input type="hidden" formControlName="CostCenterID">
+                                            <input matInput formControlName="CostUnit"
+                                                (click)="onSelectCostCenter(item)" placeholder="Cost Center" readonly
+                                                style="font-size: 10px">
+                                            <mat-error>This field is mandatory.</mat-error>
+                                        </mat-form-field>
+                                    </div>
+                                    <div fxFlex="10" fxLayout="column" fxLayoutAlign="space-between">
+                                        <mat-form-field>
+                                            <input matInput formControlName="Debit" placeholder="Debit" id="Debit{{i}}"
+                                                (keyup)="updateTotal(item)" type="number" style="font-size: 10px">
+                                            <mat-error>This field is mandatory.</mat-error>
+                                        </mat-form-field>
+                                    </div>
+                                    <div fxFlex="10" fxLayout="column" fxLayoutAlign="space-between">
+                                        <mat-form-field>
+                                            <input matInput formControlName="Credit" placeholder="Credit"
+                                                id="Credit{{i}}" (keyup)="updateTotal(item)" type="number"
+                                                style="font-size: 10px">
+                                            <mat-error>This field is mandatory.</mat-error>
+                                        </mat-form-field>
+                                    </div>
+                                    <div fxFlex="20" fxLayout="column" fxLayoutAlign="space-between">
+                                        <mat-form-field>
+                                            <input matInput formControlName="Particulars" placeholder="Particulars"
+                                                style="font-size: 10px">
+                                            <mat-error>This field is mandatory.</mat-error>
+                                        </mat-form-field>
+                                    </div>
+
+                                    <div fxFlex="5" fxLayout="row" fxLayoutAlign="center center">
+                                        <a mat-icon-button color="warn" (click)="ondeleteOrderItem(item,i)">
+                                            <mat-icon>delete_outline</mat-icon>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div fxLayout="row wrap" fxLayout.lt-md="column" fxLayoutAlign="space-between">
+                    <div fxFlex="20" fxLayout="column" fxLayoutAlign="space-between">
+                        <mat-form-field>
+                            <mat-label>Debit</mat-label>
+                            <input formControlName="Debit" matInput placeholder="Debit" readonly>
+                        </mat-form-field>
+                    </div>
+                    <div fxFlex="20" fxLayout="column" fxLayoutAlign="space-between">
+                        <mat-form-field>
+                            <mat-label>Credit</mat-label>
+                            <input formControlName="Credit" matInput placeholder="Credit" readonly>
+                        </mat-form-field>
+                    </div>
+                    <div fxFlex="60" fxLayout="column" fxLayoutAlign="space-between"></div>
+
+                </div>
+            </div>
+            <div fxLayout="row wrap" fxLayout.lt-md="column" fxLayoutAlign="flex-end">
+                <a mat-raised-button color="primary" (click)="AddorEditOrderItem()">
+                    <mat-icon>add</mat-icon>
+                </a>
+            </div>
+        </mat-card-content>
+        <mat-card-actions>
+            <div fxLayout="row wrap" fxLayout.lt-md="column" fxLayoutAlign="flex-end">
+                <button type="submit" color="primary" mat-raised-button
+                    *ngIf="globalService.Save && service.formIDS.get('Status').value == '-1'"
+                    [disabled]="service.formIDS.invalid || service.formIDS.get('items')['length']==0">
+                    <mat-icon>storage</mat-icon> Submit
+                </button>
+            </div>
+        </mat-card-actions>
+    </mat-card>
+</form>

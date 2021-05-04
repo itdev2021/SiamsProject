@@ -1,0 +1,74 @@
+<div class="container">
+    <mat-toolbar>
+        <span>{{service.formCar.controls['CarListID'].value?"Modify Car":"New Car"}}</span>
+        <div fxFlex fxLayout="row" fxLayoutAlign="flex-end">
+            <button class="btn-dialog-close" mat-stroked-button (click)="onClose()" tabIndex="-1">
+                <mat-icon>clear</mat-icon>
+            </button>
+        </div>
+    </mat-toolbar>
+    <form [formGroup]="service.formCar" autocomplete="off" (submit)="onSubmit(service.formCar)" mat-dialog-content>
+        <input type="hidden" formControlName="CarListID">
+        <div fxLayout="row wrap" fxLayout.lt-sm="column" fxLayoutAlign="space-between">
+            <div fxFlex="50" fxLayout="column" fxLayoutAlign="space-between">
+                <mat-form-field>
+                    <input formControlName="CRNo" matInput placeholder="CR No.">
+                    <mat-error>This field is mandatory.</mat-error>
+                </mat-form-field>
+            </div>
+            <div fxFlex="50" fxLayout="column" fxLayoutAlign="center">
+                <mat-form-field>
+                    <input formControlName="CarMaker" matInput placeholder="Car Maker">
+                    <mat-error>This field is mandatory.</mat-error>
+                </mat-form-field>
+            </div>
+        </div>
+        <div fxLayout="row wrap" fxLayout.lt-sm="column" fxLayoutAlign="space-between">
+            <div fxFlex="50" fxLayout="column" fxLayoutAlign="space-between">
+                <mat-form-field>
+                    <input formControlName="Model" matInput placeholder="Model">
+                    <mat-error>This field is mandatory.</mat-error>
+                </mat-form-field>
+            </div>
+            <div fxFlex="50" fxLayout="column" fxLayoutAlign="center">
+                <mat-form-field>
+                    <input formControlName="PlateNo" matInput placeholder="Plate No.">
+                    <mat-error>This field is mandatory.</mat-error>
+                </mat-form-field>
+            </div>
+        </div>
+        <div fxLayout="row wrap" fxLayout.lt-sm="column" fxLayoutAlign="space-between">
+            <div fxFlex="50" fxLayout="column" fxLayoutAlign="space-between">
+                <mat-form-field>
+                    <input formControlName="ChassisNo" matInput placeholder="Chassis No.">
+                    <mat-error>This field is mandatory.</mat-error>
+                </mat-form-field>
+            </div>
+            <div fxFlex="50" fxLayout="column" fxLayoutAlign="center">
+                <mat-form-field>
+                    <input formControlName="EngineNo" matInput placeholder="Engine No.">
+                    <mat-error>This field is mandatory.</mat-error>
+                </mat-form-field>
+            </div>
+        </div>
+        <div fxLayout="row wrap" fxLayout.lt-sm="column" fxLayoutAlign="space-between">
+            <div fxFlex="50" fxLayout="column" fxLayoutAlign="space-between">
+                <mat-form-field>
+                    <input formControlName="Value" matInput placeholder="Value">
+                    <mat-error>This field is mandatory.</mat-error>
+                </mat-form-field>
+            </div>
+            <div fxFlex="50" fxLayout="column" fxLayoutAlign="center">
+                <mat-form-field>
+                    <input formControlName="PropertyTagNo" matInput placeholder="Property Tag No.">
+                    <mat-error>This field is mandatory.</mat-error>
+                </mat-form-field>
+            </div>
+        </div>
+        <hr>        
+        <div class="pt-10" fxLayoutGap="10px">
+            <button mat-raised-button color="primary" type="submit"
+                [disabled]="service.formCar.invalid">Submit</button>
+        </div>
+    </form>
+</div>

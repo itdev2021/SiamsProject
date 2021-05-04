@@ -1,0 +1,512 @@
+/* You can add global styles to this file, and also import other style files */
+
+@import "~@angular/material/prebuilt-themes/indigo-pink.css";
+html,
+body {
+    height: 100%;
+}
+
+body {
+    margin: 0;
+    font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+.content {
+    padding: 20px 20px 0 20px;
+    height: 100%;
+}
+
+
+.spacer {
+    flex: 1 1 auto;
+}
+
+.posted {
+    color: green;
+}
+
+.cancelled {
+    color: red;
+}
+
+
+/* ********** MARGIN TOP ********* */
+
+.pt-20 {
+    padding-top: 20px;
+}
+
+.pt-15 {
+    padding-top: 15px;
+}
+
+.pt-10 {
+    padding-top: 10px;
+}
+
+.pt-5 {
+    padding-top: 5px;
+}
+
+
+/* ********** NAVIGATION MENU ********* */
+
+.sidenav-container {
+    height: 100%;
+}
+
+.sidenav {
+    width: 300px;
+}
+
+
+/* .sidenav .mat-toolbar {
+    background: inherit;
+  } */
+
+.mat-toolbar.mat-primary {
+    position: sticky;
+    top: 0;
+    z-index: 1;
+}
+
+
+/* ************** mat-table************** */
+
+mat-footer-row mat-footer-cell {
+    justify-content: center;
+    font-style: italic;
+}
+
+mat-form-field {
+    margin-right: 12px;
+}
+
+.hide {
+    display: none;
+}
+
+
+/* ************** notification ************** */
+
+snack-bar-container.success {
+    background-color: #5cb85c;
+    color: #fff;
+}
+
+snack-bar-container.warn {
+    background-color: #f99157;
+    color: #fff;
+}
+
+
+/* **************mat-confirm-dialog (customised dialog)************** */
+
+.confirm-dialog-container .mat-dialog-container {
+    border-radius: .25em .25em .4em .4em;
+    padding: 0px;
+}
+
+.confirm-dialog-container .content-container {
+    margin: 5px 5px 15px 5px;
+    color: #8f9cb5;
+    display: flex;
+}
+
+.confirm-dialog-container #close-icon {
+    margin-left: auto;
+    order: 2;
+    font-weight: bolder;
+}
+
+.confirm-dialog-container #close-icon:hover {
+    cursor: pointer;
+}
+
+.confirm-dialog-container #no-button {
+    height: 50px;
+    width: 50%;
+    background-color: #fc7169;
+    color: white;
+    border-radius: 0px;
+}
+
+.confirm-dialog-container #yes-button {
+    height: 50px;
+    width: 50%;
+    background-color: #b6bece;
+    color: white;
+    border-radius: 0px;
+}
+
+.confirm-dialog-container span.content-span {
+    padding: 35px 16px;
+    text-align: center;
+    font-size: 20px;
+}
+
+.file-src {
+    display: block;
+    margin-top: 10px;
+    width: 250px;
+    height: 200px;
+}
+
+.img-container {
+    position: relative;
+    width: 250px;
+    height: 200px;
+}
+
+.overlay {
+    position: absolute;
+    top: 10px;
+    height: 100%;
+    width: 100%;
+    opacity: 0;
+    transition: .5s ease;
+    background-color: rgb(12, 63, 80.2);
+}
+
+.img-container:hover .overlay {
+    opacity: 0.5;
+}
+
+.text {
+    cursor: pointer;
+    color: white;
+    font-size: 20px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    -webkit-transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+    text-align: center;
+}
+
+.file-input {
+    display: none;
+}
+
+
+/* ************************ Sidebar ************************ */
+.mat-sidenav {
+    width: 360px;
+  }
+.mat-sidenav-container {
+    background-color: white !important;
+    height: 100vh;
+  }
+  .mat-sidenav-container .mat-sidenav-content {
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* .sidenav-toolbar {
+    height: auto;
+    background-color: mat-color(primary);
+    display: flex;
+    flex-direction: row;
+  
+    @media (max-width: 600px) {
+      height: 56px;
+    }
+  }*/
+  .mat-nav-list {
+    padding-top: 0;
+    height: auto;
+  } 
+
+  @media screen and (max-width: 600px) {
+    .fixed-topnav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 2;
+      width: 100% !important;
+    }
+  
+    .mat-drawer-container,
+    .mat-drawer {
+      padding-top: 56px;
+    }
+  }
+
+  .menu-list-item.mat-list-item.mat-list-item-content {
+    flex: 1 1 100%;
+  }
+
+  .version-info {
+    font-size: 8pt;
+    padding: 8px;
+  }
+
+mat-nav-list .profile-card {
+    text-align: center;
+    padding: 0 20px 0 20px;
+}
+
+mat-nav-list .dashboard {
+    margin-left: 10px;
+}
+
+mat-nav-list .mat-icon {
+    vertical-align: middle;
+    margin-right: 20px;
+    transform: scale(1);
+}
+
+mat-expansion-panel .sub {
+    padding-left: 15px;
+}
+
+.accent-color {
+    color: rgba(241, 30, 65, 0.959) !important;
+    text-align: center;
+}
+
+
+/* ************** mat-table *********** */
+
+table {
+    width: 100%;
+}
+
+
+/* ************** mat-icon *********** */
+
+
+/* fallback */
+
+@font-face {
+    font-family: 'Material Icons';
+    font-style: normal;
+    font-weight: 400;
+    src: url(assets/flUhRq6tzZclQEJ-Vdg-IuiaDsNc.woff2) format('woff2');
+}
+
+.material-icons {
+    font-family: 'Material Icons';
+    font-weight: normal;
+    font-style: normal;
+    font-size: 24px;
+    line-height: 1;
+    letter-spacing: normal;
+    text-transform: none;
+    display: inline-block;
+    white-space: nowrap;
+    word-wrap: normal;
+    direction: ltr;
+    -webkit-font-smoothing: antialiased;
+}
+
+/* Padding Buttom*/
+.pb5 {
+    padding-bottom: 5px;
+}
+.pb10 {
+    padding-bottom: 10px;
+}
+.pb15 {
+    padding-bottom: 15px;
+}
+.pb20 {
+    padding-bottom: 20px;
+}
+
+/* Padding Left*/
+.pl5 {
+    padding-left: 5px;
+}
+
+.pl10 {
+    padding-left: 10px;
+}
+
+.pl15 {
+    padding-left: 15px;
+}
+
+.pl20 {
+    margin-left: 20px;
+}
+
+.pl30 {
+    margin-left: 30px;
+    
+}
+
+.pl40 {
+    margin-left: 40px;
+    
+}
+
+.ml10 {
+    margin-left: 10px;
+}
+
+.ml20 {
+    margin-left: 20px;
+}
+
+/* Padding Right*/
+.pr5 {
+    padding-right: 5px;
+}
+
+/* Padding Top*/
+.pt5 {
+    padding-top: 5px;
+}
+
+.pt10 {
+    padding-top: 10px;
+}
+
+.pt15 {
+    padding-top: 15px;
+}
+
+.pt20 {
+    padding-top: 20px;
+}
+
+/* Margin Left*/
+
+.ml10 {
+    margin-left: 10px;
+}
+
+.ml20 {
+    margin-left: 20px;
+}
+
+.parent{
+    margin-left: 0px;
+    font-weight: bold;
+    padding-top: 5px;
+}
+.subfolder{
+    margin-left: 15px;
+    font-weight: bold;
+}
+.child{
+    margin-left: 35px;
+}
+
+/* Scroll */
+.header {
+    padding: 10px 16px;
+    background: #555;
+    color: #f1f1f1;
+  }
+  
+  .contentbody {
+    padding: 16px;
+  }
+  
+.scroll{
+    /* position: fixed; */
+    height:350px;
+    overflow: scroll;
+    overflow-x:hidden;
+}
+.fixed-content {
+    height:250px;
+    overflow-y:scroll;
+    overflow-x:hidden;
+} 
+
+.item-list {
+    overflow: auto;
+}
+
+.strong{
+    font-weight: bold;
+}
+
+/* .mat-paginator {
+    bottom: 0px;
+    position: sticky;
+    z-index: 10;
+  } */
+
+
+  /* .mat-header-row{
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: white;
+    } */
+
+div.scroll-y {
+
+    overflow-y: scroll;
+    }
+/* ************** login ************** */
+img.resize {
+    width: 250px;
+    height: auto;
+  }
+
+/* ************** mat-card ************** */
+
+
+/* .mat-card-header {
+    background-color: rgba(238, 45, 45, 0.946) !important;
+    padding: 5px !important;
+} */
+
+
+/* ************** divider ************** */
+.line-border {
+    border:1px solid #555;
+}
+
+/* ************** footer ************** */
+
+footer {
+    padding: 20px;
+    bottom: 0;
+}
+
+/* .footer {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    background-color: red;
+    color: white;
+    text-align: center;
+  } */
+
+/* html,
+body {
+    height: 100%;
+}
+
+body {
+    margin: 0;
+    font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+html,
+body {
+    height: 100%;
+}
+
+body {
+    margin: 0;
+    font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+html,
+body {
+    height: 100%;
+}
+
+body {
+    margin: 0;
+    font-family: Roboto, "Helvetica Neue", sans-serif;
+} */

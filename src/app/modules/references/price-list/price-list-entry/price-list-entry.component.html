@@ -1,0 +1,34 @@
+<div class="container">
+    <mat-toolbar>
+        <span>{{service.formPriceList.controls['PriceListID'].value?"Modify Price List":"New Price List"}}</span>
+        <div fxFlex fxLayout="row" fxLayoutAlign="flex-end">
+            <button class="btn-dialog-close" mat-stroked-button (click)="onClose()" tabIndex="-1">
+                <mat-icon>clear</mat-icon>
+            </button>
+        </div>
+    </mat-toolbar>
+    <form [formGroup]="service.formPriceList" autocomplete="off" (submit)="onSubmit(service.formPriceList)" mat-dialog-content>
+        <input type="hidden" formControlName="PriceListID">
+        <div fxLayout="row wrap" fxLayout.lt-sm="column" fxLayoutAlign="space-between">
+            <div fxFlex="15" fxLayout="column" fxLayoutAlign="space-between">
+                <mat-form-field>
+                    <input formControlName="PriceListID" matInput placeholder="ID" readonly>
+                    <mat-error>This field is mandatory.</mat-error>
+                </mat-form-field>
+            </div>
+            <div fxFlex="70" fxLayout="column" fxLayoutAlign="center">
+                <mat-form-field>
+                    <input formControlName="Descriptions" matInput placeholder="Description">
+                    <mat-error>This field is mandatory.</mat-error>
+                </mat-form-field>
+            </div>
+            <div fxFlex="15" fxLayout="column" fxLayoutAlign="center">
+                <mat-checkbox formControlName="ReservedBoolean">Reserved</mat-checkbox>
+            </div>
+        </div>       
+        <div class="pt-10" fxLayoutGap="10px">
+            <button mat-raised-button color="primary" type="submit"
+                [disabled]="service.formPriceList.invalid">Submit</button>
+        </div>
+    </form>
+</div>

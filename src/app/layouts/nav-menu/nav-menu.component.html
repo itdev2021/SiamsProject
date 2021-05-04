@@ -1,0 +1,310 @@
+<mat-sidenav-container class="sidenav-container">
+    <mat-sidenav #drawer class="sidenav" fixedInViewport>
+        <mat-toolbar color="primary">Menu</mat-toolbar>
+
+        <mat-nav-list>
+            <a mat-list-item routerLinkActive="active-link" routerLink="/">
+                <mat-icon class="dashboard">dashboard</mat-icon>
+                Dashboard
+            </a>
+            <!-- INVENTORY -->
+            <mat-expansion-panel>
+                <mat-expansion-panel-header>
+                    <mat-icon> location_city </mat-icon>
+                    Inventory
+                </mat-expansion-panel-header>
+                <a mat-list-item routerLinkActive="active-link" routerLink="/warehouse-list">
+                    <mat-icon>store</mat-icon>
+                    <div class="mat-caption">Warehouse</div>
+                </a>
+                <a mat-list-item routerLinkActive="active-link" routerLink="/supplier-list">
+                    <mat-icon>people</mat-icon>
+                    <div class="mat-caption">Supplier</div>
+                </a>
+
+                <a mat-list-item routerLinkActive="active-link" routerLink="/designation-list">
+                    <mat-icon> place </mat-icon>
+                    <div class="mat-caption">Designation</div>
+                </a>
+
+                <mat-expansion-panel>
+                    <mat-expansion-panel-header class="sub">
+                        <mat-icon>local_mall</mat-icon>
+                        <div class="mat-caption">Products</div>
+                    </mat-expansion-panel-header>
+                    <a mat-list-item routerLinkActive="active-link" routerLink="/products">
+                        <mat-icon>toc</mat-icon>
+                        <div class="mat-caption">Product</div>
+                    </a>
+                    <a mat-list-item routerLinkActive="active-link" routerLink="/supplier-quotation-list">
+                        <mat-icon>toc</mat-icon>
+                        <div class="mat-caption">Supplier Price Quatation</div>
+                    </a>
+                    <a mat-list-item routerLinkActive="active-link" routerLink="/products">
+                        <mat-icon>toc</mat-icon>
+                        <div class="mat-caption">Product CPR</div>
+                    </a>
+                </mat-expansion-panel>
+
+                <mat-expansion-panel>
+                    <mat-expansion-panel-header class="sub">
+                        <mat-icon> business_center </mat-icon>
+                        <div class="mat-caption">Transaction</div>
+                    </mat-expansion-panel-header>
+                    <a mat-list-item routerLinkActive="List-item-active" routerLink="/warehouse-receiving-list">
+                        <div class="mat-caption">Received from Warehouse</div>
+                    </a>
+                    <a mat-list-item routerLinkActive="List-item-active" routerLink="/stock-transfer-list">
+                        <div class="mat-caption">Stock Transfer</div>
+                    </a>
+                    <a mat-list-item routerLinkActive="List-item-active" routerLink="/withdrawal-list">
+                        <div class="mat-caption">Withdrawal Slip</div>
+                    </a>
+                </mat-expansion-panel>
+
+                <mat-expansion-panel>
+                    <mat-expansion-panel-header class="sub">
+                        <mat-icon> query_builder </mat-icon>
+                        <div class="mat-caption">Inquiries</div>
+                    </mat-expansion-panel-header>
+                    <a mat-list-item routerLinkActive="List-item-active" routerLink="/">
+                        <div class="mat-caption">Stock Movement</div>
+                    </a>
+                    <a mat-list-item routerLinkActive="List-item-active" routerLink="/">
+                        <div class="mat-caption">Stock Movement Supplies</div>
+                    </a>
+                    <a mat-list-item routerLinkActive="List-item-active" routerLink="/">
+                        <div class="mat-caption">Lot Inquiry</div>
+                    </a>
+                    <a mat-list-item routerLinkActive="List-item-active" routerLink="/">
+                        <div class="mat-caption">Supplier Ledger</div>
+                    </a>
+                    <a mat-list-item routerLinkActive="List-item-active" routerLink="/">
+                        <div class="mat-caption">Accounts Payable</div>
+                    </a>
+                </mat-expansion-panel>
+
+                <mat-expansion-panel>
+                    <mat-expansion-panel-header class="sub">
+                        <mat-icon> pie_chart </mat-icon>
+                        <div class="mat-caption">Reports</div>
+                    </mat-expansion-panel-header>
+                    <a mat-list-item routerLinkActive="List-item-active" routerLink="/">
+                        <div class="mat-caption">Stock Card)</div>
+                    </a>
+                    <a mat-list-item routerLinkActive="List-item-active" routerLink="/">
+                        <div class="mat-caption">Out of Stock</div>
+                    </a>
+                    <a mat-list-item routerLinkActive="List-item-active" routerLink="/">
+                        <div class="mat-caption">RFW BDR</div>
+                    </a>
+                    <a mat-list-item routerLinkActive="List-item-active" routerLink="/">
+                        <div class="mat-caption">RFW</div>
+                    </a>
+                    <a mat-list-item routerLinkActive="List-item-active" routerLink="/">
+                        <div class="mat-caption">STS</div>
+                    </a>
+                    <a mat-list-item routerLinkActive="List-item-active" routerLink="/">
+                        <div class="mat-caption">Withdrawal</div>
+                    </a>
+                    <a mat-list-item routerLinkActive="List-item-active" routerLink="/">
+                        <div class="mat-caption">Inventory</div>
+                    </a>
+                </mat-expansion-panel>
+
+            </mat-expansion-panel>
+
+            <!-- PURCHASE RR -->
+            <mat-expansion-panel>
+                <mat-expansion-panel-header>
+                    <mat-icon> shopping_basket </mat-icon>
+                    Purchasing
+                </mat-expansion-panel-header>
+                <mat-expansion-panel>
+                    <mat-expansion-panel-header class="sub">
+                        <mat-icon> business_center </mat-icon>
+                        <div class="mat-caption">Transaction</div>
+                    </mat-expansion-panel-header>
+                    <a mat-list-item routerLinkActive="List-item-active" routerLink="/prs-list">
+                        <div class="mat-caption">Purchase Request (PRS)</div>
+                    </a>
+                    <a mat-list-item routerLinkActive="List-item-active" routerLink="/purchase-list">
+                        <div class="mat-caption">Purchase Order</div>
+                    </a>
+                    <a mat-list-item routerLinkActive="List-item-active" routerLink="/receiving-receipt-list">
+                        <div class="mat-caption">Purchase Receiving</div>
+                    </a>
+                    <a mat-list-item routerLinkActive="List-item-active" routerLink="/payable-voucher-list">
+                        <div class="mat-caption">Payable Voucher</div>
+                    </a>
+                    <a mat-list-item routerLinkActive="List-item-active" routerLink="/other-payable-voucher-list">
+                        <div class="mat-caption">Other Payable Voucher</div>
+                    </a>
+                    <a mat-list-item routerLinkActive="List-item-active" routerLink="/purchase-return-list">
+                        <div class="mat-caption">Purchase Return</div>
+                    </a>
+                </mat-expansion-panel>
+            </mat-expansion-panel>
+
+            <!-- CASH DISBURSEMENT -->
+            <mat-expansion-panel>
+                <mat-expansion-panel-header>
+                    <mat-icon> money </mat-icon>
+                    Cash Disbursement
+                </mat-expansion-panel-header>
+                <mat-expansion-panel>
+                    <mat-expansion-panel-header class="sub">
+                        <mat-icon> business_center </mat-icon>
+                        <div class="mat-caption">Transaction</div>
+                    </mat-expansion-panel-header>
+                    <a mat-list-item routerLinkActive="List-item-active" routerLink="/cash-disbursement-list">
+                        <div class="mat-caption">Cash Disbursement</div>
+                    </a>
+                    <a mat-list-item routerLinkActive="List-item-active" routerLink="/disbursement-from-advs-to-list">
+                        <div class="mat-caption">Disbursement frm. Advs. To</div>
+                    </a>
+                    <a mat-list-item routerLinkActive="List-item-active" routerLink="/ids-list">
+                        <div class="mat-caption">IDS</div>
+                    </a>
+                    <a mat-list-item routerLinkActive="List-item-active" routerLink="/other-disbursement-list">
+                        <div class="mat-caption">Other Disbursement</div>
+                    </a>
+                    <a mat-list-item routerLinkActive="List-item-active" routerLink="/disbursement-advs-to-list">
+                        <div class="mat-caption">Advances To</div>
+                    </a>
+                </mat-expansion-panel>
+            </mat-expansion-panel>
+
+            <!-- SALES -->
+            <mat-expansion-panel>
+                <mat-expansion-panel-header>
+                    <mat-icon> shopping_cart </mat-icon>
+                    Sales
+                </mat-expansion-panel-header>
+                <a mat-list-item routerLinkActive="active-link" routerLink="/customer-list">
+                    <mat-icon>person</mat-icon>
+                    <div class="mat-caption">Customer</div>
+                </a>
+                <a mat-list-item routerLinkActive="active-link" routerLink="/credit-terms-list">
+                    <mat-icon>dashboard</mat-icon>
+                    <div class="mat-caption">Credit Terms</div>
+                </a>
+            </mat-expansion-panel>
+
+            <!-- CASH RECEIPT -->
+            <mat-expansion-panel>
+                <mat-expansion-panel-header>
+                    <mat-icon> receipt </mat-icon>
+                    Cash Receipt
+                </mat-expansion-panel-header>
+            </mat-expansion-panel>
+
+            <!-- ADJUSTING ENTRY -->
+            <mat-expansion-panel>
+                <mat-expansion-panel-header>
+                    <mat-icon> tune </mat-icon>
+                    Adjusting Entry
+                </mat-expansion-panel-header>
+            </mat-expansion-panel>
+
+            <!-- ACCOUNTING -->
+            <mat-expansion-panel>
+                <mat-expansion-panel-header>
+                    <mat-icon> library_books </mat-icon>
+                    Accounting
+                </mat-expansion-panel-header>
+                <a mat-list-item routerLinkActive="active-link" routerLink="/chart-of-account-list">
+                    <mat-icon>subject</mat-icon>
+                    <div class="mat-caption">Chart of Accounts</div>
+                </a>
+                <a mat-list-item routerLinkActive="active-link" routerLink="/bank-list">
+                    <mat-icon>account_balance</mat-icon>
+                    <div class="mat-caption">Banks</div>
+                </a>
+
+                <mat-expansion-panel>
+                    <mat-expansion-panel-header class="sub">
+                        <mat-icon>directions_car</mat-icon>
+                        <div class="mat-caption">Car</div>
+                    </mat-expansion-panel-header>
+                    <a mat-list-item routerLinkActive="active-link" routerLink="/car-list">
+                        <mat-icon>toc</mat-icon>
+                        <div class="mat-caption">Car List</div>
+                    </a>
+                    <a mat-list-item routerLinkActive="active-link" routerLink="#">
+                        <mat-icon>toc</mat-icon>
+                        <div class="mat-caption">Car Assignment</div>
+                    </a>
+                </mat-expansion-panel>
+            </mat-expansion-panel>
+
+            <!-- GENERAL REPORT -->
+            <mat-expansion-panel>
+                <mat-expansion-panel-header>
+                    <mat-icon> bar_chart </mat-icon>
+                    General Report
+                </mat-expansion-panel-header>
+            </mat-expansion-panel>
+
+            <!-- TOOLS -->
+            <mat-expansion-panel>
+                <mat-expansion-panel-header>
+                    <mat-icon> settings </mat-icon>
+                    Tools
+                </mat-expansion-panel-header>
+                <mat-expansion-panel>
+                    <mat-expansion-panel-header class="sub">
+                        <mat-icon>person</mat-icon>
+                        <div class="mat-caption">User</div>
+                    </mat-expansion-panel-header>
+                    <a mat-list-item routerLinkActive="active-link" routerLink="/user">
+                        <mat-icon>person_add</mat-icon>
+                        <div class="mat-caption">Register</div>
+                    </a>
+                    <a mat-list-item routerLinkActive="active-link" routerLink="/user-permission">
+                        <mat-icon>enhanced_encryption</mat-icon>
+                        <div class="mat-caption">Permission</div>
+                    </a>
+                </mat-expansion-panel>
+            </mat-expansion-panel>
+        </mat-nav-list>
+
+    </mat-sidenav>
+
+    <mat-sidenav-content>
+        <mat-toolbar color="primary" class="mat-elevation-z1">
+            <button type="button" aria-label="Toggle sidenav" mat-icon-button (click)="drawer.toggle()">
+                <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
+            </button>
+            <span>SIAMS</span>
+            <span class="spacer"></span>
+
+            <a mat-icon-button>
+                <mat-icon>help</mat-icon>
+            </a>
+            <a matBadge="8" matBadgeColor="warn">
+                <mat-icon>notifications</mat-icon>
+            </a>
+            <a mat-icon-button [matMenuTriggerFor]="menu">
+                <mat-icon>person</mat-icon>
+                <mat-menu #menu="matMenu" xPosition="before">
+                    <a mat-menu-item *ngIf="userDetails">{{userDetails.UserName}}</a>
+                    <a mat-menu-item (click)="onLogout()">Logout</a>
+                </mat-menu>
+            </a>
+        </mat-toolbar>
+
+        <div class="content">
+            <div fxFlexAlign="stretch">
+                <router-outlet></router-outlet>
+            </div>
+            <footer>
+                &copy; All rights reserved 2020 &nbsp; <span class="version-info"> Current build: {{version.full ?
+                    version.full : version}}</span>
+                <div fxFlex fxLayout="row" fxLayoutAlign="end">
+                    Developer: Prandy de Guia
+                </div>
+            </footer>
+        </div>
+    </mat-sidenav-content>
+</mat-sidenav-container>

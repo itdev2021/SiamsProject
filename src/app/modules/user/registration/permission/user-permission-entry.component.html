@@ -1,0 +1,143 @@
+<form [formGroup]="service.formMenu" autocomplete="off" (submit)="onSubmit(service.formMenu)">
+    <mat-card>
+        <mat-card-header>
+            <mat-card-title>USER PERMISSION</mat-card-title>
+            <div fxFlex fxLayout="row" fxLayoutAlign="flex-end" fxLayoutGap="10px">
+                <mat-form-field>
+                    <mat-select formControlName="UserId" placeholder="User" 
+                    (ngModelChange)="getUserPermission($event)"
+                    (change)="changeClient($event.value)">
+                        <mat-option *ngFor="let option of userList" [value]="option.Id">
+                            {{option.FullName}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+        </mat-card-header>
+        <mat-card-content>
+            <div class="">
+                <div fxLayout="column" fxLayoutAlign="space-between" class="header">
+                    <div fxLayout="row" fxLayoutAlign="space-between">
+                        <div fxFlex="30" fxLayout="column" fxLayoutAlign="space-between"><strong>Name</strong>
+                        </div>
+                        <div fxFlex="10" fxLayout="column" fxLayoutAlign="center center"><strong>Select
+                                All</strong></div>
+                        <div fxFlex="6" fxLayout="column" fxLayoutAlign="center center">
+                            <strong>View</strong>
+                        </div>
+                        <div fxFlex="6" fxLayout="column" fxLayoutAlign="center center">
+                            <strong>Create</strong>
+                        </div>
+                        <div fxFlex="6" fxLayout="column" fxLayoutAlign="center center">
+                            <strong>Edit</strong>
+                        </div>
+                        <div fxFlex="6" fxLayout="column" fxLayoutAlign="center center">
+                            <strong>Save</strong>
+                        </div>
+                        <div fxFlex="6" fxLayout="column" fxLayoutAlign="center center">
+                            <strong>Delete</strong>
+                        </div>
+                        <div fxFlex="6" fxLayout="column" fxLayoutAlign="center center">
+                            <strong>Post</strong>
+                        </div>
+                        <div fxFlex="6" fxLayout="column" fxLayoutAlign="center center">
+                            <strong>Unpost</strong>
+                        </div>
+                        <div fxFlex="6" fxLayout="column" fxLayoutAlign="center center">
+                            <strong>Cancel</strong>
+                        </div>
+                        <div fxFlex="6" fxLayout="column" fxLayoutAlign="center center">
+                            <strong>Print</strong>
+                        </div>
+                        <div fxFlex="6" fxLayout="column" fxLayoutAlign="center center">
+                            <strong>Amount</strong>
+                        </div>
+                    </div>
+                </div>
+                <div class="scroll">
+                    <div fxLayout="column" fxLayoutAlign="space-between" formArrayName="permission" class="line-border"
+                        *ngFor="let menu of service.formMenu.get('permission')['controls']; let i=index;">
+                        <div [formGroupName]="i">
+                            <div fxLayout="row" fxLayoutAlign="space-between">
+                                <div fxFlex="30" fxLayout="column" fxLayoutAlign="space-betwee">
+                                    <input type="hidden" formControlName="Id">
+                                    <input type="hidden" formControlName="Id">
+                                    <div [ngClass]="{
+                                        'parent': menu.value.ParentId == 0,
+                                        'subfolder': menu.value.category == 'SubFolder',
+                                        'child': menu.value.category == 'Form' && menu.value.ParentId !=null}">
+                                        {{menu.value.displayName}}</div>
+                                </div>
+                                <div fxFlex="10" fxLayout="column" fxLayoutAlign="center center">
+                                    <mat-checkbox formControlName="SelectAll"  
+                                    (change)="setAll($event.checked, menu)">
+                                    </mat-checkbox>
+                                    <!-- [checked]="allComplete" [indeterminate]="someComplete()" -->
+                                </div>
+                                <div fxFlex="6" fxLayout="column" fxLayoutAlign="center center">
+                                    <mat-checkbox formControlName="View" (ngModelChange)="updateAllComplete(menu)"
+                                        *ngIf="menu.value.category !='Module' && menu.value.category !='SubFolder'">
+                                    </mat-checkbox>
+                                </div>
+                                <div fxFlex="6" fxLayout="column" fxLayoutAlign="center center">
+                                    <mat-checkbox formControlName="Create" (ngModelChange)="updateAllComplete(menu)"
+                                        *ngIf="menu.value.category !='Module' && menu.value.category !='SubFolder'">
+                                    </mat-checkbox>
+                                </div>
+                                <div fxFlex="6" fxLayout="column" fxLayoutAlign="center center">
+                                    <mat-checkbox formControlName="Edit" (ngModelChange)="updateAllComplete(menu)"
+                                        *ngIf="menu.value.category !='Module' && menu.value.category !='SubFolder'">
+                                    </mat-checkbox>
+                                </div>
+                                <div fxFlex="6" fxLayout="column" fxLayoutAlign="center center">
+                                    <mat-checkbox formControlName="Save" (ngModelChange)="updateAllComplete(menu)"
+                                        *ngIf="menu.value.category !='Module' && menu.value.category !='SubFolder'">
+                                    </mat-checkbox>
+                                </div>
+                                <div fxFlex="6" fxLayout="column" fxLayoutAlign="center center">
+                                    <mat-checkbox formControlName="Delete" (ngModelChange)="updateAllComplete(menu)"
+                                        *ngIf="menu.value.category !='Module' && menu.value.category !='SubFolder'">
+                                    </mat-checkbox>
+                                </div>
+                                <div fxFlex="6" fxLayout="column" fxLayoutAlign="center center">
+                                    <mat-checkbox formControlName="Post" (ngModelChange)="updateAllComplete(menu)"
+                                        *ngIf="menu.value.category !='Module' && menu.value.category !='SubFolder'">
+                                    </mat-checkbox>
+                                </div>
+                                <div fxFlex="6" fxLayout="column" fxLayoutAlign="center center">
+                                    <mat-checkbox formControlName="Unpost" (ngModelChange)="updateAllComplete(menu)"
+                                        *ngIf="menu.value.category !='Module' && menu.value.category !='SubFolder'">
+                                    </mat-checkbox>
+                                </div>
+                                <div fxFlex="6" fxLayout="column" fxLayoutAlign="center center">
+                                    <mat-checkbox formControlName="Cancel" (ngModelChange)="updateAllComplete(menu)"
+                                        *ngIf="menu.value.category !='Module' && menu.value.category !='SubFolder'">
+                                    </mat-checkbox>
+                                </div>
+                                <div fxFlex="6" fxLayout="column" fxLayoutAlign="center center">
+                                    <mat-checkbox formControlName="Print" (ngModelChange)="updateAllComplete(menu)"
+                                        *ngIf="menu.value.category !='Module' && menu.value.category !='SubFolder'">
+                                    </mat-checkbox>
+                                </div>
+                                <div fxFlex="6" fxLayout="column" fxLayoutAlign="center center">
+                                    <mat-checkbox formControlName="Amount" (ngModelChange)="updateAllComplete(menu)"
+                                        *ngIf="menu.value.category !='Module' && menu.value.category !='SubFolder'">
+                                    </mat-checkbox>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </mat-card-content>
+
+        <mat-divider></mat-divider>
+        <mat-card-actions>
+            <div fxLayout="row" fxLayoutAlign="flex-end">
+                <button type="submit" color="primary" mat-raised-button [disabled]="service.formMenu.invalid">
+                    <mat-icon>storage</mat-icon> Submit
+                </button>
+            </div>
+        </mat-card-actions>
+    </mat-card>
+</form>

@@ -1,0 +1,28 @@
+<div class="container">
+    <mat-toolbar>
+        <span>{{service.formProductDeal.controls['ProductDealID'].value?"Modify Product Deal":"New Product Deal"}}</span>
+        <div fxFlex fxLayout="row" fxLayoutAlign="flex-end">
+            <button class="btn-dialog-close" mat-stroked-button (click)="onClose()" tabIndex="-1">
+                <mat-icon>clear</mat-icon>
+            </button>
+        </div>
+    </mat-toolbar>
+    <form [formGroup]="service.formProductDeal" autocomplete="off" (submit)="onSubmit(service.formProductDeal)"
+        mat-dialog-content>
+        <input type="hidden" formControlName="ProductDealID">
+        <div fxLayout="row wrap" fxLayout.lt-sm="column" fxLayoutAlign="space-between">
+            <div fxFlex="100" fxLayout="column" fxLayoutAlign="space-between">
+                <mat-form-field>
+                    <input formControlName="ProductDeal" matInput placeholder="Product Deal">
+                    <mat-error>This field is mandatory.</mat-error>
+                </mat-form-field>
+            </div>
+        </div>
+
+        <div class="pt-10" fxLayoutGap="50px">
+            <button mat-raised-button color="primary" type="submit"
+                [disabled]="service.formProductDeal.invalid">Submit</button>
+        </div>
+
+    </form>
+</div>

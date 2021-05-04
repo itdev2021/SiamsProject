@@ -1,0 +1,196 @@
+<form [formGroup]="formPO" autocomplete="off">
+    <mat-card class="example-card content">
+        <mat-card-header>
+            <mat-card-title>PURCHASE ORDER </mat-card-title>
+            <div fxFlex fxLayout="row" fxLayoutAlign="flex-end" fxLayoutGap="10px">
+                <a color="primary" mat-stroked-button (click)="onPrint(formPO)"
+                    [disabled]="formPO.invalid || formPO.get('items')['length'] == 0">
+
+                    <mat-icon>picture_as_pdf</mat-icon> Print
+                </a>
+                <a class="btn-dialog-close" mat-stroked-button (click)="onClose()" tabIndex="-1">
+                    <mat-icon>clear</mat-icon>
+                </a>
+            </div>
+        </mat-card-header>
+        <mat-card-content>
+            <div class="content">
+                <!-- <div fxLayout="row wrap" fxLayout.lt-sm="column" fxLayoutAlign="space-between">
+                    <div fxFlex="20" fxLayout="column" fxLayoutAlign="space-between">
+                        <input type="hidden" formControlName="PurchaseOrderID">
+                        <mat-form-field>
+                            <input formControlName="PONumber" matInput placeholder="Purchase Order Number" readonly>
+                            <mat-error>This field is mandatory.</mat-error>
+                        </mat-form-field>
+                    </div>
+                    <div fxFlex="20" fxLayout="column" fxLayoutAlign="space-between">
+                        <mat-form-field>
+                            <input formControlName="PRSNumber" matInput placeholder="PRS Number" readonly>
+                        </mat-form-field>
+                    </div>
+                    <div fxFlex="20" fxLayout="column" fxLayoutAlign="space-between">
+                        <mat-form-field>
+                            <input matInput formControlName="PurchaseDate" placeholder="Purchase Date" readonly>
+                        </mat-form-field>
+                    </div>
+                    <div fxFlex="40" fxLayout="column" fxLayoutAlign="center">
+                        <mat-form-field>
+                            <input formControlName="Supplier" matInput placeholder="Supplier" readonly>
+                        </mat-form-field>
+                    </div>
+                </div>
+
+                <div fxLayout="row wrap" fxLayout.lt-sm="column" fxLayoutAlign="space-between">
+                    <div fxFlex="20" fxLayout="column" fxLayoutAlign="space-between">
+                        <div fxLayout="row">
+                            <div fxLayout="column">
+                                <mat-form-field>
+                                    <input formControlName="Currency" matInput placeholder="Currency" readonly>
+                                </mat-form-field>
+                            </div>
+                        </div>
+                        <div fxLayout="row">
+                            <div fxLayout="column">
+                                <mat-form-field>
+                                    <input formControlName="CreditTerms" matInput placeholder="Credit Terms" readonly>
+                                </mat-form-field>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div fxFlex="80" fxLayout="column" fxLayoutAlign="center">
+                        <mat-form-field>
+                            <mat-label>Remarks</mat-label>
+                            <textarea formControlName="Remarks" matInput rows="5"
+                                placeholder="Ex. Enter your remarks here...." readonly></textarea>
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div class="pt-10"></div> -->
+
+                <div fxLayout="row wrap" fxLayout.lt-sm="column" fxLayoutAlign="space-between">
+                    <div fxFlex="20" fxLayout="column" fxLayoutAlign="space-between">
+                        <mat-form-field>
+                            <mat-label>Delivery Date</mat-label>
+                            <input matInput [matDatepicker]="datepicker" formControlName="DeliveryDate">
+                            <mat-datepicker-toggle matSuffix [for]="datepicker"></mat-datepicker-toggle>
+                            <mat-datepicker #datepicker></mat-datepicker>
+                            <mat-error>This field is mandatory.</mat-error>
+                        </mat-form-field>
+
+                    </div>
+                    <div fxFlex="20" fxLayout="column" fxLayoutAlign="space-between">
+                        <mat-form-field>
+                            <mat-select formControlName="DeliveryPortID" placeholder="Delivery Port"
+                                (change)="changeClient($event.value)">
+                                <mat-option>-Select-</mat-option>
+                                <mat-option *ngFor="let option of deliveryPortList" [value]="option.DeliveryPortID">
+                                    {{option.DeliveryPort}}
+                                </mat-option>
+                            </mat-select>
+                            <mat-error>This field is mandatory.</mat-error>
+                        </mat-form-field>
+                    </div>
+                    <div fxFlex="60" fxLayout="column" fxLayoutAlign="center">
+
+                        <mat-form-field>
+                            <mat-select formControlName="DocumentID" placeholder="Documents Needed" multiple
+                                (change)="changeClient($event.value)">
+                                <mat-option>-Select-</mat-option>
+                                <mat-option *ngFor="let option of docsNeededList" [value]="option.Document">
+                                    {{option.Document}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+
+                        <div fxLayout="row">
+
+                        </div>
+
+                    </div>
+                </div>
+
+                <div fxLayout="column">
+                    <mat-form-field>
+                        <mat-label>Note</mat-label>
+                        <textarea formControlName="Note" matInput rows="2"
+                            placeholder="Ex. Enter your note here...."></textarea>
+                    </mat-form-field>
+                </div>
+
+                <!-- <div class="pt-20"></div> -->
+                <!-- order items table -->
+
+                <!-- <div fxLayout="column" fxLayoutAlign="space-between">
+                    <div fxLayout="row" fxLayoutAlign="space-between">
+                        <div fxFlex="8" fxLayout="column" fxLayoutAlign="space-between center">Code</div>
+                        <div fxFlex="35" fxLayout="column" fxLayoutAlign="space-between center">Product</div>
+                        <div fxFlex="7" fxLayout="column" fxLayoutAlign="space-between center">UOM</div>
+                        <div fxFlex="10" fxLayout="column" fxLayoutAlign="space-between center">Quantity</div>
+                        <div fxFlex="10" fxLayout="column" fxLayoutAlign="space-between center">Unit Cost</div>
+                        <div fxFlex="10" fxLayout="column" fxLayoutAlign="space-between center">Amount</div>
+                        <div fxFlex="20" fxLayout="column" fxLayoutAlign="space-between center">Particulars</div>
+
+                    </div>
+                </div>
+                <div formArrayName="items" *ngFor="let item of formPO.get('items')['controls']; let i=index;">
+                    <div [formGroupName]="i">
+                        <div fxLayout="row" fxLayoutAlign="space-between">
+                            <div fxFlex="8" fxLayout="column" fxLayoutAlign="space-between">
+                                <mat-form-field>
+                                    <input matInput formControlName="Code" readonly>
+                                </mat-form-field>
+                            </div>
+                            <div fxFlex="35" fxLayout="column" fxLayoutAlign="space-between">
+                                <input type="hidden" formControlName="ProductID">
+                                <mat-form-field>
+                                    <input matInput formControlName="Product" readonly>
+                                </mat-form-field>
+                            </div>
+                            <div fxFlex="10" fxLayout="column" fxLayoutAlign="space-betwee">
+                                <input type="hidden" formControlName="UOMID">
+                                <mat-form-field>
+                                    <input matInput formControlName="UOMDescription" readonly>
+                                </mat-form-field>
+                            </div>
+                            <div fxFlex="7" fxLayout="column" fxLayoutAlign="space-between">
+                                <mat-form-field>
+                                    <input matInput formControlName="Quantity" type="number" readonly>
+                                </mat-form-field>
+                            </div>
+                            <div fxFlex="10" fxLayout="column" fxLayoutAlign="space-between">
+                                <mat-form-field>
+                                    <input matInput formControlName="UnitCost" type="number" readonly>
+                                </mat-form-field>
+                            </div>
+                            <div fxFlex="10" fxLayout="column" fxLayoutAlign="space-between">
+                                <mat-form-field>
+
+                                    <input matInput formControlName="Amount" id="Amount{{i}}" readonly>
+                                    <mat-error>This field is mandatory.</mat-error>
+                                </mat-form-field>
+                            </div>
+                            <div fxFlex="20" fxLayout="column" fxLayoutAlign="space-between">
+                                <mat-form-field>
+                                    <input matInput formControlName="Particulars" readonly>
+                                </mat-form-field>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div fxLayout="column" fxLayoutAlign="space-between">
+                    <div fxLayout="row" fxLayoutAlign="space-between">
+                        <div fxFlex="8" fxLayout="column" fxLayoutAlign="space-between center"></div>
+                        <div fxFlex="35" fxLayout="column" fxLayoutAlign="space-between center"></div>
+                        <div fxFlex="7" fxLayout="column" fxLayoutAlign="space-between center"></div>
+                        <div fxFlex="10" fxLayout="column" fxLayoutAlign="space-between center"></div>
+                        <div fxFlex="10" fxLayout="column" fxLayoutAlign="start"><strong>Total Amount</strong></div>
+                        <div fxFlex="10" fxLayout="column" fxLayoutAlign="start">
+                            <strong>{{formPO.value.Amount}}</strong></div>
+                        <div fxFlex="20" fxLayout="column" fxLayoutAlign="space-between center"></div>
+                    </div>
+                </div> -->
+            </div>
+        </mat-card-content>
+    </mat-card>
+</form>

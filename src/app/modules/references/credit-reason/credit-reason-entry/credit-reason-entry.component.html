@@ -1,0 +1,28 @@
+<div class="container">
+    <mat-toolbar>
+        <span>{{service.formCreditReason.controls['CreditReasonID'].value?"Modify Credit Reason":"New Credit Reason"}}</span>
+        <div fxFlex fxLayout="row" fxLayoutAlign="flex-end">
+            <button class="btn-dialog-close" mat-stroked-button (click)="onClose()" tabIndex="-1">
+                <mat-icon>clear</mat-icon>
+            </button>
+        </div>
+    </mat-toolbar>
+    <form [formGroup]="service.formCreditReason" autocomplete="off" (submit)="onSubmit(service.formCreditReason)"
+        mat-dialog-content>
+        <input type="hidden" formControlName="CreditReasonID">
+        <div fxLayout="row wrap" fxLayout.lt-sm="column" fxLayoutAlign="space-between">
+            <div fxFlex="100" fxLayout="column" fxLayoutAlign="space-between">
+                <mat-form-field>
+                    <input formControlName="Reason" matInput placeholder="Reason">
+                    <mat-error>This field is mandatory.</mat-error>
+                </mat-form-field>
+            </div>
+        </div>
+
+        <div class="pt-10" fxLayoutGap="50px">
+            <button  mat-raised-button color="primary" type="submit"
+                [disabled]="service.formCreditReason.invalid">Submit</button>
+        </div>
+
+    </form>
+</div>

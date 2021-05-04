@@ -1,0 +1,67 @@
+<div class="container">
+    <mat-toolbar>
+        <span>{{service.formBank.controls['BankID'].value?"Modify Bank":"New Bank"}}</span>
+        <div fxFlex fxLayout="row" fxLayoutAlign="flex-end">
+            <button class="btn-dialog-close" mat-stroked-button (click)="onClose()" tabIndex="-1">
+                <mat-icon>clear</mat-icon>
+            </button>
+        </div>
+    </mat-toolbar>
+    <form [formGroup]="service.formBank" autocomplete="off" (submit)="onSubmit(service.formBank)" mat-dialog-content>
+        <input type="hidden" formControlName="BankID">
+        <div fxLayout="row wrap" fxLayout.lt-sm="column" fxLayoutAlign="space-between">
+            <div fxFlex="30" fxLayout="column" fxLayoutAlign="space-between">
+                <mat-form-field>
+                    <input formControlName="AccountNumber" matInput placeholder="Account Number">
+                    <mat-error>This field is mandatory.</mat-error>
+                </mat-form-field>
+            </div>
+            <div fxFlex="70" fxLayout="column" fxLayoutAlign="center">
+                <mat-form-field>
+                    <input formControlName="AccountCode" matInput placeholder="Account Code">
+                    <mat-error>This field is mandatory.</mat-error>
+                </mat-form-field>
+            </div>
+        </div>
+        <div fxLayout="row wrap" fxLayout.lt-sm="column" fxLayoutAlign="space-between">
+            <div fxFlex="30" fxLayout="column" fxLayoutAlign="space-between">
+                <mat-form-field>
+                    <input formControlName="BankName" matInput placeholder="Bank Name">
+                    <mat-error>This field is mandatory.</mat-error>
+                </mat-form-field>
+            </div>
+            <div fxFlex="70" fxLayout="column" fxLayoutAlign="center">
+                <mat-form-field>
+                    <input formControlName="Address" matInput placeholder="Address">
+                    <mat-error>This field is mandatory.</mat-error>
+                </mat-form-field>
+            </div>
+        </div>
+
+        <div fxLayout="row wrap" fxLayout.sm="column" fxLayoutAlign="space-between">
+                <div fxFlex="50" fxLayout="column" fxLayoutAlign="space-between">
+                    <mat-form-field>
+                        <mat-select formControlName="AccountTitleID" placeholder="Account Title">
+                            <mat-option *ngFor="let option of accountTitleList" [value]="option.AccountTitleID">
+                                {{option.AccountTitle}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+                <div fxFlex="50" fxLayout="column" fxLayoutAlign="space-between">
+                    <mat-form-field>
+                        <mat-select formControlName="CheckType" placeholder="Check Type">
+                            <mat-option *ngFor="let option of checkList" [value]="option.CheckTypeID">
+                                {{option.CheckDescription}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+            </div>
+        <hr>        
+        <div class="pt-10" fxLayoutGap="10px">
+            <button mat-raised-button color="primary" type="submit"
+                [disabled]="service.formBank.invalid">Submit</button>
+        </div>
+    </form>
+</div>

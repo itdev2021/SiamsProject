@@ -1,0 +1,37 @@
+<div class="container">
+    <mat-toolbar>
+        <span>{{service.formSPMSPrincipals.controls['SPMSPrincipalsID'].value?"Modify Principals":"New Principals"}}</span>
+        <div fxFlex fxLayout="row" fxLayoutAlign="flex-end">
+            <button class="btn-dialog-close" mat-stroked-button (click)="onClose()" tabIndex="-1">
+                <mat-icon>clear</mat-icon>
+            </button>
+        </div>
+    </mat-toolbar>
+    <form [formGroup]="service.formSPMSPrincipals" autocomplete="off" (submit)="onSubmit(service.formSPMSPrincipals)" mat-dialog-content>
+        <input type="hidden" formControlName="SPMSPrincipalsID">
+        <div fxLayout="row wrap" fxLayout.lt-sm="column" fxLayoutAlign="space-between">
+            <div fxFlex="20" fxLayout="column" fxLayoutAlign="space-between">
+                <mat-form-field>
+                    <input formControlName="SPMSPrincipalsID" matInput placeholder="ID" readonly>
+                    <mat-error>This field is mandatory.</mat-error>
+                </mat-form-field>
+            </div>
+            <div fxFlex="40" fxLayout="column" fxLayoutAlign="center">
+                <mat-form-field>
+                    <input formControlName="CompanyName" matInput placeholder="Company Name">
+                    <mat-error>This field is mandatory.</mat-error>
+                </mat-form-field>
+            </div>
+            <div fxFlex="40" fxLayout="column" fxLayoutAlign="center">
+                <mat-form-field>
+                    <input formControlName="CompanyCode" matInput placeholder="Company Code">
+                    <mat-error>This field is mandatory.</mat-error>
+                </mat-form-field>
+            </div>
+        </div>       
+        <div class="pt-10" fxLayoutGap="10px">
+            <button mat-raised-button color="primary" type="submit"
+                [disabled]="service.formSPMSPrincipals.invalid">Submit</button>
+        </div>
+    </form>
+</div>

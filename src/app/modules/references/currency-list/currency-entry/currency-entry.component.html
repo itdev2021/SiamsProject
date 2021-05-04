@@ -1,0 +1,52 @@
+<div class="container">
+    <mat-toolbar>
+        <span>{{service.formCurrency.controls['currency_id'].value?"Modify Currency":"New Currency"}}</span>
+        <div fxFlex fxLayout="row" fxLayoutAlign="flex-end">
+            <button class="btn-dialog-close" mat-stroked-button (click)="onClose()" tabIndex="-1">
+                <mat-icon>clear</mat-icon>
+            </button>
+        </div>
+    </mat-toolbar>
+    <form [formGroup]="service.formCurrency" autocomplete="off" (submit)="onSubmit(service.formCurrency)"
+        mat-dialog-content>
+        <input type="hidden" formControlName="currency_id">
+        <div fxLayout="row wrap" fxLayout.lt-sm="column" fxLayoutAlign="space-between">
+            <div fxFlex="85" fxLayout="column" fxLayoutAlign="space-between">
+                <mat-form-field>
+                    <input formControlName="currency_name" matInput placeholder="Currency Name">
+                    <mat-error>This field is mandatory.</mat-error>
+                </mat-form-field>
+            </div>
+            <div fxFlex="15" fxLayout="column" fxLayoutAlign="center">
+                <mat-checkbox formControlName="Actve">Active</mat-checkbox>
+            </div>
+        </div>
+
+        <div fxLayout="row wrap" fxLayout.lt-sm="column" fxLayoutAlign="space-between">
+            <div fxFlex="50" fxLayout="column" fxLayoutAlign="space-between">
+                    <div fxLayout="column">
+                        <mat-form-field>
+                            <input formControlName="currency_code" matInput placeholder="Code">
+                            <mat-error>This field is mandatory.</mat-error>
+                        </mat-form-field>
+                    </div>
+                
+            </div>
+            <div fxFlex="50" fxLayout="column" fxLayoutAlign="space-between">
+                    <div fxLayout="column">
+                        <mat-form-field>
+                            <input formControlName="Sysmbols" matInput placeholder="Symbols">
+                            <mat-error>This field is mandatory.</mat-error>
+                        </mat-form-field>
+                    </div>
+                
+            </div>
+        </div>
+
+        <div class="pt-10" fxLayoutGap="50px">
+            <button  mat-raised-button color="primary" type="submit"
+                [disabled]="service.formCurrency.invalid">Submit</button>
+        </div>
+
+    </form>
+</div>
