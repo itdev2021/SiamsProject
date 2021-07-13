@@ -78,6 +78,14 @@ import { BatchSizeEntryComponent } from '../modules/dli/reference/batch-size/bat
 import { BatchSizeComponent } from '../modules/dli/reference/batch-size/batch-size-list/batch-size-list.component';
 import { ClassificationDLIComponent } from '../modules/dli/reference/classification-dli/classification-dli-list/classification-dli-list.component';
 import { ClassificationDLIEntryComponent } from '../modules/dli/reference/classification-dli/classification-dli-entry/classification-dli-entry.component';
+import { VatNonVatComponent } from '../modules/sales/vat-nonvat/vat-nonvat-list/vat-nonvat-list.component';
+import { VatNonVatEntryComponent } from '../modules/sales/vat-nonvat/vat-nonvat-entry/vat-nonvat-entry.component';
+import { SalesInvoicingListComponent } from '../modules/sales/transaction/sales-invoicing/sales-invoicing-list/sales-invoicing-list.component';
+import { SalesInvoicingEntryComponent } from '../modules/sales/transaction/sales-invoicing/sales-invoicing-entry/sales-invoicing-entry.component';
+import { DeliveredToComponent } from '../modules/lookup/delivered-to/delivered-to.component';
+import { BeginningBalanceListComponent } from '../modules/adjustment-entry/begbal/beg-bal-list/beg-bal-list.component';
+import { BeginningBalanceEntryComponent } from '../modules/adjustment-entry/begbal/beg-bal-entry/beg-bal-entry.component';
+import { SalesInvoicingItemComponent } from '../modules/sales/transaction/sales-invoicing/sales-invoicing-item/sales-invoicing-item.component';
 
 
 @NgModule({
@@ -156,7 +164,14 @@ import { ClassificationDLIEntryComponent } from '../modules/dli/reference/classi
     BatchSizeEntryComponent,
     BatchSizeComponent,
     ClassificationDLIComponent,
-    ClassificationDLIEntryComponent
+    ClassificationDLIEntryComponent,
+    VatNonVatComponent,
+    VatNonVatEntryComponent,
+    SalesInvoicingListComponent,
+    SalesInvoicingEntryComponent,
+    BeginningBalanceListComponent,
+    BeginningBalanceEntryComponent,
+    SalesInvoicingItemComponent
 
     
 

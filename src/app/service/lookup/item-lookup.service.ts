@@ -9,6 +9,8 @@ import { WithdrawalService } from '../inventory/transaction/withdrawal.service';
 import { ReceivingReceiptService } from '../purchasing/transaction/receiving-receipt.service';
 import { UmcService } from '../references/umc.service';
 import { DeliveryReceiptService } from '../sales/transaction/delivery-receipt.service';
+import { SalesInvoicingService } from '../sales/transaction/sales-invoicing.service';
+import { BeginningBalanceService } from '../accounting/adjustment-entry/beg-bal.service';
 
 @Injectable({
   providedIn: 'root'
@@ -24,7 +26,9 @@ export class ItemLookupService {
     public wsService: WithdrawalService,
     public rrService: ReceivingReceiptService,
     public drService:DeliveryReceiptService,
-    private fb: FormBuilder) { }
+    private fb: FormBuilder,
+    public siservice: SalesInvoicingService,
+    public bbservice: BeginningBalanceService) { }
 
   getItemRow(module, row) {
 
@@ -147,6 +151,12 @@ export class ItemLookupService {
         });
     }else if(module == "DR"){
       this.drService.getItemRow(row);
+    }
+    else if (module == "SI"){
+      this.siservice.getItemRow(row);
+    }
+    else if (module == 'BB'){
+      this.bbservice.getItemRow(row);
     }
   }
 }

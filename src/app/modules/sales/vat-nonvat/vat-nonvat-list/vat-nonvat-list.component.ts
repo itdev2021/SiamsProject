@@ -1,5 +1,5 @@
-import { Component, Inject, OnInit, ViewChild } from '@angular/core';
-import { MatDialog, MatDialogConfig, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
@@ -7,28 +7,25 @@ import { Router } from '@angular/router';
 import { ConfirmDialogService } from 'src/app/service/confirm-dialog.service';
 import { GlobalService } from 'src/app/service/global.service';
 import { NotificationService } from 'src/app/service/notification.service';
-import { CustomerGroupService } from 'src/app/service/references/customer-group.service';
-import { SalesInvoicingService } from 'src/app/service/sales/transaction/sales-invoicing.service';
-import { CustomerGroupEntryComponent } from '../customer-group-entry/customer-group-entry.component';
+import { VatNonVatService } from 'src/app/service/references/vatnonvat.service';
+import { VatNonVatEntryComponent } from '../vat-nonvat-entry/vat-nonvat-entry.component';
 
 
 
 @Component({
-  selector: 'app-customer-group-list',
-  templateUrl: './customer-group-list.component.html',
+  selector: 'app-vat-nonvat-list',
+  templateUrl: './vat-nonvat-list.component.html',
   styles: []
 })
-export class CustomerGroupComponent implements OnInit {
+export class VatNonVatComponent implements OnInit {
 
-  constructor(@Inject(MAT_DIALOG_DATA) public data,
-    private service: CustomerGroupService,
+  constructor(private service: VatNonVatService,
     private dialog: MatDialog,
     private notificationService: NotificationService,
-    private comfirmDialogService: ConfirmDialogService,
-    public siservice: SalesInvoicingService) { }
+    private comfirmDialogService: ConfirmDialogService) { }
 
   dataSource: MatTableDataSource<any>;
-  displayedColumns: string[] = ['CustomerGroupID', 'CustomerGroupCode', 'CustomerGroupName', 'actions'];
+  displayedColumns: string[] = ['VatNonVatID', 'VatNonVat', 'actions'];
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
   searchKey: string;
@@ -36,12 +33,6 @@ export class CustomerGroupComponent implements OnInit {
   ngOnInit(): void {
     // this.globalService.getUserAccess(this.router.url);
     this.refreshList();
-  }
-
-  onAddItem(row): void {
-    if (this.data[0] == "SI")
-      this.siservice.getPatchCustomerGroup(row);
-
   }
 
   refreshList() {
@@ -63,7 +54,7 @@ export class CustomerGroupComponent implements OnInit {
     dialogconfig.autoFocus = true;
     dialogconfig.width = "30%";
 
-    const dialogRef = this.dialog.open(CustomerGroupEntryComponent, dialogconfig);
+    const dialogRef = this.dialog.open(VatNonVatEntryComponent, dialogconfig);
     dialogRef.afterClosed().subscribe(result => {
       this.refreshList();
     });
@@ -80,10 +71,9 @@ export class CustomerGroupComponent implements OnInit {
 
   onEdit(row: number) {
     this.service.getByID(row).subscribe(data => {
-      this.service.formCustomerGroup.patchValue({
-        CustomerGroupID: data.CustomerGroupID,
-        CustomerGroupCode: data.CustomerGroupCode,
-        CustomerGroupName: data.CustomerGroupName
+      this.service.formVatNonVat.patchValue({
+        VatNonVatID: data.VatNonVatID,
+        VatNonVat: data.VatNonVat
       });
 
       const dialogConfig = new MatDialogConfig();
@@ -91,7 +81,7 @@ export class CustomerGroupComponent implements OnInit {
       dialogConfig.autoFocus = true;
       dialogConfig.width = "30%";
 
-      const dialogRef = this.dialog.open(CustomerGroupEntryComponent, dialogConfig);
+      const dialogRef = this.dialog.open(VatNonVatEntryComponent, dialogConfig);
       dialogRef.afterClosed().subscribe(result => {
         this.refreshList();
         this.onSearchClear();

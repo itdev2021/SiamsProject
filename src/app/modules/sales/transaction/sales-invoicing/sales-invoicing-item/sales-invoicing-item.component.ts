@@ -1,43 +1,38 @@
 import { Component, OnInit, ViewChild, Inject } from '@angular/core';
-import { ProductService } from 'src/app/service/inventory/product.service';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatSort } from '@angular/material/sort';
 import { MatPaginator } from '@angular/material/paginator';
-import { ItemLookupService } from 'src/app/service/lookup/item-lookup.service';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { CustomerService } from 'src/app/service/sales/customer.service';
-import { DeliveryReceiptService } from 'src/app/service/sales/transaction/delivery-receipt.service';
 import { SalesInvoicingService } from 'src/app/service/sales/transaction/sales-invoicing.service';
 
 @Component({
-  selector: 'app-shipadd-lookup',
-  templateUrl: './shipadd-lookup.component.html',
+  selector: 'app-sales-invoicing-item',
+  templateUrl: './sales-invoicing-item.component.html',
   styles: []
 })
-export class ShipAddLookupComponent implements OnInit {
+export class SalesInvoicingItemComponent implements OnInit {
+
   dataSource: MatTableDataSource<any>;
-  displayedColumns: string[] = ['ShipToCode', 'ShipAddress', 'actions'];
+  displayedColumns: string[] = ['ProductCode', 'Product','UOMDescription','LotNo','QtyRemaining', 'actions'];
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
   searchKey = "";
 
   constructor(@Inject(MAT_DIALOG_DATA) public data,
-    public service: CustomerService,
-    public drService: DeliveryReceiptService,
-    public siservice: SalesInvoicingService) { }
+  public siService: SalesInvoicingService) { }
 
   ngOnInit(): void {
     this.refreshList();
   }
 
   refreshList() {
-    this.service.getCustomerShipAdd(this.data[1]).subscribe(item => {
+    this.siService.getBBProductList(this.data).subscribe(item => {
       this.dataSource = new MatTableDataSource(item as []);
       this.dataSource.sort = this.sort;
       this.dataSource.paginator = this.paginator;
       this.dataSource.filterPredicate = (data, filter) => {
         return this.displayedColumns.some(ele => {
-          return ele != 'actions' && data[ele].toLowerCase().indexOf(filter) != -1;
+          return ele != 'QtyRemaining' && ele != 'Product' && ele != 'actions' && data[ele].toLowerCase().indexOf(filter) != -1;
         });
       };
     });
@@ -52,11 +47,16 @@ export class ShipAddLookupComponent implements OnInit {
     this.dataSource.filter = this.searchKey.trim().toLowerCase();
   }
 
-  onAddItem(row): void {
-    if (this.data[0] == "DR")
-      this.drService.getPatchCustomerShipAdd(row);
-      else if (this.data[0] == "SI")
-      this.siservice.getPatchCustomerShipAdd(row);
+  onAddItem(row, i): void {
+    this.siService.getItemRow(row)
+    if (this.searchKey != "") {
+      this.dataSource.data.splice(i, 1);
+      this.dataSource.data = this.dataSource.data;
+      
+    } else {
+      this.dataSource.filteredData.splice(i, 1);
+      this.dataSource.data = this.dataSource.data;
+    }
 
   }
 

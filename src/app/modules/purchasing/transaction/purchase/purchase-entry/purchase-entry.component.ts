@@ -91,6 +91,7 @@ export class PurchaseEntryComponent implements OnInit {
     this.service.formPO = this.fb.group({
       PurchaseOrderID: [0],
       SupplierID: ['', Validators.required],
+      Supplier: [''],
       PurchaseDate: ['', Validators.required],
       PONumber: ['', Validators.required],
       Amount: [0],

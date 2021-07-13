@@ -11,6 +11,7 @@ import { DisbursementDPService } from 'src/app/service/disbursement/transaction/
 import { IDSService } from 'src/app/service/disbursement/transaction/ids.service';
 import { OtherDisbursementService } from 'src/app/service/disbursement/transaction/other-disbursement.service';
 import { DeliveryReceiptService } from 'src/app/service/sales/transaction/delivery-receipt.service';
+import { SalesInvoicingService } from 'src/app/service/sales/transaction/sales-invoicing.service';
 
 @Component({
   selector: 'app-cost-unit',
@@ -33,7 +34,8 @@ export class CostUnitComponent implements OnInit {
     public ddpService: DisbursementDPService,
     public idsService: IDSService,
     public odService: OtherDisbursementService,
-    public drService:DeliveryReceiptService) { }
+    public drService: DeliveryReceiptService,
+    public siService: SalesInvoicingService) { }
 
   ngOnInit(): void {
     this.refreshList();
@@ -74,8 +76,10 @@ export class CostUnitComponent implements OnInit {
       this.idsService.getPatchCostUnit(row, this.data[1]);
     else if (this.data[0] == 'OD')
       this.odService.getPatchCostUnit(row, this.data[1]);
-      else if (this.data[0] == 'DR')
-        this.drService.getPatchCostUnit(row);
+    else if (this.data == 'DR')
+      this.drService.getPatchCostUnit(row);
+    else if (this.data[0] == 'SI')
+      this.siService.getPatchCostUnit(row);
   }
 
 }

@@ -128,6 +128,7 @@ export class DeliveryReceiptEntryComponent implements OnInit {
       ShippToAddressID: [0],
       ShippToAddress: [''],
       CostUnitID: [0],
+      CostUnit: [''],
       EmployeeID: [0],
       Employee: [''],
       CostCenterID: [0],

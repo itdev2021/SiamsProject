@@ -9,18 +9,18 @@ import { ConfirmDialogService } from 'src/app/service/confirm-dialog.service';
 import { FormControl } from '@angular/forms';
 import { GlobalService } from 'src/app/service/global.service';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
-import { DeliveryReceiptEntryComponent } from '../delivery-receipt-entry/delivery-receipt-entry.component';
-import { DeliveryReceiptService } from 'src/app/service/sales/transaction/delivery-receipt.service';
+import { SalesInvoicingService } from 'src/app/service/sales/transaction/sales-invoicing.service';
+import { SalesInvoicingEntryComponent } from '../sales-invoicing-entry/sales-invoicing-entry.component';
 
 @Component({
-  selector: 'app-delivery-receipt-list',
-  templateUrl: './delivery-receipt-list.component.html',
+  selector: 'app-sales-invoicing-list',
+  templateUrl: './sales-invoicing-list.component.html',
   styles: []
 })
-export class DeliveryReceiptListComponent implements OnInit {
+export class SalesInvoicingListComponent implements OnInit {
 
   dataSource: MatTableDataSource<any>;
-  displayedColumns: string[] = ['DeliveryReceiptID','DeliveryDate', 'Customer', 'StatusCode', 'actions'];
+  displayedColumns: string[] = ['SalesInvoicingID','SalesInvoicingDate', 'Customer', 'StatusCode', 'actions'];
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
   searchKey: string;
@@ -28,7 +28,7 @@ export class DeliveryReceiptListComponent implements OnInit {
   positionOptions: TooltipPosition[] = ['after', 'before', 'above', 'below', 'left', 'right'];
   position = new FormControl(this.positionOptions[2]);
 
-  constructor(private service: DeliveryReceiptService,
+  constructor(private service: SalesInvoicingService,
     private router: Router,
     private dialog: MatDialog,
     private notificationService: NotificationService,
@@ -68,7 +68,7 @@ export class DeliveryReceiptListComponent implements OnInit {
     dialogconfig.autoFocus = true;
     dialogconfig.width = "100%";
 
-    const dialogRef = this.dialog.open(DeliveryReceiptEntryComponent, dialogconfig);
+    const dialogRef = this.dialog.open(SalesInvoicingEntryComponent, dialogconfig);
     dialogRef.afterClosed().subscribe(result => {
       this.refreshList();
     });
@@ -82,7 +82,7 @@ export class DeliveryReceiptListComponent implements OnInit {
       dialogConfig.width = "100%";
       dialogConfig.data = id;
 
-      const dialogRef = this.dialog.open(DeliveryReceiptEntryComponent, dialogConfig);
+      const dialogRef = this.dialog.open(SalesInvoicingEntryComponent, dialogConfig);
       dialogRef.afterClosed().subscribe(result => {
         if (this.searchKey)
           this.applyFilter();
@@ -95,7 +95,7 @@ export class DeliveryReceiptListComponent implements OnInit {
     this.comfirmDialogService.openConfirmDialog('Are you sure to approve this record?')
       .afterClosed().subscribe(res => {
         if (res) {
-          this.service.updateStatus(parseInt(id), '/DeliveryReceipts/updateStatus/Approved/',"").subscribe(
+          this.service.updateStatus(parseInt(id), '/SalesInvoicing/updateStatus/Approved/',"").subscribe(
             (res: any) => {
               this.notificationService.success('Approved successfully!');
               this.refreshList();
@@ -108,7 +108,7 @@ export class DeliveryReceiptListComponent implements OnInit {
     this.comfirmDialogService.openConfirmDialog('Are you sure to cancel this record?')
       .afterClosed().subscribe(res => {
         if (res) {
-          this.service.updateStatus(parseInt(id), '/DeliveryReceipts/updateStatus/Cancelled/',"").subscribe(
+          this.service.updateStatus(parseInt(id), '/SalesInvoicing/updateStatus/Cancelled/',"").subscribe(
             (res: any) => {
               this.notificationService.success('Cancelled successfully!');
               this.refreshList();
@@ -121,7 +121,7 @@ export class DeliveryReceiptListComponent implements OnInit {
     this.comfirmDialogService.openConfirmDialog('Are you sure to un-post this record?')
       .afterClosed().subscribe(res => {
         if (res) {
-          this.service.updateStatus(parseInt(id), '/DeliveryReceipts/updateStatus/Unpost/',"").subscribe(
+          this.service.updateStatus(parseInt(id), '/SalesInvoicing/updateStatus/Unpost/',"").subscribe(
             (res: any) => {
               this.notificationService.success('Un-posted successfully!');
               this.refreshList();

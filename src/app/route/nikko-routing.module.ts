@@ -79,6 +79,13 @@ import { BatchSizeComponent } from '../modules/dli/reference/batch-size/batch-si
 import { BatchSizeEntryComponent } from '../modules/dli/reference/batch-size/batch-size-entry/batch-size-entry.component';
 import { ClassificationDLIComponent } from '../modules/dli/reference/classification-dli/classification-dli-list/classification-dli-list.component';
 import { ClassificationDLIEntryComponent } from '../modules/dli/reference/classification-dli/classification-dli-entry/classification-dli-entry.component';
+import { VatNonVatComponent } from '../modules/sales/vat-nonvat/vat-nonvat-list/vat-nonvat-list.component';
+import { VatNonVatEntryComponent } from '../modules/sales/vat-nonvat/vat-nonvat-entry/vat-nonvat-entry.component';
+import { SalesInvoicingListComponent } from '../modules/sales/transaction/sales-invoicing/sales-invoicing-list/sales-invoicing-list.component';
+import { SalesInvoicingEntryComponent } from '../modules/sales/transaction/sales-invoicing/sales-invoicing-entry/sales-invoicing-entry.component';
+import { DeliveredToComponent } from '../modules/lookup/delivered-to/delivered-to.component';
+import { BeginningBalanceEntryComponent } from '../modules/adjustment-entry/begbal/beg-bal-entry/beg-bal-entry.component';
+import { BeginningBalanceListComponent } from '../modules/adjustment-entry/begbal/beg-bal-list/beg-bal-list.component';
 
 
 const routes: Routes = [
@@ -349,7 +356,31 @@ const routes: Routes = [
           { path: 'classification-dli-entry', component: ClassificationDLIEntryComponent, canActivate: [AuthGuard] },
           { path: 'classification-dli-entry/:id', component: ClassificationDLIEntryComponent, canActivate: [AuthGuard] }
         ]
-      }
+      },
+      {
+        path: 'vat-nonvat-list', component: VatNonVatComponent, canActivate: [AuthGuard],
+        children: [
+          { path: 'vat-nonvat-entry', component: VatNonVatEntryComponent, canActivate: [AuthGuard] },
+          { path: 'vat-nonvat-entry/:id', component: VatNonVatEntryComponent, canActivate: [AuthGuard] }
+        ]
+      },
+      {
+        path: 'sales-invoicing-list', component: SalesInvoicingListComponent, canActivate: [AuthGuard],
+        children: [
+          { path: 'sales-invoicing-entry', component: SalesInvoicingEntryComponent, canActivate: [AuthGuard] },
+          { path: 'sales-invoicing-entry/:id', component: SalesInvoicingEntryComponent, canActivate: [AuthGuard] }
+        ]
+      },
+      {
+        path: 'delivered-to', component: DeliveredToComponent, canActivate: [AuthGuard]
+      },
+      {
+        path: 'beg-bal-list', component: BeginningBalanceListComponent, canActivate: [AuthGuard],
+        children: [
+          { path: 'beg-bal-entry', component: BeginningBalanceEntryComponent, canActivate: [AuthGuard] },
+          { path: 'beg-bal-entry/:id', component: BeginningBalanceEntryComponent, canActivate: [AuthGuard] }
+        ]
+      },
     ]
 
   }];

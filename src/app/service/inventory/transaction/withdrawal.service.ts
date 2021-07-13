@@ -78,7 +78,7 @@ export class WithdrawalService {
         PayToTypeID: res.ws.PayToTypeID,
         Remarks: res.ws.Remarks,
         Status: res.ws.Status,
-        Isprinted: res.ws.Isprinted
+        Isprinted: res.ws.Isprinted 
       });
 
       this.deliveredService.getList().subscribe(item => {

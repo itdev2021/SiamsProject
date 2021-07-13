@@ -16,6 +16,7 @@ import { OtherDisbursementService } from 'src/app/service/disbursement/transacti
 import { ReceivingReceiptService } from 'src/app/service/purchasing/transaction/receiving-receipt.service';
 import { PurchaseService } from 'src/app/service/purchasing/transaction/purchase.service';
 import { DeliveryReceiptService } from 'src/app/service/sales/transaction/delivery-receipt.service';
+import { SalesInvoicingService } from 'src/app/service/sales/transaction/sales-invoicing.service';
 
 @Component({
   selector: 'app-delivered-to',
@@ -34,8 +35,8 @@ export class DeliveredToComponent implements OnInit {
 
   constructor(@Inject(MAT_DIALOG_DATA) public data,
     public service: DeliveredToService,
-    public poService:PurchaseService,
-    public rrService:ReceivingReceiptService,
+    public poService: PurchaseService,
+    public rrService: ReceivingReceiptService,
     public wsService: WithdrawalService,
     public pvService: PayableVourcherService,
     public opvService: OtherPayableVourcherService,
@@ -45,7 +46,8 @@ export class DeliveredToComponent implements OnInit {
     public ddpService: DisbursementDPService,
     public idsService: IDSService,
     public odService: OtherDisbursementService,
-    public drService:DeliveryReceiptService) {
+    public drService: DeliveryReceiptService,
+    public siservice: SalesInvoicingService) {
 
   }
 
@@ -75,8 +77,11 @@ export class DeliveredToComponent implements OnInit {
       this.headerTitle = "Account Name";
     else if (this.data == "OD")
       this.headerTitle = "Payable To";
-      else if (this.data == "DR")
-        this.headerTitle = "Delivered To";
+    else if (this.data == "DR")
+      this.headerTitle = "Delivered To";
+    else if (this.data == "SI")
+      this.headerTitle = "Delivered To";
+
   }
 
   refreshList() {
@@ -130,8 +135,10 @@ export class DeliveredToComponent implements OnInit {
       this.idsService.getPatchSupplierDetail(row, this.data[1]);
     else if (this.data == "OD")
       this.odService.getPatchSupplier(row);
-      else if (this.data == "DR")
-        this.drService.getPatchCustomer(row);
+    else if (this.data == "DR")
+      this.drService.getPatchCustomer(row);
+    else if (this.data == "SI")
+      this.siservice.getPatchCustomer(row);
 
   }
 

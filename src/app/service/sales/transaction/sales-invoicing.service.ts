@@ -9,45 +9,57 @@ import { GlobalService } from '../../global.service';
 
 import pdfMake from 'pdfmake/build/pdfmake';
 import pdfFonts from 'pdfmake/build/vfs_fonts';
-import { CostUnitService } from '../../lookup/cost-unit.service';
+import { dateInputsHaveChanged } from '@angular/material/datepicker/datepicker-input-base';
+import { TherapeuticService } from '../../dli/reference/therapeutic.service';
 import { CustomerService } from '../customer.service';
+import { CostUnitService } from '../../lookup/cost-unit.service';
+import { CreditTermsService } from '../../references/credit-terms.service';
+import { CustomerGroupService } from '../../references/customer-group.service';
 
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
 @Injectable({
   providedIn: 'root'
 })
-export class DeliveryReceiptService {
+export class SalesInvoicingService {
 
-
+  totalAmount = '0';
+  totalCost = '0';
 
   constructor(public http: HttpClient,
     public fb: FormBuilder,
 
     private globalService: GlobalService,
     public deliveredService: DeliveredToService,
+    public shipaddService: CustomerService,
     public costUnitService: CostUnitService,
-    public shipaddService: CustomerService) { }
+    public customerService: CustomerService,
+    public creditTermsService: CreditTermsService,
+    public customergroupService: CustomerGroupService) { }
 
   // assigning fields to control
-  formDR = this.fb.group({
-    DeliveryReceiptID: [0],
-    DeliveryDate: [''],
+  formSalesInvo = this.fb.group({
+    SalesInvoicingID: [0],
+    SalesInvoicingDate: [''],
     CustomerID: [''],
     Customer: ['', Validators.required],
     ShippToAddressID: [0],
-    ShippToAddress: [''],
+    ShipAddress: [''],
     CostUnitID: [0],
     CostUnit: [''],
     EmployeeID: [0],
     Employee: [''],
     CostCenterID: [0],
     AssignCCEID: [0],
-    IsMember: [false],
-    WarehouseID: ['', Validators.required],
+    WarehouseID: [0],
     CreditTermsID: ['', Validators.required],
+    CreditTerms: [''],
     ReferencePO: [''],
-    Notes: [''],
+    CustomerGroupID: [0],
+    CustomerGroupName: [''],
+    Tin: [''],
+    VatNonVatID: [''],
+    ReceivingReceiptTypeID: [''],
     PriceListID: [0],
     DiscountSchemeID: [0],
     DRTypeID: [0],
@@ -61,42 +73,91 @@ export class DeliveryReceiptService {
   });
 
 
+
+  getPatchOthers() {
+    let tin = [];
+    this.customerService.getCustomerList().subscribe(res => {
+      tin = res as [];
+      this.formSalesInvo.controls.Tin.patchValue(tin.filter(x => x.CustomerID == this.formSalesInvo.value.CustomerID)[0].TIN);
+    });
+
+  }
+
+  getBBProductList(WarehouseID_To){
+    return this.http.get(environment.apiURL + '/BB/receiving/' + WarehouseID_To);
+  }
+
   getItemRow(row) {
-    (<FormArray>this.formDR.get('items')).push(
+    (<FormArray>this.formSalesInvo.get('items')).push(
       this.fb.group({
-        DeliveryReceiptDetailID: [0],
-        DeliveryReceiptID: [0],
+        SalesInvoicingDetailID: [0],
+        SalesInvoicingID: [0],
+        Code: [row.ProductCode],
         ProductID: [row.ProductID],
         Product: [row.Product],
         UOMID: [0],
         UOM: [row.UOMDescription],
-        Quantity: [0],
-        LotNo: [''],
-        ExpiryDate: [''],
-        Particulars: [''],
-        ProductionDate: [''],
-        PoNumber: [''],
+        Quantity: [0, Validators.required],
+        LotNo: ['', Validators.required],
+        ExpiryDate: ['', Validators.required],
         IsFree: [false],
+        SRP: ['', Validators.required],
+        Gross: ['', Validators.required],
+        DiscountPercent: [''],
+        DiscountAmount: [''],
+        Net: ['', Validators.required],
+        Remarks: ['']
       })
     );
   }
 
   getPatchCustomer(row) {
-    return this.formDR.patchValue({
+    this.formSalesInvo.patchValue({
       CustomerID: row.PayToID,
       Customer: row.PayTo
+    });
+    let tin = [];
+    this.customerService.getCustomerList().subscribe(res => {
+      tin = res as [];
+      this.formSalesInvo.controls.Tin.patchValue(tin.filter(x => x.CustomerID == this.formSalesInvo.value.CustomerID)[0].TIN);
+    });
+    let terms = [];
+    let cred = [];
+    this.customerService.getCustomerList().subscribe(res => {
+      this.creditTermsService.getList().subscribe(resacct => {
+        terms = res as [];
+        cred = resacct as [];
+        this.formSalesInvo.controls.CreditTermsID.patchValue(terms.filter(x => x.CustomerID == this.formSalesInvo.value.CustomerID)[0].CreditTermsID);
+        this.formSalesInvo.controls.CreditTerms.patchValue(cred.filter(x => x.CreditTermsID == this.formSalesInvo.value.CreditTermsID)[0].CreditTerms);
+      });
+    });
+    let a = [];
+    let b = [];
+    this.customerService.getCustomerList().subscribe(res => {
+      this.customergroupService.getList().subscribe(resacct =>{
+        a = res as [];
+        b = resacct as [];
+        this.formSalesInvo.controls.CustomerGroupID.patchValue(a.filter(x => x.CustomerID == this.formSalesInvo.value.CustomerID)[0].CustomerGroupID);
+        this.formSalesInvo.controls.CustomerGroupName.patchValue(b.filter(x => x.CustomerGroupID == this.formSalesInvo.value.CustomerGroupID)[0].CustomerGroupName)
+      });
     });
   }
 
   getPatchCustomerShipAdd(row) {
-    return this.formDR.patchValue({
+    return this.formSalesInvo.patchValue({
       ShippToAddressID: row.ShipToID,
-      ShippToAddress: row.ShipAddress
+      ShipAddress: row.ShipAddress
+    });
+  }
+
+  getPatchCustomerGroup(row) {
+    return this.formSalesInvo.patchValue({
+      Classification: row.CustomerGroupName
     });
   }
 
   getPatchCostUnit(row) {
-    return this.formDR.patchValue({
+    return this.formSalesInvo.patchValue({
       CostUnitID: row.CostUnitID,
       CostUnit: row.CostUnit,
       EmployeeID: row.EmployeeID,
@@ -110,26 +171,26 @@ export class DeliveryReceiptService {
   // CRUD function
   saveOrUpdate() {
     var body = {
-      ...this.formDR.value,
-      DeliveryReceiptDetail: this.formDR.get('items').value
+      ...this.formSalesInvo.value,
+      SalesInvoicingDetail: this.formSalesInvo.get('items').value
     }
-    return this.http.post(environment.apiURL + '/DeliveryReceipts', body);
+    return this.http.post(environment.apiURL + '/SalesInvoicing', body);
   }
 
   getList() {
-    return this.http.get(environment.apiURL + '/DeliveryReceipts');
+    return this.http.get(environment.apiURL + '/SalesInvoicing');
   }
 
   getByID(id: number): any {
-    return this.http.get(environment.apiURL + '/DeliveryReceipts/' + id);
+    return this.http.get(environment.apiURL + '/SalesInvoicing/' + id);
   }
 
   getLedgerDetails(id): any {
-    return this.http.get(environment.apiURL + '/DeliveryReceipts/ledgerDetails/' + id);
+    return this.http.get(environment.apiURL + '/SalesInvoicing/ledgerDetails/' + id);
   }
 
   delete(id: number) {
-    return this.http.delete(environment.apiURL + '/DeliveryReceipts/' + id);
+    return this.http.delete(environment.apiURL + '/SalesInvoicing/' + id);
   }
 
   updateStatus(id: number, url, data) {
@@ -140,62 +201,62 @@ export class DeliveryReceiptService {
   getInfo(id) {
     this.getByID(parseInt(id)).subscribe(res => {
 
-      this.formDR.patchValue({
-        DeliveryReceiptID: res.DR.DeliveryReceiptID,
-        DeliveryDate: res.DR.DeliveryDate,
-        CustomerID: res.DR.CustomerID,
-        ShippToAddressID: res.DR.ShippToAddressID,
-        CostUnitID: res.DR.CostUnitID,
-        EmployeeID: res.DR.EmployeeID,
-        Employee: res.DR.Employee,
-        IsMember: res.DR.IsMember,
-        WarehouseID: res.DR.WarehouseID,
-        CreditTermsID: res.DR.CreditTermsID,
-        ReferencePO: res.DR.ReferencePO,
-        Notes: res.DR.Notes,
-        PriceListID: res.DR.PriceListID,
-        DiscountSchemeID: res.DR.DiscountSchemeID,
-        DRTypeID: res.DR.DRTypeID,
-        PreparedByID: res.DR.PreparedByID,
-        IsPrinted: res.DR.IsPrinted,
-        Status: res.DR.Status
+      this.formSalesInvo.patchValue({
+        SalesInvoicingID: res.SI.SalesInvoicingID,
+        SalesInvoicingDate: res.SI.SalesInvoicingDate,
+        CustomerID: res.SI.CustomerID,
+        CostUnitID: res.SI.CostUnitID,
+        ShippToAddressID: res.SI.ShippToAddressID,
+        ShipAddress: res.SI.ShipAddress,
+        EmployeeID: res.SI.EmployeeID,
+        Employee: res.SI.Employee,
+        WarehouseID: res.SI.WarehouseID,
+        CreditTermsID: res.SI.CreditTermsID,
+        CreditTerms: res.SI.CreditTerms,
+        ReferencePO: res.SI.ReferencePO,
+        CustomerGroupName: res.SI.CustomerGroupName,
+        Tin: res.SI.Tin,
+        VatNonVatID: res.SI.VatNonVatID,
+        ReceivingReceiptTypeID: res.SI.ReceivingReceiptTypeID,
+        PriceListID: res.SI.PriceListID,
+        DiscountSchemeID: res.SI.DiscountSchemeID,
+        DRTypeID: res.SI.DRTypeID,
+        PreparedByID: res.SI.PreparedByID,
+        IsPrinted: res.SI.IsPrinted,
+        Status: res.SI.Status,
       });
       this.deliveredService.getList().subscribe(item => {
         const listArray = [...item.customer, ...item.supplier, ...item.employee];
-        this.formDR.patchValue({
-          Customer: listArray.filter(x => x.PayToID == res.DR.CustomerID)[0].PayTo
+        this.formSalesInvo.patchValue({
+          Customer: listArray.filter(x => x.PayToID == res.SI.CustomerID)[0].PayTo
         });
       });
       this.costUnitService.getList().subscribe(item => {
         let x; x = item;
-        x.filter(y => y.CostUnitID == res.DR.CostUnitID)[0].CostUnit
-        this.formDR.patchValue({
-          CostUnit: x.filter(y => y.CostUnitID == res.DR.CostUnitID)[0].CostUnit
-        });  
-      });
-      this.shipaddService.getCustomerList().subscribe(item => {
-        let x; x = item;
-        this.formDR.patchValue({
-          ShippToAddress: x.filter(y => y.ShipToID == res.DR.ShippToAddressID)[0].ShipAddress
+        x.filter(y => y.CostUnitID == res.SI.CostUnitID)[0].CostUnit
+        this.formSalesInvo.patchValue({
+          CostUnit: x.filter(y => y.CostUnitID == res.SI.CostUnitID)[0].CostUnit
         });
       });
-      // this.deliveredService.getList().subscribe(item => {
-      //   const listArray = [...item.supplier, ...item.customer, ...item.employee];
-      //   this.formDV.patchValue({
-      //     Supplier: listArray.filter(x => x.PayToID == res.dv.SupplierID)[0].PayTo
-      //   });
-      // });
-
-      this.formDR.setControl('items', this.setExistingItems(res.tblDeliveryReceipt));
+      this.formSalesInvo.setControl('items', this.setExistingItems(res.tblSalesInvoicing));
     });
   }
+
+  // this.deliveredService.getList().subscribe(item => {
+  //   const listArray = [...item.supplier, ...item.customer, ...item.employee];
+  //   this.formSalesInvo.patchValue({
+  //     Supplier: listArray.filter(x => x.PayToID == res.dv.SupplierID)[0].PayTo
+  //   });
+  // });
+
 
   setExistingItems(itemSets): FormArray {
     const formArray = new FormArray([]);
     itemSets.forEach(i => {
       formArray.push(this.fb.group({
-        DeliveryReceiptDetailID: i.DeliveryReceiptDetailID,
-        DeliveryReceiptID: i.DeliveryReceiptID,
+        SalesInvoicingDetailID: i.SalesInvoicingDetailID,
+        SalesInvoicingID: i.SalesInvoicingID,
+        Code: i.ProductCode,
         ProductID: i.ProductID,
         Product: i.Product,
         UOMID: i.UOMID,
@@ -203,10 +264,13 @@ export class DeliveryReceiptService {
         Quantity: i.Quantity,
         LotNo: i.LotNo,
         ExpiryDate: i.ExpiryDate,
-        Particulars: i.Particulars,
-        ProductionDate: i.ProductionDate,
-        PoNumber: i.PoNumber,
         IsFree: i.IsFree,
+        SRP: i.SRP,
+        Gross: i.Gross,
+        DiscountPercent: i.DiscountPercent,
+        DiscountAmount: i.DiscountAmount,
+        Net: i.Net,
+        Remarks: i.Remarks
 
       }))
 
